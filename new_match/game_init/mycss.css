@@ -61,3 +61,16 @@ form{
 .match-overview{
 
 }
+body{
+    background-color: #dedede;
+}
+h3{
+    text-align: center;
+    color: #04AA6D
+}
+.content-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    column-gap: 30px;
+}
