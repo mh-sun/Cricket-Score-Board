@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="mycss.css">
+</head>
+<body style="background-color: #dedede">
+
+    <div style="padding: 30px; background-color: white;border-radius: 5px;">
+        <h3>Batting : <span id="battingTeam"></span></h3>
+        <span style="font-size: 40px">
+            <span id="total_run">0</span> - <span id="total_wicket">0</span>
+        </span>
+        <span style="font-size: 20px">
+            (<span id="runningOver">0.0</span>)
+        </span>
+        <span style="font-size: 20px; right: 0;position: absolute; padding-right: 30px">
+            CRR : <span id="runrate">0.0</span>
+        </span>
+    </div>
+
+    <div>
+        <br><br><br><br>
+        <button onclick="updateInfo(0)" style="border-radius: 5px">0</button>
+        <button onclick="updateInfo(1)" style="border-radius: 5px">1</button>
+        <button onclick="updateInfo(2)" style="border-radius: 5px">2</button>
+        <button onclick="updateInfo(3)" style="border-radius: 5px">3</button>
+        <button onclick="updateInfo(4)" style="border-radius: 5px">4</button>
+        <button onclick="updateInfo(5)" style="border-radius: 5px">5</button>
+        <button onclick="updateInfo(6)" style="border-radius: 5px">6</button>
+    </div>
+    <script src="scoreBoardManager.js"></script>
+</body>
+</html>

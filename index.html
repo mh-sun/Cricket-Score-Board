@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="mycss.css">
+</head>
+<body style="background-color: #dedede">
+    <div class="topnav">
+        <a href="#new-match">New Match</a>
+        <a href="#teams">Teams</a>
+        <a href="#history">History</a>
+    </div>
+    <div>
+        <div>
+            <h3 style="text-align: center;color: #04AA6D">TEAMS</h3>
+            <div style="display: flex;justify-content: center;align-content: center;" class="block-center container">
+                <form>
+                    <input type="text" id="hostName" placeholder="Host Team" autofocus class="input" required>
+                    <input type="text" id="visitorName" placeholder="Visitor Team" class="input" required>
+                </form>
+            </div>
+        </div>
+        <h3 style="text-align: center;color: #04AA6D">Toss Won By?</h3>
+        <div style="display: flex;justify-content: center;align-content: center;column-gap: 30px;" class="container block-center">
+            <div>
+                <input type="radio" name="team_won" value="host_team" required>
+                <label for="hostTeam" id="hostTeam">Host Team</label>
+            </div>
+            <div>
+                <input type="radio" name="team_won" value="visitor_team" required >
+                <label for="visitorTeam" id="visitorTeam" >Visitor Team</label>
+            </div>
+        </div>
+        <h3 style="text-align: center;color: #04AA6D">Opted To?</h3>
+        <div style="display: flex;justify-content: center;align-content: center;column-gap: 30px;" class="container block-center">
+            <div>
+                <input type="radio" name="opt_to" value="opt_bat" required>
+                <label>Bat</label>
+            </div>
+            <div>
+                <input type="radio" name="opt_to" value="opt_bowl" required>
+                <label>Bowl</label>
+            </div>
+        </div>
+        <h3 style="text-align: center;color: #04AA6D">Overs?</h3>
+        <div class="container block-center">
+            <input type="text" id="match_over" placeholder="16" class="input block-center" required>
+        </div>
+        <br><br><br>
+        <input type="button" value="Start Match" class="block-center submit-form" onclick="func1()" >
+        <script src="myjs.js"></script>
+    </div>
+</body>
+</html>
