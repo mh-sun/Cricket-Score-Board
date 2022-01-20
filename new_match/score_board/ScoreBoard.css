@@ -21,10 +21,25 @@
     width: 50%;
     text-align: left;
 }
+th {
+    border-bottom: 1px solid;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+td{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
 
 table{
     width: 100%;
+    text-align: left;
 }
-.habijabi{
-    font-family: Bahnschrift;
+.make-round{
+    border-radius: 100%;
+}
+.btn{
+    background-color: green;
+    color: white;
 }

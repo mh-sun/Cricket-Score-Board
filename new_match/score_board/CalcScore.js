@@ -51,3 +51,4 @@ let updateInfo = function (run){
     document.getElementById('runningOver').innerText = getOver()
     document.getElementById('runrate').innerText = getCurrentRunRate()
 }
+// updateInfo(1)
