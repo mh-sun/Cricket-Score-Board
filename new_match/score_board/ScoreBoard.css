@@ -1,0 +1,30 @@
+.default_div{
+    padding-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+}
+.temp{
+    border-radius: 5px;
+}
+.out_body{
+    background-color: #dedede;
+    font-family: sans-serif;
+}
+.span-far-right{
+    font-size: 20px;
+    right: 0;
+    position: absolute;
+    padding-right: 30px
+}
+.tableName{
+    width: 50%;
+    text-align: left;
+}
+
+table{
+    width: 100%;
+}
+.habijabi{
+    font-family: Bahnschrift;
+}

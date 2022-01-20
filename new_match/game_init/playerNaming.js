@@ -21,5 +21,5 @@ let func2 = function (){
         }
     }
 
-    window.location.href = 'scoreBoard.html'
+    window.location.href = '../score_board/scoreBoard.html'
 }

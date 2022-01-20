@@ -13,13 +13,6 @@ let func1 = function (){
     over = document.getElementById('match_over').value
     over = Number(over)
 
-
-    localStorage.setItem('host_team_name', host_team_name)
-    localStorage.setItem('visitor_team_name', visitor_team_name)
-    localStorage.setItem('team_won', team_won)
-    localStorage.setItem('opt_to', opt_to)
-    localStorage.setItem('over', over)
-
     let all_info = [host_team_name, visitor_team_name, team_won, opt_to, over]
     let temp = ['Host Team Name', 'Visitor Team Name', 'Toss winner', 'Opt', 'Match Over']
 
@@ -30,6 +23,12 @@ let func1 = function (){
             return
         }
     }
+
+    localStorage.setItem('host_team_name', host_team_name)
+    localStorage.setItem('visitor_team_name', visitor_team_name)
+    localStorage.setItem('team_won', team_won)
+    localStorage.setItem('opt_to', opt_to)
+    localStorage.setItem('over', over)
 
     window.location.href = 'selectOpeningPlayer.html'
 }
