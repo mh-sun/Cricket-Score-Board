@@ -42,4 +42,12 @@ table{
 .btn{
     background-color: green;
     color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+.content-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    column-gap: 20px;
 }
