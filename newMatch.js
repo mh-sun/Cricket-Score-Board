@@ -1,3 +1,4 @@
+import { getValue as playerInfo } from './newMatch/playerInfo.js'
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -161,6 +162,8 @@ function func1(){
     localStorage.setItem('team_won', team_won)
     localStorage.setItem('opt_to', opt_to)
     localStorage.setItem('over', over)
+
+    document.getElementById('menu-content').innerHTML = playerInfo()
 }
 
 export {getValue}
