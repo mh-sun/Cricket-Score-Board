@@ -21,8 +21,21 @@ body{
     background-color: #ddd;
     color: black;
 }
+.title{
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    padding: 3%;
+    margin-top: 10%;
+}
 .content-center{
     display: flex;
     justify-content: center;
     align-content: center;
+    column-gap: 5%;
+}
+.element-center{
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
 }
