@@ -4,9 +4,9 @@ function setTitle() {
     let title = document.getElementById('title')
     title.textContent = cons.title
     title.className = 'topnav title element-center'
-
-    let br = document.createElement('br')
-    title.parentNode.insertBefore(br, title.nextSibling)
+    //
+    // let br = document.createElement('br')
+    // title.parentNode.insertBefore(br, title.nextSibling)
 
 }
 function setHead(){
@@ -37,6 +37,6 @@ function setMenu(){
     menu.className += ' topnav content-center'
 }
 
-setTitle()
 setHead()
+setTitle()
 setMenu()

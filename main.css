@@ -32,10 +32,42 @@ body{
     display: flex;
     justify-content: center;
     align-content: center;
-    column-gap: 5%;
 }
 .element-center{
-    display: block;
+    /*display: block;*/
     margin-right: auto;
     margin-left: auto;
+}
+.input{
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container{
+    width: 400px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+h3{
+    padding-top: 1%;
+    text-align: center;
+    color: #04AA6D
+}
+form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    justify-content: center;
+}
+.submit-form{
+    color: #f2f2f2;
+    height: 40px;
+    width: 100px;
+    background-color: #04AA6D;
+    display: block;
 }
