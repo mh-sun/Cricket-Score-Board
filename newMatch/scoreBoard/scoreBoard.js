@@ -1,4 +1,5 @@
 import {player} from './Objects/Player.js'
+import * as cals from './Calc.js'
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -21,20 +22,13 @@ function createSpanByClass(className) {
     span.className = className
     return span
 }
-
-function createSpan(id, className) {
-    let span  = document.createElement('span')
-    span.id = id
-    span.className = className
-    return span
-}
-
 function getShortMatchView() {
     let div = document.createElement('div')
     let h3 = document.createElement('h3')
     div.appendChild(h3)
     h3.appendChild(document.createTextNode('Batting : '))
     let span = createSpanById('battingTeam')
+    span.innerText = cals.battingTeam
     h3.appendChild(span)
     span = createSpanByClass('font-40')
     div.appendChild(span)
@@ -59,12 +53,14 @@ function getShortMatchView() {
 }
 
 function getScoreOverView() {
-    return undefined;
+    let div = document.createElement('div')
+
+    return div
 }
 
 export function getValue() {
     setCSS()
     const body = document.getElementById('menu-content')
     body.appendChild(getShortMatchView())
-    // body.parentNode.appendChild(getScoreOverView())
+    body.appendChild(getScoreOverView())
 }
