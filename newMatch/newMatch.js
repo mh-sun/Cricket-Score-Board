@@ -1,4 +1,4 @@
-import { getValue as playerInfo } from './newMatch/playerInfo.js'
+import { getValue as playerInfo } from './playerInfo.js'
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -137,6 +137,14 @@ function getSubmit(){
     return submit
 }
 
+function localSet() {
+    return (localStorage.getItem('host_team_name') === null ||
+        localStorage.getItem('visitor_team_name') === null ||
+        localStorage.getItem('team_won') === null ||
+        localStorage.getItem('opt_to') === null ||
+        localStorage.getItem('over') === null)
+}
+
 function func1(){
     let host_team_name = document.getElementById('hostName').value
     let visitor_team_name = document.getElementById('visitorName').value
@@ -150,7 +158,6 @@ function func1(){
     let temp = ['Host Team Name', 'Visitor Team Name', 'Toss winner', 'Opt', 'Match Over']
 
     for(let i =0;i<all_info.length;i++){
-        console.log(all_info[i], i)
         if(all_info[i] === null || all_info[i] === undefined || all_info[i] === '' || all_info[i] <= 0){
             alert(temp[i] + " Not Provided")
             return
@@ -163,7 +170,12 @@ function func1(){
     localStorage.setItem('opt_to', opt_to)
     localStorage.setItem('over', over)
 
-    document.getElementById('menu-content').innerHTML = playerInfo()
-}
+    playerInfo()
 
+}
+(function () {
+    if(!localSet()){
+        playerInfo()
+    }
+})();
 export {getValue}

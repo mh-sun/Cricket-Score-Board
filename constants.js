@@ -1,6 +1,6 @@
-import { getValue as nm_f} from './newMatch.js'
-import {getValue as team_f} from './teams.js'
-import { getValue as history_f} from './history.js'
+import { getValue as nm_f} from './newMatch/newMatch.js'
+import {getValue as team_f} from './teams/teams.js'
+import { getValue as history_f} from './history/history.js'
 
 
 let title = 'Cricket Scorer'

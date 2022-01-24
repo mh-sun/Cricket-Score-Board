@@ -1,8 +1,12 @@
-export function getValue() {
-    let menuContent = document.getElementById('menu-content')
+function getStriker() {
     let div = document.createElement('div')
-    div.innerText = 'Player Info'
+
+}
+
+export function getValue() {
+    let body  = document.getElementById('menu-content')
+    body.innerHTML = ''
+    let div = document.createElement('div')
     div.className += ' container'
-    menuContent.innerHTML = ''
-    menuContent.appendChild(div)
+    body.appendChild(getStriker())
 }

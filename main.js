@@ -15,7 +15,7 @@ function setHead(){
     let css = document.createElement('link')
     css.rel = 'stylesheet'
     css.type = 'text/css'
-    css.href = 'main.css'
+    css.href = '../css/main.css'
     head.appendChild(css)
 }
 
