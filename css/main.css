@@ -1,9 +1,11 @@
 div{
+    padding: 10px;
     background-color: white;
     border-radius: 5px;
 }
 body{
     background-color: #d7d7d7;
+    font-family: sans-serif;
 }
 .topnav {
     background-color: #04AA6D;

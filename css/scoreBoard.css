@@ -1,0 +1,49 @@
+.temp{
+    border-radius: 5px;
+}
+.font-40{
+    font-size: 40px;
+}
+.font-20{
+    font-size: 20px;
+}
+.span-far-right{
+    font-size: 20px;
+    right: 0;
+    position: absolute;
+    padding-right: 30px
+}
+.tableName{
+    width: 50%;
+    text-align: left;
+}
+th {
+    border-bottom: 1px solid;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+td{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+table{
+    width: 100%;
+    text-align: left;
+}
+.make-round{
+    border-radius: 100%;
+}
+.btn{
+    background-color: green;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+.content-center{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    column-gap: 20px;
+}

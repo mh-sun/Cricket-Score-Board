@@ -1,4 +1,5 @@
 import * as cons from './constants.js'
+import {getValue} from "./newMatch/newMatch.js";
 
 function setTitle() {
     let title = document.getElementById('title')

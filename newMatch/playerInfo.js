@@ -40,6 +40,7 @@ function func1() {
             return
         }
     }
+    scoreBoard()
 }
 
 function getSubmit() {
@@ -52,23 +53,26 @@ function getSubmit() {
 }
 
 export function getValue() {
-    let body  = document.getElementById('menu-content')
-    body.innerHTML = ''
-    let section = getSection('S T R I K E R', "striker")
-    body.appendChild(section[0])
-    body.appendChild(section[1])
+    if(localSet()){
+        let body  = document.getElementById('menu-content')
+        body.innerHTML = ''
+        let section = getSection('S T R I K E R', "striker")
+        body.appendChild(section[0])
+        body.appendChild(section[1])
 
-    section = getSection('N O N - S T R I K E R', "non_striker")
-    body.appendChild(section[0])
-    body.appendChild(section[1])
+        section = getSection('N O N - S T R I K E R', "non_striker")
+        body.appendChild(section[0])
+        body.appendChild(section[1])
 
-    section = getSection('O P E N I N G - B O W L E R', "bowler")
-    body.appendChild(section[0])
-    body.appendChild(section[1])
+        section = getSection('O P E N I N G - B O W L E R', "bowler")
+        body.appendChild(section[0])
+        body.appendChild(section[1])
 
-    body.appendChild(document.createElement('br'))
-    body.appendChild(document.createElement('br'))
-    body.appendChild(getSubmit())
+        body.appendChild(document.createElement('br'))
+        body.appendChild(document.createElement('br'))
+        body.appendChild(getSubmit())
+
+    }
 }
 
 (function () {
