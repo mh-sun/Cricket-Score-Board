@@ -11,5 +11,6 @@ let menu_f = {
     'Teams' : team_f,
     'History' : history_f
 }
-
+console.log(1)
+export let batTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 export {title, menu, menu_f}

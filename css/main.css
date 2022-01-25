@@ -1,11 +1,17 @@
 div{
-    padding: 10px;
     background-color: white;
     border-radius: 5px;
 }
 body{
     background-color: #d7d7d7;
     font-family: sans-serif;
+}
+.div-default{
+    background-color: #d7d7d7;
+    font-family: sans-serif;
+}
+.left-pad{
+    padding-left: 10px;
 }
 .topnav {
     background-color: #04AA6D;

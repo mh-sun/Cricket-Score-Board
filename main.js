@@ -38,6 +38,8 @@ function setMenu(){
     menu.className += ' topnav content-center'
 }
 
+console.log(3)
 setHead()
 setTitle()
 setMenu()
+console.log(4)

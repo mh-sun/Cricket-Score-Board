@@ -13,6 +13,14 @@
     position: absolute;
     padding-right: 30px
 }
+.side-pad{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.tb-pad{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .tableName{
     width: 50%;
     text-align: left;
