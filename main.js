@@ -1,5 +1,4 @@
 import * as cons from './constants.js'
-import {getValue} from "./newMatch/newMatch.js";
 
 function setTitle() {
     let title = document.getElementById('title')
@@ -38,8 +37,22 @@ function setMenu(){
     menu.className += ' topnav content-center'
 }
 
-console.log(3)
+function setBody() {
+    let body = document.getElementsByTagName('body')[0]
+    let div = document.createElement('div')
+    div.id = 'title'
+    body.append(div, document.createElement('br'))
+
+    div = document.createElement('div')
+    div.id = 'menu'
+    body.append(div, document.createElement('br'))
+
+    div = document.createElement('div')
+    div.id = 'menu-content'
+    body.append(div, document.createElement('br'))
+
+}
 setHead()
+// setBody()
 setTitle()
 setMenu()
-console.log(4)

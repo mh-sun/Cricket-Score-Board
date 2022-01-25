@@ -2,10 +2,12 @@ import * as player from './Objects/Player.js'
 import * as team from './Objects/Team.js'
 import * as constants from "../../constants.js";
 import * as cals from './Calc.js'
+import {run} from "./Calc.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
+let runs = ['0','1', '2', '3', '4', '5', '6']
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -50,23 +52,24 @@ function getShortMatchView() {
     let h3 = createElem('h3',div)
     createElemText('Batting : ', h3)
     let span = createSpanById('battingTeam', h3)
-    span.innerText = cals.battingTeam
+    span.innerText = cals.battingTeam.name
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
-    createElemText('0', span_i)
+    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
-    createElemText('0', span_i)
+    span_i.innerText = '0'
     span = createSpanByClass('font-20', div)
     createElemText('(', span)
     span_i = createSpanById("runningOver", span)
     createElemText(')', span)
-    createElemText('0.0', span_i)
+    span_i.innerText = cals.battingTeam.getOvers()
     span = createSpanByClass('span-far-right', div)
     createElemText('CRR : ', span)
     span_i = createSpanById('runrate', span)
-    createElemText('0.0', span_i)
+    span_i.innerText = cals.battingTeam.getCRR().toPrecision(2)
+    // createElemText('0.0', span_i)
 
 
     return div
@@ -95,13 +98,58 @@ function getBowlTh() {
     return tr
 }
 
+function getCol(runs, ...className) {
+    let td = document.createElement('td')
+    className.forEach(classes => {
+        td.className+=' '+classes
+    })
+    td.innerText = runs
+    return td
+}
+
+function getBowlerValues(player) {
+    let tr = document.createElement('tr')
+    tr.appendChild(getCol(player.name, 'tableName'))
+    tr.appendChild(getCol(player.bowlingRole.balls))
+    tr.appendChild(getCol(player.bowlingRole.maidens))
+    tr.appendChild(getCol(player.bowlingRole.runs))
+    tr.appendChild(getCol(player.bowlingRole.wickets))
+    tr.appendChild(getCol(player.bowlingRole.getEconomy()))
+    return tr
+}
+
+function getBatsmanValues(player) {
+    let tr = document.createElement('tr')
+
+    tr.appendChild(getCol(player.name, 'tableName'))
+    tr.appendChild(getCol(player.battingRole.runs))
+    tr.appendChild(getCol(player.battingRole.balls))
+    tr.appendChild(getCol(player.battingRole.fours))
+    tr.appendChild(getCol(player.battingRole.sixes))
+    tr.appendChild(getCol(player.battingRole.getStrikeRate()))
+    return tr
+}
+
 function getScoreOverView() {
     let div = document.createElement('div')
     div.className += ' side-pad tb-pad'
     let tab = document.createElement('table')
     tab.id = 'batTable'
     tab.appendChild(getBatTh())
+    cals.battingTeam.players.forEach(player=>{
+        let tr = getBatsmanValues(player)
+
+        if (player === cals.onStrike){
+            tr.className  = 'on-strike'
+        }
+        else tr.className = ''
+
+        tab.append(tr)
+    })
     tab.appendChild(getBowlTh())
+    cals.bowlingTeam.players.forEach(player=>{
+        tab.append(getBowlerValues(player))
+    })
     div.append(tab)
 
     return div
@@ -142,6 +190,18 @@ function getExtras() {
     return div
 }
 
+function getButtons() {
+    let div = document.createElement('div')
+    div.className += ' side-pad tb-pad content-center'
+    runs.forEach(run=>{
+        let btn = createElem('button',div, 'runs')
+        btn.onclick = cals.run[run]
+        btn.innerText = run
+    })
+
+    return div
+}
+
 export function getValue() {
     setCSS()
     const body = document.getElementById('menu-content')
@@ -151,4 +211,5 @@ export function getValue() {
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())
+    body.appendChild(getButtons(), getBRElem())
 }

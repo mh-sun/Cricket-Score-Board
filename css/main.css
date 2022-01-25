@@ -2,6 +2,9 @@ div{
     background-color: white;
     border-radius: 5px;
 }
+.on-strike{
+    color: green;
+}
 body{
     background-color: #d7d7d7;
     font-family: sans-serif;
@@ -12,6 +15,15 @@ body{
 }
 .left-pad{
     padding-left: 10px;
+}
+.runs{
+    color: black;
+    background-color: #dddddd;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    border-color: green;
 }
 .topnav {
     background-color: #04AA6D;

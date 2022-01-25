@@ -12,7 +12,12 @@ export function Bowler(){
     this.dots = 0
 
     this.getEconomy = function (){
-        return (this.runs/this.balls).toPrecision(3)
+        // console.log(this.runs, this.balls)
+        return (this.runs/this.balls*6).toPrecision(3)
+    }
+
+    this.overs = function () {
+        return Math.floor(this.balls/6) + '.' + this.balls%6
     }
 }
 export function Batsman (){
