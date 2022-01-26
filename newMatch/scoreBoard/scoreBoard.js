@@ -8,7 +8,7 @@ let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
 let runs = ['0','1', '2', '3', '4', '5', '6']
-export let overdetails = []
+// export let overdetails = []
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -111,8 +111,8 @@ function getCol(runs, ...className) {
 
 function getBowlerValues(player) {
     let tr = document.createElement('tr')
-    tr.appendChild(getCol(player.name, 'tableName'))
-    tr.appendChild(getCol(player.bowlingRole.balls))
+    tr.appendChild(getCol(player.name))
+    tr.appendChild(getCol(player.bowlingRole.getOver()))
     tr.appendChild(getCol(player.bowlingRole.maidens))
     tr.appendChild(getCol(player.bowlingRole.runs))
     tr.appendChild(getCol(player.bowlingRole.wickets))
@@ -122,8 +122,7 @@ function getBowlerValues(player) {
 
 function getBatsmanValues(player) {
     let tr = document.createElement('tr')
-
-    tr.appendChild(getCol(player.name, 'tableName'))
+    tr.appendChild(getCol(player.name))
     tr.appendChild(getCol(player.battingRole.runs))
     tr.appendChild(getCol(player.battingRole.balls))
     tr.appendChild(getCol(player.battingRole.fours))
@@ -167,7 +166,7 @@ function getOverDetails() {
     let span = createSpanByClass('left-pad', div)
     span.innerText = 'This Over : '
     span = createSpanByClass(' col-gap', div)
-    overdetails.forEach(eachBall=>{
+    cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
         let btn = createElem('button', span, 'make-round')
         btn.innerText = eachBall
     })
@@ -208,6 +207,7 @@ function getButtons() {
 }
 
 export function getValue() {
+    cals.init()
     setCSS()
     const body = document.getElementById('menu-content')
     body.innerHTML = ''
@@ -216,5 +216,5 @@ export function getValue() {
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())
-    body.appendChild(getButtons(), getBRElem())
+    body.append(getButtons(), getBRElem())
 }

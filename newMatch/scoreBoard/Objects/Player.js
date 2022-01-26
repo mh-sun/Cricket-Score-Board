@@ -10,16 +10,40 @@ export function Bowler(){
     this.runs = 0
     this.wickets = 0
     this.dots = 0
+    this.overs_details = []
 
     this.getEconomy = function (){
-        // console.log(this.runs, this.balls)
         return (this.runs/this.balls*6).toPrecision(3)
     }
 
-    this.overs = function () {
+    this.getOver = function () {
         return Math.floor(this.balls/6) + '.' + this.balls%6
     }
 
+    function isMaiden(par) {
+        if(par.overs_details.length !== 6) return false
+
+        for(let i =0; i< par.overs_details.length; i++){
+            if(par.overs_details[i] !== 0){
+                return false
+            }
+        }
+        return true
+    }
+
+    this.updateInfo = function (run){
+        this.runs += run
+        this.balls ++
+
+        if(this.overs_details.length < 6) this.overs_details.push(run)
+        else if(this.overs_details.length === 6) this.overs_details = [run]
+
+        if(isMaiden(this)) this.maidens++
+
+        if (run === 'w') this.wickets++
+        else if(run === 0) this.dots++
+
+    }
 
 }
 export function Batsman (){
@@ -33,8 +57,9 @@ export function Batsman (){
         return (this.runs/this.balls*100).toPrecision(3)
     }
 
-    this.setRun = function (run){
+    this.updateInfo = function (run){
         this.runs += run
+        this.balls ++
         if(run === 4) this.fours++
         else if(run === 6) this.sixes++
     }
