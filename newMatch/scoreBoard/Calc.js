@@ -12,30 +12,27 @@ const over = Number(localStorage.getItem('over'))
 
 let battingTeam, bowlingTeam, onStrike, nonStrike, bowler;
 
+battingTeam = setBattingnBowlingTeam('bat')
+bowlingTeam = setBattingnBowlingTeam('bowl')
 
-export function init() {
-    // battingTeam = setBattingnBowlingTeam('bat')
-    // bowlingTeam = setBattingnBowlingTeam('bowl')
-    setBattingnBowlingTeam()
+onStrike = new player.player(localStorage.getItem('striker'), new player.Batsman())
+nonStrike = new player.player(localStorage.getItem('non_striker'), new player.Batsman())
+battingTeam.players.push(onStrike, nonStrike)
 
-    onStrike = new player.player(localStorage.getItem('striker'), new player.Batsman())
-    nonStrike = new player.player(localStorage.getItem('non_striker'), new player.Batsman())
-    battingTeam.players.push(onStrike, nonStrike)
+bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
+bowlingTeam.players.push(bowler)
 
-    bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
-    bowlingTeam.players.push(bowler)
-}
-
-
-function updateOverDetails(x) {
-    scoreBoard.overdetails.push(x)
-}
 
 function setValues(x) {
     bowler.bowlingRole.updateInfo(x)
     onStrike.battingRole.updateInfo(x)
     console.log(bowler)
-    // updateOverDetails(x)
+}
+
+export function swapBatsman() {
+    let temp = onStrike
+    onStrike = nonStrike
+    nonStrike = temp
 }
 
 export let run = {
@@ -45,9 +42,7 @@ export let run = {
     },
     '1':function () {
         setValues(1)
-        let temp = onStrike
-        onStrike = nonStrike
-        nonStrike = temp
+        swapBatsman()
         scoreBoard.getValue()
     },
     '2':function () {
@@ -56,9 +51,7 @@ export let run = {
     },
     '3':function () {
         setValues(3)
-        let temp = onStrike
-        onStrike = nonStrike
-        nonStrike = temp
+        swapBatsman()
         scoreBoard.getValue()
     },
     '4':function () {
@@ -67,9 +60,7 @@ export let run = {
     },
     '5':function () {
         setValues(5)
-        let temp = onStrike
-        onStrike = nonStrike
-        nonStrike = temp
+        swapBatsman()
         scoreBoard.getValue()
     },
     '6':function () {
@@ -78,34 +69,32 @@ export let run = {
     },
 }
 
-function setBattingnBowlingTeam (){
+function setBattingnBowlingTeam (seek){
     let batTeam, bowlTeam
-    if(battingTeam === undefined || bowlingTeam === undefined || battingTeam === null || bowlingTeam === null){
-
-        if(toss_won === host_team_name){
-            if(opt_to === 'opt_bat'){
-                batTeam = host_team_name
-                bowlTeam = visitor_team_name
-            }
-            else {
-                batTeam = visitor_team_name
-                bowlTeam = host_team_name
-            }
+    if(toss_won === host_team_name){
+        if(opt_to === 'opt_bat'){
+            batTeam = host_team_name
+            bowlTeam = visitor_team_name
         }
         else {
-            if(opt_to === 'opt_bat'){
-                batTeam = visitor_team_name
-                bowlTeam = host_team_name
-            }
-            else {
-                batTeam = host_team_name
-                bowlTeam = visitor_team_name
-            }
+            batTeam = visitor_team_name
+            bowlTeam = host_team_name
         }
-        battingTeam = new team.Team(batTeam)
-        bowlingTeam = new team.Team(bowlTeam)
     }
+    else {
+        if(opt_to === 'opt_bat'){
+            batTeam = visitor_team_name
+            bowlTeam = host_team_name
+        }
+        else {
+            batTeam = host_team_name
+            bowlTeam = visitor_team_name
+        }
+    }
+    battingTeam = new team.Team(batTeam)
+    bowlingTeam = new team.Team(bowlTeam)
 
-    // return seek === 'bat' ? this.battingTeam : seek === 'bowl' ? this.bowlingTeam : null
+
+    return seek === 'bat' ? battingTeam : seek === 'bowl' ? bowlingTeam : null
 }
 export {battingTeam, bowlingTeam, onStrike, nonStrike, bowler}

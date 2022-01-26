@@ -36,7 +36,7 @@ export function Bowler(){
         this.balls ++
 
         if(this.overs_details.length < 6) this.overs_details.push(run)
-        else if(this.overs_details.length === 6) this.overs_details = [run]
+        else this.overs_details = [run]
 
         if(isMaiden(this)) this.maidens++
 

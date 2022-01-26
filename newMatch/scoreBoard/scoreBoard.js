@@ -2,13 +2,11 @@ import * as player from './Objects/Player.js'
 import * as team from './Objects/Team.js'
 import * as constants from "../../constants.js";
 import * as cals from './Calc.js'
-import {run} from "./Calc.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
 let runs = ['0','1', '2', '3', '4', '5', '6']
-// export let overdetails = []
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -207,7 +205,6 @@ function getButtons() {
 }
 
 export function getValue() {
-    cals.init()
     setCSS()
     const body = document.getElementById('menu-content')
     body.innerHTML = ''
