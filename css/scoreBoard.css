@@ -7,6 +7,10 @@
 .font-20{
     font-size: 20px;
 }
+.col-gap{
+    display: inline-flex;
+    column-gap: 5px;
+}
 .span-far-right{
     font-size: 20px;
     right: 0;

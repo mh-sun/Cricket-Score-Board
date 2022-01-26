@@ -14,11 +14,16 @@ battingTeam.players.push(onStrike, nonStrike)
 let bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
 bowlingTeam.players.push(bowler)
 
+function updateOverDetails(x) {
+    scoreBoard.overdetails.push(x)
+}
+
 function setValues(x) {
     onStrike.battingRole.runs += x
     onStrike.battingRole.balls += 1
     bowler.bowlingRole.balls += 1
     bowler.bowlingRole.runs += x
+    updateOverDetails(x)
 }
 
 export let run = {

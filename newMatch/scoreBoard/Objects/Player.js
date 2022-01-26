@@ -19,6 +19,8 @@ export function Bowler(){
     this.overs = function () {
         return Math.floor(this.balls/6) + '.' + this.balls%6
     }
+
+
 }
 export function Batsman (){
     this.runs = 0
@@ -29,5 +31,11 @@ export function Batsman (){
 
     this.getStrikeRate = function (){
         return (this.runs/this.balls*100).toPrecision(3)
+    }
+
+    this.setRun = function (run){
+        this.runs += run
+        if(run === 4) this.fours++
+        else if(run === 6) this.sixes++
     }
 }

@@ -8,6 +8,7 @@ let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
 let runs = ['0','1', '2', '3', '4', '5', '6']
+export let overdetails = []
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -52,7 +53,10 @@ function getShortMatchView() {
     let h3 = createElem('h3',div)
     createElemText('Batting : ', h3)
     let span = createSpanById('battingTeam', h3)
-    span.innerText = cals.battingTeam.name
+    span.innerText = cals.battingTeam.name + ' vs '
+
+    span = createSpanById('bowlingTeam', h3)
+    span.innerText = cals.bowlingTeam.name
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
@@ -69,8 +73,6 @@ function getShortMatchView() {
     createElemText('CRR : ', span)
     span_i = createSpanById('runrate', span)
     span_i.innerText = cals.battingTeam.getCRR().toPrecision(2)
-    // createElemText('0.0', span_i)
-
 
     return div
 }
@@ -164,8 +166,11 @@ function getOverDetails() {
     div.className += ' tb-pad'
     let span = createSpanByClass('left-pad', div)
     span.innerText = 'This Over : '
-    let btn = createElem('button', div, 'make-round')
-    btn.innerText = 1
+    span = createSpanByClass(' col-gap', div)
+    overdetails.forEach(eachBall=>{
+        let btn = createElem('button', span, 'make-round')
+        btn.innerText = eachBall
+    })
     return div
 }
 
