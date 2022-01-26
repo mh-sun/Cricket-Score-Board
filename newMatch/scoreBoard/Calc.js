@@ -1,8 +1,9 @@
 import * as team from './Objects/Team.js'
 import * as player from './Objects/Player.js'
 import * as innings from './Objects/Innings.js'
-import * as game from './Objects/Game.js'
+import * as g from './Objects/Game.js'
 import * as scoreBoard from './scoreBoard.js'
+import * as exManager from "./checkBoxManager.js"
 
 const host_team_name = localStorage.getItem('host_team_name')
 const visitor_team_name = localStorage.getItem('visitor_team_name')
@@ -21,18 +22,25 @@ battingTeam.players.push(onStrike, nonStrike)
 
 bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
 bowlingTeam.players.push(bowler)
+let game = new g.Game(battingTeam, bowlingTeam)
 
+export function setPlayer(onS, nonS){
+    onStrike = onS
+    nonStrike = nonS
+}
 
 function setValues(x) {
-    bowler.bowlingRole.updateInfo(x)
-    onStrike.battingRole.updateInfo(x)
-    console.log(bowler)
+    exManager.init()
+    exManager.update(x)
+    // bowler.bowlingRole.updateInfo(x)
+    // onStrike.battingRole.updateInfo(x)
 }
 
 export function swapBatsman() {
     let temp = onStrike
     onStrike = nonStrike
     nonStrike = temp
+    scoreBoard.getValue()
 }
 
 export let run = {
@@ -43,7 +51,6 @@ export let run = {
     '1':function () {
         setValues(1)
         swapBatsman()
-        scoreBoard.getValue()
     },
     '2':function () {
         setValues(2)
@@ -52,7 +59,6 @@ export let run = {
     '3':function () {
         setValues(3)
         swapBatsman()
-        scoreBoard.getValue()
     },
     '4':function () {
         setValues(4)
@@ -61,7 +67,6 @@ export let run = {
     '5':function () {
         setValues(5)
         swapBatsman()
-        scoreBoard.getValue()
     },
     '6':function () {
         setValues(6)

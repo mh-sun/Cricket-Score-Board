@@ -9,7 +9,7 @@ export function Bowler(){
     this.maidens = 0
     this.runs = 0
     this.wickets = 0
-    this.dots = 0
+    this.extra = 0
     this.overs_details = []
 
     this.getEconomy = function (){
@@ -31,17 +31,16 @@ export function Bowler(){
         return true
     }
 
-    this.updateInfo = function (run){
+    this.updateInfo = function (run, ball){
+        if (ball === 0){
+            this.extra ++
+        }
         this.runs += run
-        this.balls ++
-
-        if(this.overs_details.length < 6) this.overs_details.push(run)
+        this.balls += ball
+        if((this.overs_details.length - this.extra) < 6) this.overs_details.push(run)
         else this.overs_details = [run]
 
         if(isMaiden(this)) this.maidens++
-
-        if (run === 'w') this.wickets++
-        else if(run === 0) this.dots++
 
     }
 
@@ -57,9 +56,9 @@ export function Batsman (){
         return (this.runs/this.balls*100).toPrecision(3)
     }
 
-    this.updateInfo = function (run){
+    this.updateInfo = function (run, ball){
         this.runs += run
-        this.balls ++
+        this.balls += ball
         if(run === 4) this.fours++
         else if(run === 6) this.sixes++
     }

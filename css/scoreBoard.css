@@ -1,6 +1,19 @@
 .temp{
     border-radius: 5px;
 }
+.pad-20{
+    padding: 20px;
+}
+.row-gap{
+    display: flex;
+    column-gap: 10px;
+}
+.text-color-green{
+    color: forestgreen;
+}
+.text-color-black{
+    color: black;
+}
 .font-40{
     font-size: 40px;
 }

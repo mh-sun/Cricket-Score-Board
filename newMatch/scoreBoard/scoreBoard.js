@@ -2,10 +2,11 @@ import * as player from './Objects/Player.js'
 import * as team from './Objects/Team.js'
 import * as constants from "../../constants.js";
 import * as cals from './Calc.js'
+import {retirePlayer} from "./retirePlayer.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
-let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
+export let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
 let runs = ['0','1', '2', '3', '4', '5', '6']
 
 function setCSS() {
@@ -32,7 +33,7 @@ function createSpanByClass(className, par) {
     return span
 }
 
-function createElem(h, div, ...className) {
+export function createElem(h, div, ...className) {
     let t = document.createElement(h)
     className.forEach(classes => {
         t.className+=' '+classes
@@ -41,7 +42,7 @@ function createElem(h, div, ...className) {
     return t
 }
 
-function createElemText(h, div) {
+export function createElemText(h, div) {
     let t = document.createTextNode(h)
     div.appendChild(t)
 }
@@ -187,8 +188,12 @@ function getExtras() {
     createElem('br',div)
     createElem('br',div)
     div_i = createElem('div', div, 'content-center')
-    createElem('button',div_i, 'btn').innerText = 'Retire'
-    createElem('button',div_i, 'btn').innerText = 'Swap Batsman'
+    let retire = createElem('button',div_i, 'btn')
+    retire.innerText = 'Retire'
+    retire.onclick = retirePlayer
+    let swapBatsman = createElem('button',div_i, 'btn')
+    swapBatsman.innerText = 'Swap Batsman'
+    swapBatsman.onclick = cals.swapBatsman
     return div
 }
 

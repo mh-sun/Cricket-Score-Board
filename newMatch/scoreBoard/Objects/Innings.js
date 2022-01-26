@@ -12,7 +12,7 @@ export function Innings(team1, team2){
     this.legBye = 0
     this.penalty = 0
 
-    this.onStrike = 0
-    this.nonStrie = 1
-    this.bowling = 0
+    // this.onStrike = 0
+    // this.nonStrie = 1
+    // this.bowling = 0
 }

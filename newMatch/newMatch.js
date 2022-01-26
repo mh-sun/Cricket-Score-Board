@@ -42,7 +42,7 @@ function getTeamsName() {
 }
 
 
-function getDivField(name, value, inner) {
+export function getDivField(name, value, inner) {
     let input1 = document.createElement('input')
     input1.type = 'radio'
     input1.name = name
@@ -76,19 +76,6 @@ function getTossWon() {
     return div_o
 }
 
-
-
-function getOptField(name, value, inner) {
-    let input1 = document.createElement('input')
-    input1.type = 'radio'
-    input1.name = name
-    input1.value = value
-
-    let label = document.createElement('label')
-    label.innerText = inner
-
-    return [input1, label]
-}
 
 function getOptedTo() {
     let div_o = document.createElement('div')
