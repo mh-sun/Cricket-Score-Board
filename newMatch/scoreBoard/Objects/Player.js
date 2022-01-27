@@ -32,6 +32,8 @@ export function Bowler(){
         return true
     }
 
+
+
     this.updateInfo = function (run, ball, s){
         let r = [run, s]
         if (s !== 'N'){
@@ -41,7 +43,16 @@ export function Bowler(){
 
         this.runs += run
         this.balls += ball
-        if((this.overs_details.length - this.extra) < 6) this.overs_details.push(r)
+
+        function isOverCompleted(par) {
+            let sum = 0
+            par.overs_details.forEach(each=>{
+                if(each[1] === 'N') sum++
+            })
+            return sum
+        }
+
+        if(isOverCompleted(this) < 6) this.overs_details.push(r)
         else this.overs_details = [r]
 
         if(isMaiden(this)) this.maidens++
