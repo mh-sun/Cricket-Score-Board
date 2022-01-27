@@ -4,6 +4,22 @@
 .pad-20{
     padding: 20px;
 }
+.color-orange{
+    background-color: orange;
+    color: white;
+}
+.color-red{
+    background-color: red;
+    color: white;
+}
+.color-green{
+    background-color: green;
+    color: white;
+}
+.color-light-green{
+    background-color: darkgreen;
+    color: white;
+}
 .row-gap{
     display: flex;
     column-gap: 10px;
@@ -58,10 +74,12 @@ table{
     text-align: left;
 }
 .make-round{
-    border-radius: 100%;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
 }
 .btn{
-    background-color: green;
+    background-color: forestgreen;
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -70,5 +88,10 @@ table{
     display: flex;
     justify-content: center;
     align-content: center;
-    column-gap: 20px;
+    column-gap: 10%;
+}
+.row-content{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
 }

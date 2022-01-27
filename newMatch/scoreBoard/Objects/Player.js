@@ -13,7 +13,8 @@ export function Bowler(){
     this.overs_details = []
 
     this.getEconomy = function (){
-        return (this.runs/this.balls*6).toPrecision(3)
+        let ans = (this.runs/this.balls*6).toPrecision(3)
+        return isNaN(ans)? 0 : ans
     }
 
     this.getOver = function () {
@@ -24,21 +25,24 @@ export function Bowler(){
         if(par.overs_details.length !== 6) return false
 
         for(let i =0; i< par.overs_details.length; i++){
-            if(par.overs_details[i] !== 0){
+            if(par.overs_details[i][0] !== 0){
                 return false
             }
         }
         return true
     }
 
-    this.updateInfo = function (run, ball){
-        if (ball === 0){
+    this.updateInfo = function (run, ball, s){
+        let r = [run, s]
+        if (s !== 'N'){
             this.extra ++
+            if (s === 'W') this.wickets++
         }
+
         this.runs += run
         this.balls += ball
-        if((this.overs_details.length - this.extra) < 6) this.overs_details.push(run)
-        else this.overs_details = [run]
+        if((this.overs_details.length - this.extra) < 6) this.overs_details.push(r)
+        else this.overs_details = [r]
 
         if(isMaiden(this)) this.maidens++
 
@@ -53,7 +57,8 @@ export function Batsman (){
     this.outStatus = false
 
     this.getStrikeRate = function (){
-        return (this.runs/this.balls*100).toPrecision(3)
+        let ans = (this.runs/this.balls*100).toPrecision(3)
+        return isNaN(ans)? 0 : ans
     }
 
     this.updateInfo = function (run, ball){

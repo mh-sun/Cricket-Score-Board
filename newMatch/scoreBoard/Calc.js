@@ -5,48 +5,64 @@ import * as g from './Objects/Game.js'
 import * as scoreBoard from './scoreBoard.js'
 import * as exManager from "./checkBoxManager.js"
 
-const host_team_name = localStorage.getItem('host_team_name')
-const visitor_team_name = localStorage.getItem('visitor_team_name')
-const toss_won = localStorage.getItem('team_won')
-const opt_to = localStorage.getItem('opt_to')
-const over = Number(localStorage.getItem('over'))
 
-let battingTeam, bowlingTeam, onStrike, nonStrike, bowler;
+let host_team_name, visitor_team_name, toss_won, opt_to, over;
 
-battingTeam = setBattingnBowlingTeam('bat')
-bowlingTeam = setBattingnBowlingTeam('bowl')
+export let battingTeam, bowlingTeam, onStrike, nonStrike, bowler, game
 
-onStrike = new player.player(localStorage.getItem('striker'), new player.Batsman())
-nonStrike = new player.player(localStorage.getItem('non_striker'), new player.Batsman())
-battingTeam.players.push(onStrike, nonStrike)
+export function initScoreBoard() {
 
-bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
-bowlingTeam.players.push(bowler)
-let game = new g.Game(battingTeam, bowlingTeam)
+
+    host_team_name = localStorage.getItem('host_team_name')
+    visitor_team_name = localStorage.getItem('visitor_team_name')
+    toss_won = localStorage.getItem('team_won')
+    opt_to = localStorage.getItem('opt_to')
+    over = Number(localStorage.getItem('over'))
+
+
+    battingTeam = setBattingnBowlingTeam('bat')
+    bowlingTeam = setBattingnBowlingTeam('bowl')
+
+    onStrike = new player.player(localStorage.getItem('striker'), new player.Batsman())
+    nonStrike = new player.player(localStorage.getItem('non_striker'), new player.Batsman())
+    battingTeam.players.push(onStrike, nonStrike)
+
+    bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
+    bowlingTeam.players.push(bowler)
+    game = new g.Game(battingTeam, bowlingTeam)
+
+
+}
 
 export function setPlayer(onS, nonS){
     onStrike = onS
     nonStrike = nonS
 }
 
+function newBowlerAdd() {
+     
+}
+
 function setValues(x) {
     exManager.init()
     exManager.update(x)
-    // bowler.bowlingRole.updateInfo(x)
-    // onStrike.battingRole.updateInfo(x)
+    if((bowler.bowlingRole.overs_details.length - bowler.bowlingRole.extra) === 6){
+        swapBatsman()
+        newBowlerAdd()
+    }
 }
 
 export function swapBatsman() {
     let temp = onStrike
     onStrike = nonStrike
     nonStrike = temp
-    scoreBoard.getValue()
+    scoreBoard.updateScoreBoard()
 }
 
 export let run = {
     '0':function () {
         setValues(0);
-        scoreBoard.getValue()
+        scoreBoard.updateScoreBoard()
     },
     '1':function () {
         setValues(1)
@@ -54,7 +70,7 @@ export let run = {
     },
     '2':function () {
         setValues(2)
-        scoreBoard.getValue()
+        scoreBoard.updateScoreBoard()
     },
     '3':function () {
         setValues(3)
@@ -62,7 +78,7 @@ export let run = {
     },
     '4':function () {
         setValues(4)
-        scoreBoard.getValue()
+        scoreBoard.updateScoreBoard()
     },
     '5':function () {
         setValues(5)
@@ -70,7 +86,7 @@ export let run = {
     },
     '6':function () {
         setValues(6)
-        scoreBoard.getValue()
+        scoreBoard.updateScoreBoard()
     },
 }
 
@@ -102,4 +118,3 @@ function setBattingnBowlingTeam (seek){
 
     return seek === 'bat' ? battingTeam : seek === 'bowl' ? bowlingTeam : null
 }
-export {battingTeam, bowlingTeam, onStrike, nonStrike, bowler}

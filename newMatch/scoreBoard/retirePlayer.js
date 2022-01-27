@@ -1,6 +1,6 @@
 import {getDivField} from "../newMatch.js";
 import {onStrike, nonStrike, battingTeam, setPlayer} from "./Calc.js";
-import {createElemText, getValue} from "./scoreBoard.js";
+import {createElemText, updateScoreBoard} from "./scoreBoard.js";
 import {player, Batsman} from "./Objects/Player.js";
 
 function setBatsman(div) {
@@ -48,7 +48,7 @@ function submit(div) {
                 setPlayer(onStrike, p1)
             }
         }
-        getValue()
+        updateScoreBoard()
     }
 
     submit.onclick = func1
@@ -62,14 +62,9 @@ function init() {
     setBatsman(div)
     getInput(div)
     submit(div)
-
 }
 
-function updatePlayer() {
-
-}
 
 export function retirePlayer(){
     init()
-    updatePlayer()
 }

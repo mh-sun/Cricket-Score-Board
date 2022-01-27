@@ -1,6 +1,7 @@
 div{
     background-color: white;
     border-radius: 5px;
+    position: relative;
 }
 .on-strike{
     color: green;
@@ -9,6 +10,26 @@ div{
 body{
     background-color: #d7d7d7;
     font-family: sans-serif;
+    padding-left: 25%;
+    padding-right: 25%;
+    min-height: 300px;
+    min-width: 300px;
+}
+.div-right{
+    /*  media-query*/
+    width: 60%;
+    height: 120px;
+    right: 0;
+    /*bottom: 5px;*/
+    position: absolute;
+}
+.div-left{
+    /*display: flex;*/
+    flex-direction: column;
+    width: 30%;
+    left: 0;
+    /*bottom: 5px;*/
+    position: absolute;
 }
 .div-default{
     background-color: #d7d7d7;

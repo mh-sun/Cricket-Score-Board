@@ -3,11 +3,14 @@ import * as team from './Objects/Team.js'
 import * as constants from "../../constants.js";
 import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
+import {addNewBowler} from "./newBowler.js";
+import {getExtraRun, getPartnership, undo} from "./addManagement.js";
+import {bowlingTeam, game} from "./Calc.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 export let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
-let runs = ['0','1', '2', '3', '4', '5', '6']
+let runs = ['0','1', '2', '3', '4', '5', '6', '...']
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -62,7 +65,7 @@ function getShortMatchView() {
     span_i.innerText = cals.battingTeam.getTotalRunsByBatsman()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
-    span_i.innerText = '0'
+    span_i.innerText = bowlingTeam.getWickets()
     span = createSpanByClass('font-20', div)
     createElemText('(', span)
     span_i = createSpanById("runningOver", span)
@@ -141,6 +144,7 @@ function getScoreOverView() {
 
         if (player === cals.onStrike){
             tr.className  = 'on-strike'
+            tr.children[0].innerHTML += '*'
         }
         else tr.className = ''
 
@@ -165,9 +169,26 @@ function getOverDetails() {
     let span = createSpanByClass('left-pad', div)
     span.innerText = 'This Over : '
     span = createSpanByClass(' col-gap', div)
+    span.className += ' tb-pad side-pad'
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
+        console.log(eachBall)
         let btn = createElem('button', span, 'make-round')
-        btn.innerText = eachBall
+        btn.textContent = eachBall[0]+'\n'
+        if(eachBall[1] === 'WD' ||eachBall[1] === 'NB' ||eachBall[1] === 'B' ||eachBall[1] === 'LB'){
+            btn.className += ' color-orange'
+            btn.innerText += eachBall[1]
+        }
+        else if(eachBall[1] === 'W'){
+            btn.className += ' color-red'
+            btn.innerText = "OUT"
+        }
+        else if(eachBall[0] == 4){
+            btn.className += ' color-green'
+        }
+        else if(eachBall[0] == 6){
+            btn.className += ' color-light-green'
+        }
+
     })
     return div
 }
@@ -199,18 +220,42 @@ function getExtras() {
 
 function getButtons() {
     let div = document.createElement('div')
-    div.className += ' side-pad tb-pad content-center'
-    runs.forEach(run=>{
-        let btn = createElem('button',div, 'runs')
+    div.className += ' row-content side-pad tb-pad content-center div-right'
+    let div_i = createElem('div', div, 'content-center')
+    for(let i = 0; i< 4; i++){
+        let run = runs[i]
+        let btn = createElem('button',div_i, 'runs')
         btn.onclick = cals.run[run]
         btn.innerText = run
-    })
+    }
+    div_i = createElem('div', div, 'content-center')
+    for(let i = 4; i< runs.length; i++){
+        let run = runs[i]
+        let btn = createElem('button',div_i, 'runs')
+        btn.onclick = cals.run[run]
+        btn.innerText = run
+    }
+
 
     return div
 }
 
-export function getValue() {
-    setCSS()
+function getAdditionals() {
+    let div = document.createElement('div')
+    div.className += ' side-pad tb-pad div-left content-center'
+    let Undo = createElem('button',div, 'btn')
+    Undo.innerText = 'Undo'
+    Undo.onclick = undo
+    let partnership = createElem('button',div, 'btn')
+    partnership.innerText = 'Partnerships'
+    partnership.onclick = getPartnership
+    let Extras = createElem('button',div, 'btn')
+    Extras.innerText = 'Extras'
+    Extras.onclick = getExtraRun
+    return div
+}
+
+export function updateScoreBoard() {
     const body = document.getElementById('menu-content')
     body.innerHTML = ''
     body.className = 'div-default'
@@ -218,5 +263,12 @@ export function getValue() {
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())
+    body.append(getAdditionals())
     body.append(getButtons(), getBRElem())
+}
+
+export function getValue() {
+    setCSS()
+    cals.initScoreBoard()
+    updateScoreBoard()
 }
