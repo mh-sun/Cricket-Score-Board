@@ -15,12 +15,15 @@ export function init() {
 }
 
 export function update(x) {
+
     let flag = true
+    let t = game.innings[game.currentInnings].partnerships
     if(wicket.checked){
         flag = false
 
         cal.onStrike.battingRole.updateInfo(0,1)
         cal.bowler.bowlingRole.updateInfo(x,1, 'W')
+
         // game.innings[game.currentInnings].totalWickets ++
     }
     if(noBall.checked ){
@@ -28,6 +31,8 @@ export function update(x) {
 
         cal.onStrike.battingRole.updateInfo(x, 1)
         cal.bowler.bowlingRole.updateInfo(x+1, 0, 'NB')
+        t[t.length-1].updatePInfo(x, 0, 'NB')
+
         game.innings[game.currentInnings].noBall ++
     }
     else if(wide.checked){
@@ -35,13 +40,17 @@ export function update(x) {
 
 
         cal.bowler.bowlingRole.updateInfo(x+1,0, 'WD')
-        game.innings[game.currentInnings].wide ++
+
+        t[t.length-1].updatePInfo(x, 0, 'W')
+        game.innings[game.currentInnings].wide += x+1
     }
     if(byes.checked ){
         flag = false
 
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
+
+        t[t.length-1].updatePInfo(x, 1, 'B')
         game.innings[game.currentInnings].bye ++
     }
     else if(legByes.checked){
@@ -49,11 +58,15 @@ export function update(x) {
 
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
+
+        t[t.length-1].updatePInfo(x, 1, 'LB')
         game.innings[game.currentInnings].legBye ++
     }
 
     if(flag){
         cal.onStrike.battingRole.updateInfo(x,1)
         cal.bowler.bowlingRole.updateInfo(x,1, 'N')
+
+        t[t.length-1].updatePInfo(x, 1, 'N')
     }
 }

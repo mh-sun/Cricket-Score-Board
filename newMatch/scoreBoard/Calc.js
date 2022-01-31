@@ -29,6 +29,7 @@ export function initScoreBoard() {
 
     bowler = new player.player(localStorage.getItem('bowler'), new player.Bowler())
     bowlingTeam.players.push(bowler)
+
     game = new g.Game(battingTeam, bowlingTeam)
 
 

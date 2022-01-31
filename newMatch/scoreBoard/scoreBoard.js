@@ -4,7 +4,7 @@ import * as constants from "../../constants.js";
 import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
 import {addNewBowler} from "./newBowler.js";
-import {getExtraRun, getPartnership, undo} from "./addManagement.js";
+import {getExtraRun, getModal, getPartnership, undo} from "./addManagement.js";
 import {bowlingTeam, game} from "./Calc.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
@@ -62,7 +62,7 @@ function getShortMatchView() {
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
-    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman()
+    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + game.innings[game.currentInnings].getExtras()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
     span_i.innerText = bowlingTeam.getWickets()
@@ -171,7 +171,6 @@ function getOverDetails() {
     span = createSpanByClass(' col-gap', div)
     span.className += ' tb-pad side-pad'
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
-        console.log(eachBall)
         let btn = createElem('button', span, 'make-round')
         btn.textContent = eachBall[0]+'\n'
         if(eachBall[1] === 'WD' ||eachBall[1] === 'NB' ||eachBall[1] === 'B' ||eachBall[1] === 'LB'){
@@ -265,6 +264,7 @@ export function updateScoreBoard() {
     body.append(getExtras(), getBRElem())
     body.append(getAdditionals())
     body.append(getButtons(), getBRElem())
+    body.append(getModal())
 }
 
 export function getValue() {

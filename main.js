@@ -52,7 +52,7 @@ function setBody() {
     body.append(div, document.createElement('br'))
 
 }
+setBody()
 setHead()
-// setBody()
 setTitle()
 setMenu()
