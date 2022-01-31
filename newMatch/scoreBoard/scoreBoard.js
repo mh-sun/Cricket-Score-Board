@@ -267,7 +267,7 @@ export function updateScoreBoard() {
     body.append(getModal())
 }
 
-export function getValue() {
+export function getValue(game) {
     setCSS()
     cals.initScoreBoard()
     updateScoreBoard()

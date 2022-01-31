@@ -1,4 +1,9 @@
 import { getValue as playerInfo } from './playerInfo.js'
+import {team} from "./scoreBoard/DataClass/Team.js";
+import {getRandGame, getRandTeam} from "./scoreBoard/DataClass/GetRandom.js";
+import {game} from "./scoreBoard/DataClass/Game.js";
+
+let newGame;
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -12,6 +17,7 @@ function getValue() {
     menuContent.appendChild(document.createElement('br'))
     menuContent.appendChild(document.createElement('br'))
     menuContent.appendChild(getSubmit())
+    menuContent.appendChild(document.createElement('br'))
 }
 
 function getInputField(id, ph) {
@@ -124,47 +130,85 @@ function getSubmit(){
     return submit
 }
 
-function localSet() {
-    return (localStorage.getItem('host_team_name') === null ||
-        localStorage.getItem('visitor_team_name') === null ||
-        localStorage.getItem('team_won') === null ||
-        localStorage.getItem('opt_to') === null ||
-        localStorage.getItem('over') === null)
+// function localSet() {
+//     return (localStorage.getItem('host_team_name') === null ||
+//         localStorage.getItem('visitor_team_name') === null ||
+//         localStorage.getItem('team_won') === null ||
+//         localStorage.getItem('opt_to') === null ||
+//         localStorage.getItem('over') === null)
+// }
+
+function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over) {
+
+    let tBatID = getRandTeam()
+    let tBowlID = getRandTeam()
+    let tBat, tBowl;
+    if( team_won === host_team_name){
+        if(opt_to === 'opt_bat'){
+            tBat = host_team_name
+            tBowl = visitor_team_name
+        }
+        else {
+            tBat = visitor_team_name
+            tBowl = host_team_name
+        }
+    }
+    else {
+        if(opt_to === 'opt_bat'){
+            tBat = visitor_team_name
+            tBowl = host_team_name
+        }
+        else {
+            tBat = host_team_name
+            tBowl = visitor_team_name
+        }
+    }
+    tBat = new team(tBatID, tBat)
+    tBowl = new team(tBowlID, tBowl)
+
+    let gid = getRandGame()
+    newGame = new game(gid, tBat, tBowl, over)
+
+    let games = JSON.parse(localStorage.getItem('games'))
+    console.log(games)
+    if(games == null) {
+        games = []
+        games.push(newGame)
+    }
+    else games.push(newGame)
+
+    localStorage.setItem('games', JSON.stringify(games))
+    console.log(games)
 }
 
 function func1(){
-    if(localSet()){
-        let host_team_name = document.getElementById('hostName').value
-        let visitor_team_name = document.getElementById('visitorName').value
-        let team_won = document.querySelector('input[name="team_won"]:checked')? document.querySelector('input[name="team_won"]:checked').value : null
-        team_won = team_won === 'host_team'? host_team_name : visitor_team_name
-        let opt_to = document.querySelector('input[name="opt_to"]:checked')? document.querySelector('input[name="opt_to"]:checked').value : null
-        let over = document.getElementById('match_over').value
-        over = Number(over)
+    let host_team_name = document.getElementById('hostName').value
+    let visitor_team_name = document.getElementById('visitorName').value
+    let team_won = document.querySelector('input[name="team_won"]:checked')? document.querySelector('input[name="team_won"]:checked').value : null
+    team_won = team_won === 'host_team'? host_team_name : visitor_team_name
+    let opt_to = document.querySelector('input[name="opt_to"]:checked')? document.querySelector('input[name="opt_to"]:checked').value : null
+    let over = document.getElementById('match_over').value
+    over = Number(over)
 
-        let all_info = [host_team_name, visitor_team_name, team_won, opt_to, over]
-        let temp = ['Host Team Name', 'Visitor Team Name', 'Toss winner', 'Opt', 'Match Over']
+    let all_info = [host_team_name, visitor_team_name, team_won, opt_to, over]
+    let temp = ['Host Team Name', 'Visitor Team Name', 'Toss winner', 'Opt', 'Match Over']
 
-        for(let i =0;i<all_info.length;i++){
-            if(all_info[i] === null || all_info[i] === undefined || all_info[i] === '' || all_info[i] <= 0){
-                alert(temp[i] + " Not Provided")
-                return
-            }
+    for(let i =0;i<all_info.length;i++){
+        if(all_info[i] === null || all_info[i] === undefined || all_info[i] === '' || all_info[i] <= 0){
+            alert(temp[i] + " Not Provided")
+            return
         }
-
-        localStorage.setItem('host_team_name', host_team_name)
-        localStorage.setItem('visitor_team_name', visitor_team_name)
-        localStorage.setItem('team_won', team_won)
-        localStorage.setItem('opt_to', opt_to)
-        localStorage.setItem('over', over)
-
-        playerInfo()
     }
 
+    SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over)
+
+    playerInfo(newGame)
 }
 (function () {
-    if(!localSet()){
-        playerInfo()
+    let games = localStorage.getItem('games')
+    games = JSON.parse(games)
+    if(games != null){
+        playerInfo(games[games.length-1])
     }
 })();
 export {getValue}
