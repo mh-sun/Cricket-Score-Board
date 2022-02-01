@@ -1,6 +1,8 @@
 import {Innings} from "./Innings.js";
 
-export function Game (team1, team2){
-    this.innings = [new Innings(team1, team2), new Innings(team2, team1)]
-    this.currentInnings = 0
+export function Game (gid, bat, bowl, over){
+    this.id = gid
+    this.over = over
+    this.innings = [new Innings(bat, bowl), new Innings(bowl, bat)]
+    this.ci = 0
 }

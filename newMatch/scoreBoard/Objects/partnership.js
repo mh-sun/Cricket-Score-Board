@@ -1,18 +1,17 @@
-import {nonStrike, onStrike} from "../Calc.js";
 
-export function partnership() {
-    this.playerOne = onStrike.name
+export function partnership(prID, player1, player2) {
+    this.id = prID
+    this.playerOne = player1
+    this.playerTwo = player2
     this.playerOneRun = 0
-    this.playerTwo = nonStrike.name
     this.playerTwoRun = 0
     this.extras = 0
     this.runs = 0
     this.balls = 0
 
-    this.updatePInfo = (r, b , s)=>{
-
+    this.updatePInfo = (r, b , s, batsman)=>{
         if(s === 'N'){
-            if(onStrike.name === this.playerOne) this.playerOneRun += r
+            if(batsman === this.playerOne) this.playerOneRun += r
             else this.playerTwoRun += r
         }
         else if (s === 'W'){
@@ -20,7 +19,7 @@ export function partnership() {
         }
         else if (s === 'NB'){
             this.extras += 1
-            if(onStrike.name === this.playerOne) this.playerOneRun += r
+            if(batsman === this.playerOne) this.playerOneRun += r
             else this.playerTwoRun += r
         }
         else if (s === 'B' || s === 'LB'){

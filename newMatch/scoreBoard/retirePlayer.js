@@ -1,7 +1,7 @@
 import {getDivField} from "../newMatch.js";
 import {onStrike, nonStrike, battingTeam, setPlayer} from "./Calc.js";
 import {createElemText, updateScoreBoard} from "./scoreBoard.js";
-import {player, Batsman} from "./Objects/Player.js";
+import {Player} from "./Objects/Player.js";
 
 function setBatsman(div) {
     let d = document.createElement('div')
