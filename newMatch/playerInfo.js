@@ -1,7 +1,12 @@
 import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
+<<<<<<< HEAD
 import {player} from "./scoreBoard/DataClass/Player.js";
 import {getRandPlayer} from "./scoreBoard/DataClass/GetRandom.js";
 
+=======
+import {getRandPlayer} from "./scoreBoard/Objects/GetRandom.js";
+import {Player} from "./scoreBoard/Objects/Player.js";
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 
 let Game;
 
@@ -21,19 +26,25 @@ function getSection(name, id) {
     return [h3, div]
 }
 
+<<<<<<< HEAD
 // function localSet() {
 //     let games = JSON.parse(localStorage.getItem('games'))
 // }
 
+=======
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 function func1() {
     let striker = document.getElementById('striker').value
     let non_striker = document.getElementById('non_striker').value
     let bowler = document.getElementById('bowler').value
 
+<<<<<<< HEAD
     // localStorage.setItem('striker', striker)
     // localStorage.setItem('non_striker', non_striker)
     // localStorage.setItem('bowler', bowler)
     console.log(Game)
+=======
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
     let all_info = [striker, non_striker, bowler]
     let temp = ['Striker Name', 'Non-Striker Name', 'Bowler Name']
 
@@ -44,19 +55,33 @@ function func1() {
         }
     }
 
+<<<<<<< HEAD
 
 
     let batTeam = Game.innings[Game.ci].battingTeam
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
 
+=======
+    let batTeam = Game.innings[Game.ci].battingTeam
+    console.log(batTeam)
+    let bowlTeam = Game.innings[Game.ci].bowlingTeam
+
+    console.log(batTeam)
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
     if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
         scoreBoard(Game)
         return
     }
 
+<<<<<<< HEAD
     let s = new player(getRandPlayer(), striker)
     let ns = new player(getRandPlayer(), non_striker)
     let b = new player(getRandPlayer(), bowler)
+=======
+    let s = new Player(getRandPlayer(), striker)
+    let ns = new Player(getRandPlayer(), non_striker)
+    let b = new Player(getRandPlayer(), bowler)
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 
     batTeam.players.push(s, ns)
     bowlTeam.players.push(b)
@@ -111,6 +136,7 @@ function setBody() {
     body.appendChild(document.createElement('br'))
     body.appendChild(getSubmit())
     body.appendChild(document.createElement('br'))
+<<<<<<< HEAD
 }
 
 export function getValue(game) {
@@ -125,3 +151,14 @@ export function getValue(game) {
 //         scoreBoard()
 //     }
 // })();
+=======
+}
+
+export function getValue(game) {
+    Game = game
+    console.log(Game)
+    if(game.innings[game.ci].battingTeam.players.length !== 0)  scoreBoard(Game)
+    setBody()
+
+}
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c

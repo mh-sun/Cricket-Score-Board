@@ -15,7 +15,7 @@ function updateProgressBar(run, partnership, i) {
 function updatePartnership() {
     let div = document.getElementsByClassName('modal')[0]
     div.innerHTML = ''
-    game.innings[game.currentInnings].partnerships.forEach(partnership=>{
+    game.innings[game.ci].partnerships.forEach(partnership=>{
         function getEachPartnarship(partnership) {
             let div = document.createElement('div')
             let div_i = createElem('div', div)
@@ -65,7 +65,7 @@ export function getModal() {
 
     let h4 = document.createElement('h4')
     div_i.appendChild(h4)
-    let innings = game.innings[game.currentInnings]
+    let innings = game.innings[game.ci]
     h4.innerText = 'Extras: '+ innings.bye+ ' B, '
     +innings.legBye + ' LB, '
     +innings.wide + ' WD, '

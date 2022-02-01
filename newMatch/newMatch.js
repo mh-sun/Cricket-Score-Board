@@ -1,9 +1,16 @@
 import { getValue as playerInfo } from './playerInfo.js'
+<<<<<<< HEAD
 import {team} from "./scoreBoard/DataClass/Team.js";
 import {getRandGame, getRandTeam} from "./scoreBoard/DataClass/GetRandom.js";
 import {game} from "./scoreBoard/DataClass/Game.js";
 
 let newGame;
+=======
+import {getRandGame, getRandTeam} from "./scoreBoard/Objects/GetRandom.js";
+import {Team} from "./scoreBoard/Objects/Team.js";
+import {Game} from "./scoreBoard/Objects/Game.js";
+import {getGame} from "./scoreBoard/Objects/getObjects.js";
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -130,6 +137,7 @@ function getSubmit(){
     return submit
 }
 
+<<<<<<< HEAD
 // function localSet() {
 //     return (localStorage.getItem('host_team_name') === null ||
 //         localStorage.getItem('visitor_team_name') === null ||
@@ -140,6 +148,9 @@ function getSubmit(){
 
 function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over) {
 
+=======
+function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over) {
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
     let tBatID = getRandTeam()
     let tBowlID = getRandTeam()
     let tBat, tBowl;
@@ -163,6 +174,7 @@ function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over
             tBowl = visitor_team_name
         }
     }
+<<<<<<< HEAD
     tBat = new team(tBatID, tBat)
     tBowl = new team(tBowlID, tBowl)
 
@@ -170,15 +182,32 @@ function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over
     newGame = new game(gid, tBat, tBowl, over)
 
     let games = JSON.parse(localStorage.getItem('games'))
+=======
+    tBat = new Team(tBatID, tBat)
+    tBowl = new Team(tBowlID, tBowl)
+
+    let gid = getRandGame()
+    let newGame = new Game(gid, tBat, tBowl, over)
+
+    let games = JSON.parse(localStorage.getItem('games'))
+
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
     console.log(games)
     if(games == null) {
         games = []
         games.push(newGame)
     }
     else games.push(newGame)
+<<<<<<< HEAD
 
     localStorage.setItem('games', JSON.stringify(games))
     console.log(games)
+=======
+    console.log(games)
+    localStorage.setItem('games', JSON.stringify(games))
+    return newGame
+
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 }
 
 function func1(){
@@ -200,6 +229,7 @@ function func1(){
         }
     }
 
+<<<<<<< HEAD
     SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over)
 
     playerInfo(newGame)
@@ -210,5 +240,18 @@ function func1(){
     if(games != null){
         playerInfo(games[games.length-1])
     }
+=======
+    let newGame = SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over)
+    console.log(newGame)
+    playerInfo(newGame)
+}
+(function () {
+    // let games = localStorage.getItem('games')
+    // games = JSON.parse(games)
+    // if(games != null){
+    //     playerInfo(getGame(games[games.length-1]))
+    // }
+    getValue()
+>>>>>>> 8b0d5c3a0da02278d7755d66177ab6e696379b9c
 })();
 export {getValue}
