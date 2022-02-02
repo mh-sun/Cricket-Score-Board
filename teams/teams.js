@@ -21,7 +21,9 @@ function getMatches(t, games) {
 
 function editName(t) {
     document.getElementsByClassName('modal-bg')[0].classList.add('bg-active')
-    document.getElementById('newName').value = t.name
+    let input = document.getElementById('newName')
+    input.value = t.name
+    input.tID = t.id
 }
 
 function deleteTeam(t, games) {
@@ -96,14 +98,7 @@ function getSection(t, games) {
     return div
 }
 
-function addFontAwesome() {
-    let head = document.getElementsByTagName('head')[0]
-    let sc = createElem('script', head)
-    sc.src = 'https://kit.fontawesome.com/a076d05399.js'
-    sc.crossOrigin = 'anonymous'
-}
-
-function getModal() {
+function getModal(games) {
     let div = document.createElement('div')
     div.classList.add('modal-bg')
 
@@ -131,8 +126,22 @@ function getModal() {
     div_i.appendChild(ok)
     div_i.appendChild(document.createElement('br'))
 
+    function updateTeam(id, name) {
+        // console.log(games)
+        games.forEach(g=>{
+            if(g.innings[g.ci].battingTeam.id == id) g.innings[g.ci].battingTeam.name = name
+            if(g.innings[g.ci].bowlingTeam.id == id) g.innings[g.ci].bowlingTeam.name = name
+        })
+        localStorage.setItem('games', JSON.stringify(games))
+    }
+
     ok.addEventListener('click',function () {
-        document.getElementById('newName').remove()
+        let input = document.getElementById('newName')
+        // console.log(input)
+        let id = input.tID
+        let name = input.value
+        updateTeam(id, name)
+        input.remove()
         div.classList.remove('bg-active')
         getValue()
     })
@@ -143,15 +152,13 @@ function getModal() {
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
-    addFontAwesome()
     let games = JSON.parse(localStorage.getItem('games'))
     let teams = getTeams(games)
     teams.forEach(t=>{
         if(t != null)
             menuContent.append(getSection(t,games))
     })
-    console.log(teams)
-    menuContent.appendChild(getModal())
+    menuContent.appendChild(getModal(games))
 }
 
 export {getValue}

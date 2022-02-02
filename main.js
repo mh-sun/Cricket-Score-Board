@@ -1,4 +1,5 @@
 import * as cons from './constants.js'
+import {createElem} from "./newMatch/scoreBoard/scoreBoard.js";
 
 function setTitle() {
     let title = document.getElementById('title')
@@ -52,7 +53,16 @@ function setBody() {
     body.append(div, document.createElement('br'))
 
 }
+
+function addFontAwesome() {
+    let head = document.getElementsByTagName('head')[0]
+    let sc = createElem('script', head)
+    sc.src = 'https://kit.fontawesome.com/a076d05399.js'
+    sc.crossOrigin = 'anonymous'
+}
+
 setBody()
 setHead()
 setTitle()
 setMenu()
+addFontAwesome()
