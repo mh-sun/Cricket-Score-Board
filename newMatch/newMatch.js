@@ -1,10 +1,8 @@
 import { getValue as playerInfo } from './playerInfo.js'
-
 import {getRandGame, getRandTeam} from "./scoreBoard/Objects/GetRandom.js";
 import {Team} from "./scoreBoard/Objects/Team.js";
 import {Game} from "./scoreBoard/Objects/Game.js";
 import {getGame} from "./scoreBoard/Objects/getObjects.js";
-
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -130,9 +128,8 @@ function getSubmit(){
     submit.onclick = func1
     return submit
 }
-
-
 function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over) {
+
     let tBatID = getRandTeam()
     let tBowlID = getRandTeam()
     let tBat, tBowl;
@@ -177,7 +174,6 @@ function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over
     return newGame
 
 }
-
 function func1(){
     let host_team_name = document.getElementById('hostName').value
     let visitor_team_name = document.getElementById('visitorName').value
@@ -197,11 +193,11 @@ function func1(){
         }
     }
 
-
     let newGame = SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over)
     console.log(newGame)
     playerInfo(newGame)
 }
+
 (function () {
     // let games = localStorage.getItem('games')
     // games = JSON.parse(games)
@@ -209,6 +205,5 @@ function func1(){
     //     playerInfo(getGame(games[games.length-1]))
     // }
     getValue()
-
 })();
 export {getValue}

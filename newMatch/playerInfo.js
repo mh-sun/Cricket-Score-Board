@@ -2,7 +2,6 @@ import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
 import {getRandPlayer} from "./scoreBoard/Objects/GetRandom.js";
 import {Player} from "./scoreBoard/Objects/Player.js";
 
-
 let Game;
 
 function getSection(name, id) {
@@ -21,11 +20,11 @@ function getSection(name, id) {
     return [h3, div]
 }
 
-
 function func1() {
     let striker = document.getElementById('striker').value
     let non_striker = document.getElementById('non_striker').value
     let bowler = document.getElementById('bowler').value
+
 
     let all_info = [striker, non_striker, bowler]
     let temp = ['Striker Name', 'Non-Striker Name', 'Bowler Name']
@@ -37,6 +36,8 @@ function func1() {
         }
     }
 
+
+
     let batTeam = Game.innings[Game.ci].battingTeam
     console.log(batTeam)
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
@@ -47,6 +48,8 @@ function func1() {
         scoreBoard(Game)
         return
     }
+
+
 
     let s = new Player(getRandPlayer(), striker)
     let ns = new Player(getRandPlayer(), non_striker)
@@ -107,6 +110,12 @@ function setBody() {
     body.appendChild(getSubmit())
     body.appendChild(document.createElement('br'))
 
+
+// (function () {
+//     if(!localSet()){
+//         scoreBoard()
+//     }
+// })();
 }
 
 export function getValue(game) {
@@ -116,4 +125,3 @@ export function getValue(game) {
     setBody()
 
 }
-
