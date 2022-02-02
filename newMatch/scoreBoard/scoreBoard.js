@@ -1,16 +1,16 @@
-import * as player from './Objects/Player.js'
-import * as team from './Objects/Team.js'
-import * as constants from "../../constants.js";
+
 import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
-import {addNewBowler} from "./newBowler.js";
 import {getExtraRun, getModal, getPartnership, undo} from "./addManagement.js";
 import {bowlingTeam, game} from "./Calc.js";
+import {getPlayer} from "./Objects/getObjects.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
 export let extras = ['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
 let runs = ['0','1', '2', '3', '4', '5', '6', '...']
+
+let newGame
 
 function setCSS() {
     let head = document.getElementsByTagName('head')[0]
@@ -62,7 +62,8 @@ function getShortMatchView() {
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
-    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + game.innings[game.currentInnings].getExtras()
+    console.log('from scoreboard')
+    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + game.innings[game.ci].getExtras()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
     span_i.innerText = bowlingTeam.getWickets()
@@ -112,6 +113,7 @@ function getCol(runs, ...className) {
 }
 
 function getBowlerValues(player) {
+    player = getPlayer(player)
     let tr = document.createElement('tr')
     tr.appendChild(getCol(player.name))
     tr.appendChild(getCol(player.bowlingRole.getOver()))
@@ -123,6 +125,7 @@ function getBowlerValues(player) {
 }
 
 function getBatsmanValues(player) {
+    player = getPlayer(player)
     let tr = document.createElement('tr')
     tr.appendChild(getCol(player.name))
     tr.appendChild(getCol(player.battingRole.runs))
@@ -181,10 +184,10 @@ function getOverDetails() {
             btn.className += ' color-red'
             btn.innerText = "OUT"
         }
-        else if(eachBall[0] == 4){
+        else if(eachBall[0] === 4){
             btn.className += ' color-green'
         }
-        else if(eachBall[0] == 6){
+        else if(eachBall[0] === 6){
             btn.className += ' color-light-green'
         }
 
@@ -259,6 +262,7 @@ export function updateScoreBoard() {
     body.innerHTML = ''
     body.className = 'div-default'
     body.append(getShortMatchView(), getBRElem())
+    console.log(newGame)
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())
@@ -269,6 +273,10 @@ export function updateScoreBoard() {
 
 export function getValue(game) {
     setCSS()
-    cals.initScoreBoard()
+    newGame = game
+    console.log(game.innings[game.ci].battingTeam)
+    cals.initScoreBoard(newGame)
+    console.log("After Init")
     updateScoreBoard()
+    console.log("After Update")
 }

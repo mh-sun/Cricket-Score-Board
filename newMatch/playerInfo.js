@@ -1,6 +1,6 @@
 import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
-import {player} from "./scoreBoard/DataClass/Player.js";
-import {getRandPlayer} from "./scoreBoard/DataClass/GetRandom.js";
+import {getRandPlayer} from "./scoreBoard/Objects/GetRandom.js";
+import {Player} from "./scoreBoard/Objects/Player.js";
 
 
 let Game;
@@ -21,19 +21,12 @@ function getSection(name, id) {
     return [h3, div]
 }
 
-// function localSet() {
-//     let games = JSON.parse(localStorage.getItem('games'))
-// }
 
 function func1() {
     let striker = document.getElementById('striker').value
     let non_striker = document.getElementById('non_striker').value
     let bowler = document.getElementById('bowler').value
 
-    // localStorage.setItem('striker', striker)
-    // localStorage.setItem('non_striker', non_striker)
-    // localStorage.setItem('bowler', bowler)
-    console.log(Game)
     let all_info = [striker, non_striker, bowler]
     let temp = ['Striker Name', 'Non-Striker Name', 'Bowler Name']
 
@@ -44,19 +37,21 @@ function func1() {
         }
     }
 
-
-
     let batTeam = Game.innings[Game.ci].battingTeam
+    console.log(batTeam)
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
+
+    console.log(batTeam)
 
     if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
         scoreBoard(Game)
         return
     }
 
-    let s = new player(getRandPlayer(), striker)
-    let ns = new player(getRandPlayer(), non_striker)
-    let b = new player(getRandPlayer(), bowler)
+    let s = new Player(getRandPlayer(), striker)
+    let ns = new Player(getRandPlayer(), non_striker)
+    let b = new Player(getRandPlayer(), bowler)
+
 
     batTeam.players.push(s, ns)
     bowlTeam.players.push(b)
@@ -111,17 +106,14 @@ function setBody() {
     body.appendChild(document.createElement('br'))
     body.appendChild(getSubmit())
     body.appendChild(document.createElement('br'))
+
 }
 
 export function getValue(game) {
-    // console.log(game)
     Game = game
     console.log(Game)
+    if(game.innings[game.ci].battingTeam.players.length !== 0)  scoreBoard(Game)
     setBody()
+
 }
 
-// (function () {
-//     if(!localSet()){
-//         scoreBoard()
-//     }
-// })();

@@ -1,9 +1,10 @@
-export function Team(name) {
-
+export function Team(tid, name, players = []) {
+    this.id = tid
     this.name = name
-    this.players = []
+    this.players = players
 
     this.getTotalRunsByBatsman = function (){
+        console.log('testing111')
         let sum = 0;
         for(let i =0 ; i < this.players.length; i++){
             if(this.players[i].battingRole != null)
