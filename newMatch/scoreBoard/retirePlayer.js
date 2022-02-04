@@ -2,6 +2,7 @@ import {getDivField} from "../newMatch.js";
 import {onStrike, nonStrike, battingTeam, setPlayer} from "./Calc.js";
 import {createElemText, updateScoreBoard} from "./scoreBoard.js";
 import {Player} from "./Objects/Player.js";
+import {getRandPlayer} from "./Objects/GetRandom.js";
 
 function setBatsman(div) {
     let d = document.createElement('div')
@@ -37,7 +38,8 @@ function submit(div) {
         let pName = document.getElementById('replacedPlayer').value
         let chosen = document.querySelector('input[name="batsmans"]:checked')? document.querySelector('input[name="batsmans"]:checked').value : null
         if(pName != ''){
-            let p1 = new player(pName, new Batsman())
+            let pId = getRandPlayer()
+            let p1 = new Player(pId, pName)
             battingTeam.players.push(p1)
             if(chosen === 'onstrike'){
                 onStrike.name += '(r)'
@@ -63,7 +65,6 @@ function init() {
     getInput(div)
     submit(div)
 }
-
 
 export function retirePlayer(){
     init()

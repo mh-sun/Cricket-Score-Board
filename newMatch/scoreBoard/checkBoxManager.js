@@ -1,8 +1,6 @@
 import {extras} from "./scoreBoard.js";
-import {Innings} from "./Objects/Innings.js";
 import * as cal from "./Calc.js"
 import {game} from "./Calc.js";
-import {getPartnership} from "./Objects/getObjects.js";
 
 export let wide, noBall, byes, legByes, wicket
 
@@ -19,31 +17,29 @@ export function update(x) {
 
     let flag = true
     let t = game.innings[game.ci].partnerships
-    t = getPartnership(t[t.length-1])
+    let partnership = t[t.length-1]
     if(wicket.checked){
         flag = false
 
         cal.onStrike.battingRole.updateInfo(0,1)
         cal.bowler.bowlingRole.updateInfo(x,1, 'W')
-
-        // game.innings[game.ci].totalWickets ++
     }
     if(noBall.checked ){
         flag = false
 
         cal.onStrike.battingRole.updateInfo(x, 1)
         cal.bowler.bowlingRole.updateInfo(x+1, 0, 'NB')
-        t.updatePInfo(x, 0, 'NB')
+        partnership.updatePInfo(x, 0, 'NB', cal.onStrike)
 
-        game.innings[game.ci].noBall ++
+        game.innings[game.ci].extra.noBall ++
     }
     else if(wide.checked){
         flag = false
 
         cal.bowler.bowlingRole.updateInfo(x+1,0, 'WD')
 
-        t.updatePInfo(x, 0, 'W')
-        game.innings[game.ci].wide += x+1
+        partnership.updatePInfo(x, 0, 'W', cal.onStrike)
+        game.innings[game.ci].extra.wide += x+1
     }
     if(byes.checked ){
         flag = false
@@ -51,8 +47,8 @@ export function update(x) {
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
 
-        t.updatePInfo(x, 1, 'B')
-        game.innings[game.ci].bye ++
+        partnership.updatePInfo(x, 1, 'B', cal.onStrike)
+        game.innings[game.ci].extra.bye ++
     }
     else if(legByes.checked){
         flag = false
@@ -60,14 +56,22 @@ export function update(x) {
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
 
-        t.updatePInfo(x, 1, 'LB')
-        game.innings[game.ci].legBye ++
+        partnership.updatePInfo(x, 1, 'LB', cal.onStrike)
+        game.innings[game.ci].extra.legBye ++
     }
 
     if(flag){
         cal.onStrike.battingRole.updateInfo(x,1)
         cal.bowler.bowlingRole.updateInfo(x,1, 'N')
-
-        t.updatePInfo(x, 1, 'N', cal.onStrike)
+        partnership.updatePInfo(x, 1, 'N', cal.onStrike)
     }
+
+    let games = JSON.parse(localStorage.getItem('games'))
+    for(let i = 0; i< games.length; i++){
+        if(games[i].id === game.id) {
+            console.log('testing........')
+            games[i] = game
+        }
+    }
+    localStorage.setItem('games', JSON.stringify(games))
 }

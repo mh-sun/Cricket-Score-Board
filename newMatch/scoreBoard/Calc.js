@@ -1,23 +1,17 @@
-import * as team from './Objects/Team.js'
-import * as player from './Objects/Player.js'
-import * as innings from './Objects/Innings.js'
-import * as g from './Objects/Game.js'
 import * as scoreBoard from './scoreBoard.js'
 import * as exManager from "./checkBoxManager.js"
-import {getGame, getPlayer, getTeam} from "./Objects/getObjects.js";
 
 export let battingTeam, bowlingTeam, onStrike, nonStrike, bowler, game
 
 export function initScoreBoard(g) {
-    game = getGame(g)
-    console.log('From Init Scoreboard')
-    battingTeam = getTeam(game.innings[game.ci].battingTeam)
-    bowlingTeam = getTeam(game.innings[game.ci].bowlingTeam)
-    console.log(battingTeam)
-    onStrike = getPlayer(battingTeam.players[0])
-    nonStrike = getPlayer(battingTeam.players[1])
+    game = g
+    battingTeam = game.innings[game.ci].battingTeam
+    bowlingTeam = game.innings[game.ci].bowlingTeam
 
-    bowler = getPlayer(bowlingTeam.players[0])
+    onStrike = battingTeam.players[0]
+    nonStrike = battingTeam.players[1]
+
+    bowler = bowlingTeam.players[0]
 }
 
 export function setPlayer(onS, nonS){
@@ -75,32 +69,3 @@ export let run = {
         scoreBoard.updateScoreBoard()
     },
 }
-//
-// function setBattingnBowlingTeam (seek){
-//     let batTeam, bowlTeam
-//     if(toss_won === host_team_name){
-//         if(opt_to === 'opt_bat'){
-//             batTeam = host_team_name
-//             bowlTeam = visitor_team_name
-//         }
-//         else {
-//             batTeam = visitor_team_name
-//             bowlTeam = host_team_name
-//         }
-//     }
-//     else {
-//         if(opt_to === 'opt_bat'){
-//             batTeam = visitor_team_name
-//             bowlTeam = host_team_name
-//         }
-//         else {
-//             batTeam = host_team_name
-//             bowlTeam = visitor_team_name
-//         }
-//     }
-//     battingTeam = new team.Team(batTeam)
-//     bowlingTeam = new team.Team(bowlTeam)
-//
-//
-//     return seek === 'bat' ? battingTeam : seek === 'bowl' ? bowlingTeam : null
-// }

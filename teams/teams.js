@@ -127,10 +127,12 @@ function getModal(games) {
     div_i.appendChild(document.createElement('br'))
 
     function updateTeam(id, name) {
-        // console.log(games)
         games.forEach(g=>{
-            if(g.innings[g.ci].battingTeam.id == id) g.innings[g.ci].battingTeam.name = name
-            if(g.innings[g.ci].bowlingTeam.id == id) g.innings[g.ci].bowlingTeam.name = name
+            console.log(id)
+            if(g.innings[0].battingTeam.id === id) g.innings[0].battingTeam.name = name
+            if(g.innings[0].bowlingTeam.id === id) g.innings[0].bowlingTeam.name = name
+            if(g.innings[1].battingTeam.id === id) g.innings[1].battingTeam.name = name
+            if(g.innings[1].bowlingTeam.id === id) g.innings[1].bowlingTeam.name = name
         })
         localStorage.setItem('games', JSON.stringify(games))
     }
@@ -156,7 +158,7 @@ function getValue() {
     let teams = getTeams(games)
     teams.forEach(t=>{
         if(t != null)
-            menuContent.append(getSection(t,games))
+            menuContent.append(getSection(t,games), document.createElement('br'))
     })
     menuContent.appendChild(getModal(games))
 }

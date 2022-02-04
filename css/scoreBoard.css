@@ -91,7 +91,7 @@ table{
     display: flex;
     justify-content: center;
     align-content: center;
-    column-gap: 10%;
+    column-gap: 5%;
 }
 .row-content{
     display: flex;

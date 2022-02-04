@@ -1,9 +1,6 @@
-
 import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
 import {getExtraRun, getModal, getPartnership, undo} from "./addManagement.js";
-import {bowlingTeam, game} from "./Calc.js";
-import {getPlayer} from "./Objects/getObjects.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
@@ -62,11 +59,11 @@ function getShortMatchView() {
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
-    console.log('from scoreboard')
-    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + game.innings[game.ci].getExtras()
+    // console.log('from scoreboard')
+    span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + cals.game.innings[cals.game.ci].getExtras()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
-    span_i.innerText = bowlingTeam.getWickets()
+    span_i.innerText = cals.bowlingTeam.getWickets()
     span = createSpanByClass('font-20', div)
     createElemText('(', span)
     span_i = createSpanById("runningOver", span)
@@ -79,7 +76,6 @@ function getShortMatchView() {
 
     return div
 }
-
 
 function getBatTh() {
     let tr = document.createElement('tr')
@@ -113,7 +109,6 @@ function getCol(runs, ...className) {
 }
 
 function getBowlerValues(player) {
-    player = getPlayer(player)
     let tr = document.createElement('tr')
     tr.appendChild(getCol(player.name))
     tr.appendChild(getCol(player.bowlingRole.getOver()))
@@ -125,7 +120,6 @@ function getBowlerValues(player) {
 }
 
 function getBatsmanValues(player) {
-    player = getPlayer(player)
     let tr = document.createElement('tr')
     tr.appendChild(getCol(player.name))
     tr.appendChild(getCol(player.battingRole.runs))
@@ -173,6 +167,7 @@ function getOverDetails() {
     span.innerText = 'This Over : '
     span = createSpanByClass(' col-gap', div)
     span.className += ' tb-pad side-pad'
+
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
         let btn = createElem('button', span, 'make-round')
         btn.textContent = eachBall[0]+'\n'
@@ -262,7 +257,7 @@ export function updateScoreBoard() {
     body.innerHTML = ''
     body.className = 'div-default'
     body.append(getShortMatchView(), getBRElem())
-    console.log(newGame)
+    // console.log(newGame)
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())
@@ -271,12 +266,9 @@ export function updateScoreBoard() {
     body.append(getModal())
 }
 
-export function getValue(game) {
+export function getValue(g) {
     setCSS()
-    newGame = game
-    console.log(game.innings[game.ci].battingTeam)
+    newGame = g
     cals.initScoreBoard(newGame)
-    console.log("After Init")
     updateScoreBoard()
-    console.log("After Update")
 }

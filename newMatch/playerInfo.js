@@ -1,8 +1,6 @@
 import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
-import {getRandPlayer} from "./scoreBoard/Objects/GetRandom.js";
 import {Player} from "./scoreBoard/Objects/Player.js";
 
-let Game;
 
 function getSection(name, id) {
     let h3 = document.createElement('h3')
@@ -20,7 +18,7 @@ function getSection(name, id) {
     return [h3, div]
 }
 
-function func1() {
+function func1(Game) {
     let striker = document.getElementById('striker').value
     let non_striker = document.getElementById('non_striker').value
     let bowler = document.getElementById('bowler').value
@@ -39,27 +37,22 @@ function func1() {
 
 
     let batTeam = Game.innings[Game.ci].battingTeam
-    console.log(batTeam)
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
-
-    console.log(batTeam)
 
     if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
         scoreBoard(Game)
         return
     }
 
-
-
-    let s = new Player(getRandPlayer(), striker)
-    let ns = new Player(getRandPlayer(), non_striker)
-    let b = new Player(getRandPlayer(), bowler)
-
+    let s = new Player(striker)
+    let ns = new Player(non_striker)
+    let b = new Player(bowler)
 
     batTeam.players.push(s, ns)
+    Game.innings[Game.ci].setPartnerShip(s, ns)
+
     bowlTeam.players.push(b)
     let games = JSON.parse(localStorage.getItem('games'))
-    console.log(games)
     if(games == null){
         games = []
         games.push(Game)
@@ -75,22 +68,22 @@ function func1() {
             games.push(Game)
         }
     }
-    console.log(games)
-    console.log(Game)
     localStorage.setItem('games', JSON.stringify(games))
     scoreBoard(Game)
 }
 
-function getSubmit() {
+function getSubmit(game) {
     let submit = document.createElement('input')
     submit.type = 'button'
     submit.value = 'Start Match'
     submit.className += ' element-center submit-form'
-    submit.onclick = func1
+    submit.onclick = ()=>{
+        func1(game)
+    }
     return submit
 }
 
-function setBody() {
+function setBody(game) {
     let body  = document.getElementById('menu-content')
     body.innerHTML = ''
     let section = getSection('S T R I K E R', "striker")
@@ -107,21 +100,14 @@ function setBody() {
 
     body.appendChild(document.createElement('br'))
     body.appendChild(document.createElement('br'))
-    body.appendChild(getSubmit())
+    body.appendChild(getSubmit(game))
     body.appendChild(document.createElement('br'))
 
-
-// (function () {
-//     if(!localSet()){
-//         scoreBoard()
-//     }
-// })();
 }
 
 export function getValue(game) {
-    Game = game
-    console.log(Game)
-    if(game.innings[game.ci].battingTeam.players.length !== 0)  scoreBoard(Game)
-    setBody()
-
+    setBody(game)
+    if(game.innings[game.ci].battingTeam.players.length !== 0 && game.innings[game.ci].bowlingTeam.players !== 0) {
+        scoreBoard(game)
+    }
 }

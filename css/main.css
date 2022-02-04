@@ -12,7 +12,7 @@ body{
     font-family: sans-serif;
     /*padding-left: 15%;*/
     /*padding-right: 15%;*/
-    min-width: 500px;
+    min-width: 400px;
 }
 .div-right{
     /*  media-query*/
@@ -124,7 +124,7 @@ td {
     width: 10%;
 }
 .table-100{
-    padding-left: 8%;
+    padding-left: 5%;
     width: 100%;
     /*padding: 10px;*/
 }
@@ -172,4 +172,11 @@ td {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
+}
+.side-pad{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.button{
+    cursor: pointer;
 }

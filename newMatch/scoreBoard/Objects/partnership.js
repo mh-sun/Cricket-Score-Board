@@ -1,6 +1,7 @@
+import {getRandPartnership} from "./GetRandom.js";
 
-export function partnership(prID, player1, player2) {
-    this.id = prID
+export function Partnership(player1, player2) {
+    this.id = getRandPartnership()
     this.playerOne = player1
     this.playerTwo = player2
     this.playerOneRun = 0
@@ -30,4 +31,35 @@ export function partnership(prID, player1, player2) {
         this.balls = this.balls + b
     }
 
+}
+export function PartnershipLS(partnership) {
+    this.id = partnership.id
+    this.playerOne = partnership.playerOne
+    this.playerTwo = partnership.playerTwo
+    this.playerOneRun = partnership.playerOneRun
+    this.playerTwoRun = partnership.playerTwoRun
+    this.extras = partnership.extras
+    this.runs = partnership.runs
+    this.balls = partnership.balls
+
+    this.updatePInfo = (r, b , s, batsman)=>{
+        if(s === 'N'){
+            if(batsman === this.playerOne) this.playerOneRun += r
+            else this.playerTwoRun += r
+        }
+        else if (s === 'W'){
+            this.extras += r + 1
+        }
+        else if (s === 'NB'){
+            this.extras += 1
+            if(batsman === this.playerOne) this.playerOneRun += r
+            else this.playerTwoRun += r
+        }
+        else if (s === 'B' || s === 'LB'){
+            this.extras += r
+        }
+
+        this.runs = this.playerOneRun + this.playerTwoRun + this.extras
+        this.balls = this.balls + b
+    }
 }
