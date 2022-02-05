@@ -167,7 +167,6 @@ function getOverDetails() {
     span.innerText = 'This Over : '
     span = createSpanByClass(' col-gap', div)
     span.className += ' tb-pad side-pad'
-
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
         let btn = createElem('button', span, 'make-round')
         btn.textContent = eachBall[0]+'\n'

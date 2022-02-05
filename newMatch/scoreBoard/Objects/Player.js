@@ -98,13 +98,20 @@ export function PlayerLS(player) {
             else if(run === 6) this.sixes++
         },
     }
+
+    function getOverDetails(bRole) {
+        if(bRole.overs_details.length === 0 || bRole.overs_details === undefined)
+            bRole.overs_details = []
+        return bRole.overs_details
+    }
+
     this.bowlingRole = {
         balls : player.bowlingRole.balls,
         maidens : player.bowlingRole.maidens,
         runs : player.bowlingRole.runs,
         wickets : player.bowlingRole.wickets,
         extra : player.bowlingRole.extra,
-        overs_details : player.overs_details === undefined? []:player.overs_details,
+        overs_details : getOverDetails(player.bowlingRole),
 
         getEconomy : function (){
             let ans = (this.runs/this.balls*6).toPrecision(3)

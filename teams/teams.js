@@ -151,16 +151,29 @@ function getModal(games) {
     return div
 }
 
+function EmptyTeam() {
+    let p = document.createElement('p')
+    p.classList.add('empty')
+    p.innerText = 'You don\'t have any team yet\nPlease Create teams'
+    return p
+}
+
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     let games = JSON.parse(localStorage.getItem('games'))
-    let teams = getTeams(games)
-    teams.forEach(t=>{
-        if(t != null)
-            menuContent.append(getSection(t,games), document.createElement('br'))
-    })
-    menuContent.appendChild(getModal(games))
+
+    if(games == null){
+        menuContent.append(EmptyTeam())
+    }
+    else {
+        let teams = getTeams(games)
+        teams.forEach(t=>{
+            if(t != null)
+                menuContent.append(getSection(t,games), document.createElement('br'))
+        })
+        menuContent.appendChild(getModal(games))
+    }
 }
 
 export {getValue}

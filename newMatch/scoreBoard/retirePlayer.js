@@ -39,7 +39,7 @@ function submit(div) {
         let chosen = document.querySelector('input[name="batsmans"]:checked')? document.querySelector('input[name="batsmans"]:checked').value : null
         if(pName != ''){
             let pId = getRandPlayer()
-            let p1 = new Player(pId, pName)
+            let p1 = new Player(pName)
             battingTeam.players.push(p1)
             if(chosen === 'onstrike'){
                 onStrike.name += '(r)'

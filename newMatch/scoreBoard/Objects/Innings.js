@@ -15,9 +15,20 @@ export function Innings(bat, bowl){
         penalty : 0,
     }
     this.partnerships = []
+    this.states = []
 
     this.setPartnerShip = function(bat1, bat2) {
         this.partnerships.push(new Partnership(bat1, bat2))
+    }
+
+    this.setStates = function(state) {
+        this.states.push(state)
+    }
+
+    this.setCurrPlayer = function(s, ns, b){
+        this.onStrike = s
+        this.nonStrike = ns
+        this.bowler = b
     }
 
     this.getExtras = ()=>{
@@ -32,6 +43,7 @@ export function InningsLS(innings){
     this.nonStrike = innings.nonStrike
     this.bowler = innings.bowler
     this.extra = innings.extra
+    this.states = innings.states
 
     function getPartnerships(prs) {
         let tempPr = []
@@ -44,6 +56,16 @@ export function InningsLS(innings){
 
     function setPartnerShip(bat1, bat2) {
         this.partnerships.push(new Partnership(bat1, bat2))
+    }
+
+    this.setStates = function(state) {
+        this.states.push(state)
+    }
+
+    this.setCurrPlayer = function(s, ns, b){
+        this.onStrike = s
+        this.nonStrike = ns
+        this.bowler = b
     }
 
     this.getExtras = ()=>{

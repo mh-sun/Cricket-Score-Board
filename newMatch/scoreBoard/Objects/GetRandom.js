@@ -17,3 +17,6 @@ export function getRandColor() {
     let bgColor = "rgb(" + x + "," + y + "," + z + ")";
     return bgColor
 }
+export function getRandState(){
+    return 'S' + Math.floor(Math.random()*10000+1)
+}

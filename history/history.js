@@ -38,7 +38,6 @@ function getRow(game, tBat, tBowl, tab, index) {
 
     let score = createElem('td', row0)
     let run = createElem('span', score)
-    console.log(tBat.getTotalRunsByBatsman())
     run.innerText = tBat.getTotalRunsByBatsman() + game.innings[index].getExtras()
     createElemText('/', score)
     let wic = createElem('span', score)
@@ -115,18 +114,29 @@ function getSection(game, games) {
     return div
 }
 
+function EmptyGeam() {
+    let p = document.createElement('p')
+    p.classList.add('empty')
+    p.innerText = 'No Match History Found'
+    return p
+}
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     let games = JSON.parse(localStorage.getItem('games'))
-    games.forEach(g=>{
-        if(g != null){
-            let tempG = new GameLS(g)
-            menuContent.append(getSection(tempG, games), document.createElement('br'))
-        }
+    if(games == null){
+        menuContent.append(EmptyGeam())
+    }else {
+        games.forEach(g=>{
+            if(g != null){
+                let tempG = new GameLS(g)
+                menuContent.append(getSection(tempG, games), document.createElement('br'))
+            }
 
-    })
+        })
+    }
+
     // menuContent.appendChild(getModal(games))
 }
 
