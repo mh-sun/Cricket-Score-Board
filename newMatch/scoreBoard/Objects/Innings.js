@@ -1,12 +1,13 @@
 import {Partnership, PartnershipLS} from "./partnership.js";
 import {TeamLS} from "./Team.js";
+import {Player, PlayerLS} from "./Player.js";
 
 export function Innings(bat, bowl){
     this.battingTeam = bat
     this.bowlingTeam = bowl
-    this.onStrike = ''
-    this.nonStrike = ''
-    this.bowler = ''
+    this.onStrike = new Player()
+    this.nonStrike = new Player()
+    this.bowler = new Player()
     this.extra = {
         noBall : 0,
         wide : 0,
@@ -39,9 +40,10 @@ export function Innings(bat, bowl){
 export function InningsLS(innings){
     this.battingTeam = new TeamLS(innings.battingTeam)
     this.bowlingTeam = new TeamLS(innings.bowlingTeam)
-    this.onStrike = innings.onStrike
-    this.nonStrike = innings.nonStrike
-    this.bowler = innings.bowler
+    console.log(innings)
+    this.onStrike = new PlayerLS(innings.onStrike)
+    this.nonStrike = new PlayerLS(innings.nonStrike)
+    this.bowler = new PlayerLS(innings.bowler)
     this.extra = innings.extra
     this.states = innings.states
 

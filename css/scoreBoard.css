@@ -128,3 +128,9 @@ table{
     background-color: green;
     /*padding: 0%;*/
 }
+.bowlerAdd{
+    background-color: #04AA6D;
+    font-size: 25px;
+    color: white;
+    text-align: center;
+}

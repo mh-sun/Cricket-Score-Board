@@ -1,12 +1,11 @@
 import { getValue as playerInfo } from './playerInfo.js'
 import {Team} from "./scoreBoard/Objects/Team.js";
 import {Game, GameLS} from "./scoreBoard/Objects/Game.js";
+// import {InitHTML} from "../main.js";
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
-
     menuContent.innerHTML = ''
-
     menuContent.appendChild(getTeamsName())
     menuContent.appendChild(getTossWon())
     menuContent.appendChild(getOptedTo())

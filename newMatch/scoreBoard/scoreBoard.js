@@ -1,6 +1,7 @@
 import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
 import {getExtraRun, getModal, getPartnership, undo} from "./addManagement.js";
+import {setMenu} from "../../main.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
@@ -136,7 +137,7 @@ function getScoreOverView() {
     let tab = document.createElement('table')
     tab.id = 'batTable'
     tab.appendChild(getBatTh())
-    cals.battingTeam.players.forEach(player=>{
+    function addBatsman(player) {
         let tr = getBatsmanValues(player)
 
         if (player === cals.onStrike){
@@ -144,13 +145,14 @@ function getScoreOverView() {
             tr.children[0].innerHTML += '*'
         }
         else tr.className = ''
+        return tr
+    }
 
-        tab.append(tr)
-    })
+    tab.append(addBatsman(cals.onStrike))
+    tab.append(addBatsman(cals.nonStrike))
+
     tab.appendChild(getBowlTh())
-    cals.bowlingTeam.players.forEach(player=>{
-        tab.append(getBowlerValues(player))
-    })
+    tab.append(getBowlerValues(cals.bowler))
     div.append(tab)
 
     return div
@@ -252,11 +254,11 @@ function getAdditionals() {
 }
 
 export function updateScoreBoard() {
+    setMenu()
     const body = document.getElementById('menu-content')
     body.innerHTML = ''
     body.className = 'div-default'
     body.append(getShortMatchView(), getBRElem())
-    // console.log(newGame)
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
     body.append(getExtras(), getBRElem())

@@ -25,12 +25,9 @@ function updatePartnership() {
             let div = document.createElement('div')
             let div_i = createElem('div', div)
 
-
             createElem('span', div_i, 'font-20').innerText = partnership.playerOne.name
             createElem('span', div_i, 'font-20').innerText = partnership.playerOneRun
-            // let divI = createElem('div', div_i)
-            // divI.id = 'myProgress'
-            // divI.innerHTML = '<div id="myBar"></div>'
+
             createElem('span', div_i, 'font-10').innerText = ("Extras:" + partnership.extras)
             div_i.classList.add('left-div')
 

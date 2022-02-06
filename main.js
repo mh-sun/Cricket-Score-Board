@@ -5,12 +5,8 @@ function setTitle() {
     let title = document.getElementById('title')
     title.textContent = cons.title
     title.className = 'topnav title element-center'
-    //
-    // let br = document.createElement('br')
-    // title.parentNode.insertBefore(br, title.nextSibling)
-
 }
-function setHead(){
+function setCSS(){
     let head = document.getElementsByTagName('head')[0]
 
     let css = document.createElement('link')
@@ -28,30 +24,15 @@ function createElement(name, textContent,  ...classNames) {
     return elem
 }
 
-function setMenu(){
+export function setMenu(){
     let menu = document.getElementById('menu')
+    menu.innerHTML = ''
     cons.menu.forEach( x => {
         let t = createElement('a', x)
         t.onclick = cons.menu_f[x]
         menu.appendChild(t)
     })
-    menu.className += ' topnav content-center'
-}
-
-function setBody() {
-    let body = document.getElementsByTagName('body')[0]
-    let div = document.createElement('div')
-    div.id = 'title'
-    body.append(div, document.createElement('br'))
-
-    div = document.createElement('div')
-    div.id = 'menu'
-    body.append(div, document.createElement('br'))
-
-    div = document.createElement('div')
-    div.id = 'menu-content'
-    body.append(div, document.createElement('br'))
-
+    menu.className = 'topnav content-center'
 }
 
 function addFontAwesome() {
@@ -61,8 +42,7 @@ function addFontAwesome() {
     sc.crossOrigin = 'anonymous'
 }
 
-setBody()
-setHead()
+setCSS()
 setTitle()
 setMenu()
 addFontAwesome()

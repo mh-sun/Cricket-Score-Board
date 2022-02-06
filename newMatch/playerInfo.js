@@ -48,8 +48,10 @@ function func1(Game) {
     let ns = new Player(non_striker)
     let b = new Player(bowler)
 
+
     batTeam.players.push(s, ns)
     Game.innings[Game.ci].setPartnerShip(s, ns)
+    Game.innings[Game.ci].setCurrPlayer(s, ns, b)
 
     bowlTeam.players.push(b)
     let games = JSON.parse(localStorage.getItem('games'))

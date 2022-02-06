@@ -1,8 +1,9 @@
 import {extras} from "./scoreBoard.js";
 import * as cal from "./Calc.js"
-import {game} from "./Calc.js";
+import {bowler, game} from "./Calc.js";
 import {State} from "./Objects/state.js";
 import {getRandState} from "./Objects/GetRandom.js";
+import {addNewBowler} from "./newBowler.js";
 
 export let wide, noBall, byes, legByes, wicket
 
@@ -13,6 +14,16 @@ export function init() {
     legByes = document.getElementById(extras[3])
     wicket = document.getElementById(extras[4])
 
+}
+
+export function savetoLS() {
+    let games = JSON.parse(localStorage.getItem('games'))
+    for (let i = 0; i < games.length; i++) {
+        if (games[i].id === game.id) {
+            games[i] = game
+        }
+    }
+    localStorage.setItem('games', JSON.stringify(games))
 }
 
 export function update(x) {
@@ -73,12 +84,5 @@ export function update(x) {
 
     let state = getState()
     cal.game.innings[cal.game.ci].setStates(state)
-    let games = JSON.parse(localStorage.getItem('games'))
-    for(let i = 0; i< games.length; i++){
-        if(games[i].id === game.id) {
-            console.log('testing........')
-            games[i] = game
-        }
-    }
-    localStorage.setItem('games', JSON.stringify(games))
+    savetoLS();
 }

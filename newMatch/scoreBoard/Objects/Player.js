@@ -1,6 +1,6 @@
 import {getRandPlayer} from "./GetRandom.js";
 
-export function Player(name) {
+export function Player(name = '') {
     this.id = getRandPlayer()
     this.name = name
     this.battingRole = {
@@ -77,6 +77,7 @@ export function Player(name) {
 }
 
 export function PlayerLS(player) {
+    console.log(player)
     this.id = player.id
     this.name = player.name
     this.battingRole = {
