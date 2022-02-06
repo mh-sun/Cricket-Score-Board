@@ -40,7 +40,6 @@ export function Innings(bat, bowl){
 export function InningsLS(innings){
     this.battingTeam = new TeamLS(innings.battingTeam)
     this.bowlingTeam = new TeamLS(innings.bowlingTeam)
-    console.log(innings)
     this.onStrike = new PlayerLS(innings.onStrike)
     this.nonStrike = new PlayerLS(innings.nonStrike)
     this.bowler = new PlayerLS(innings.bowler)

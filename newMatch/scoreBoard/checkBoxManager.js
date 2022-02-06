@@ -77,7 +77,6 @@ export function update(x) {
         cal.bowler.bowlingRole.updateInfo(x,1, 'N')
         partnership.updatePInfo(x, 1, 'N', cal.onStrike)
     }
-
     function getState() {
         return new State(getRandState(),  cal.onStrike.name, cal.nonStrike.name, cal.bowler.name, x, checkboxes)
     }

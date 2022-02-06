@@ -18,9 +18,6 @@ function updatePartnership() {
     console.log(game.innings[game.ci].partnerships)
 
     game.innings[game.ci].partnerships.forEach(partnership=>{
-    // let partnerships = game.innings[game.ci].partnerships
-    // let partnership = partnerships[partnerships.length - 1]
-    // {
         function getEachPartnership(partnership) {
             let div = document.createElement('div')
             let div_i = createElem('div', div)

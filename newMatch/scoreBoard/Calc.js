@@ -44,7 +44,6 @@ function setValues(x) {
     exManager.init()
     exManager.update(x)
     if(x%2 !== 0) swapBatsman()
-    console.log(bowler.bowlingRole.overs_details.length - bowler.bowlingRole.extra)
     if((bowler.bowlingRole.overs_details.length - bowler.bowlingRole.extra) === 6 && bowler.bowlingRole.overs_details.length !== 0){
         swapBatsman()
         newBowlerAdd()

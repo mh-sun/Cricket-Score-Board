@@ -3,30 +3,6 @@ import {bowlingTeam, game, setBowler} from "./Calc.js";
 import {Player} from "./Objects/Player.js";
 import {savetoLS} from "./checkBoxManager.js";
 
-// function setBatsman(div) {
-//     let d = document.createElement('div')
-//     createElemText('Select player to retire :', d)
-//     d.className += ' tb-pad'
-//     let elem = getDivField('batsmans', 'onstrike', onStrike.name)
-//     elem.forEach(e=>d.appendChild(e))
-//     elem = getDivField('batsmans', 'nonstrike', nonStrike.name)
-//     elem.forEach(e=>d.appendChild(e))
-//     div.appendChild(d)
-// }
-//
-// function getInput(div) {
-//     let d = document.createElement('div')
-//     d.innerHTML = 'Replaced by : '
-//     d.className = 'tb-pad'
-//     let input = document.createElement('input')
-//     input.type = 'text'
-//     input.id = 'replacedPlayer'
-//     input.placeholder = 'Player Name'
-//     input.className += ' input'
-//     d.appendChild(input)
-//     div.appendChild(d)
-// }
-
 function submit() {
     let submit = document.createElement('input')
     submit.type = 'button'
@@ -35,14 +11,29 @@ function submit() {
 
     function func1() {
         let temp = document.getElementById('newBowler')
+        console.log(bowlingTeam.players)
+        function isExist(value) {
+            for(let i =0 ; i< bowlingTeam.players.length; i++){
+                let e = bowlingTeam.players[i]
+                if(e.name === value) {
+                    return e
+                }
+            }
+            return false
+        }
+        let z = isExist(temp.value)
         if(temp.value === ''){
             alert('Provide a bowler\'s name')
         }
-        else
-        {
+        else if(!z){
             let b = new Player(temp.value)
             bowlingTeam.players.push(b)
             setBowler(b)
+            savetoLS()
+            updateScoreBoard()
+        }
+        else {
+            setBowler(z)
             savetoLS()
             updateScoreBoard()
         }

@@ -77,7 +77,6 @@ export function Player(name = '') {
 }
 
 export function PlayerLS(player) {
-    console.log(player)
     this.id = player.id
     this.name = player.name
     this.battingRole = {
