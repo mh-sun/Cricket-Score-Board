@@ -2,6 +2,15 @@ import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../newMatch/scoreBoard/Objects/GetRandom.js";
 import {getValue} from "./teams.js";
 
+function chnageName(g, id, name, i) {
+    g.innings[i].battingTeam.players.forEach(p=>{
+        if(p.id === id) p.name = name
+    })
+    g.innings[i].bowlingTeam.players.forEach(p=>{
+        if(p.id === id) p.name = name
+    })
+}
+
 function getModal(games) {
     let div = document.createElement('div')
     div.classList.add('modal-bg')
@@ -15,14 +24,14 @@ function getModal(games) {
 
     let h4 = document.createElement('h4')
     div_i.appendChild(h4)
-    h4.innerText = 'Update Team Name'
+    h4.innerText = 'Update Player Name'
 
     // let div = document.getElementsByClassName('modal')[0]
     // div.className += ' container element-center content-center'
     let input = document.createElement('input')
     input.type = 'text'
     input.id = 'newName'
-    input.placeholder = 'Team Name'
+    input.placeholder = 'Player Name'
     input.className += ' input element-center'
     div_i.appendChild(input)
     let ok = document.createElement('button')
@@ -33,10 +42,8 @@ function getModal(games) {
     function updateTeam(id, name) {
         games.forEach(g=>{
             console.log(id)
-            if(g.innings[0].battingTeam.id === id) g.innings[0].battingTeam.name = name
-            if(g.innings[0].bowlingTeam.id === id) g.innings[0].bowlingTeam.name = name
-            if(g.innings[1].battingTeam.id === id) g.innings[1].battingTeam.name = name
-            if(g.innings[1].bowlingTeam.id === id) g.innings[1].bowlingTeam.name = name
+            chnageName(g, id, name, 0)
+            chnageName(g, id, name, 1)
         })
         localStorage.setItem('games', JSON.stringify(games))
     }
@@ -55,6 +62,12 @@ function getModal(games) {
     return div
 }
 
+function editName(t) {
+    document.getElementsByClassName('modal-bg')[0].classList.add('bg-active')
+    let input = document.getElementById('newName')
+    input.value = t.name
+    input.tID = t.id
+}
 
 function EmptyTeam() {
     let p = document.createElement('p')
@@ -90,7 +103,7 @@ function getSection(player, games) {
     let btn = createElem('i',edit)
     btn.className = 'fas fa-pen'
     btn.onclick = ()=>{
-        // editName(t)
+        editName(player)
     }
 
     let del = createElem('td', row0)

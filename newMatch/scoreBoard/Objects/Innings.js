@@ -55,7 +55,7 @@ export function InningsLS(innings){
     }
     this.partnerships = getPartnerships(innings.partnerships)
 
-    function setPartnerShip(bat1, bat2) {
+    this.setPartnerShip = function (bat1, bat2) {
         this.partnerships.push(new Partnership(bat1, bat2))
     }
 
