@@ -5,14 +5,11 @@ import {TeamLS} from "./Team.js";
 export function Game (bat, bowl, tossWon, opt, over){
     this.id = getRandGame()
     this.over = over
-    // this.teamOne = bat
-    // this.teamTwo = bowl
     this.tossWon = tossWon
     this.winner = ''
     this.opt = opt
     this.innings = [new Innings(bat, bowl), new Innings(bowl, bat)]
     this.ci = 0
-
     function getTime() {
         let d = new Date()
         return d.toLocaleDateString() + ' - ' + d.toLocaleString('en-US', {
@@ -31,7 +28,6 @@ export function Game (bat, bowl, tossWon, opt, over){
 export function GameLS(game){
     this.id = game.id
     this.over = game.over
-    this.winner = game.winner
     this.tossWon = game.tossWon
     this.opt = game.opt
     // console.log(game.innings)

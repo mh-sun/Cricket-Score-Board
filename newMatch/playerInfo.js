@@ -34,22 +34,22 @@ function func1(Game) {
         }
     }
 
-
-
     let batTeam = Game.innings[Game.ci].battingTeam
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
 
-    if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
-        scoreBoard(Game)
-        return
-    }
+    console.log(batTeam, bowlTeam)
+
+    // if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
+    //     scoreBoard(Game)
+    //     return
+    // }
 
     let s = new Player(striker)
     let ns = new Player(non_striker)
     let b = new Player(bowler)
 
-
     batTeam.players.push(s, ns)
+    console.log(Game.innings[Game.ci])
     Game.innings[Game.ci].setPartnerShip(s, ns)
     Game.innings[Game.ci].setCurrPlayer(s, ns, b)
 
@@ -109,7 +109,4 @@ function setBody(game) {
 
 export function getValue(game) {
     setBody(game)
-    if(game.innings[game.ci].battingTeam.players.length !== 0 && game.innings[game.ci].bowlingTeam.players !== 0) {
-        scoreBoard(game)
-    }
 }

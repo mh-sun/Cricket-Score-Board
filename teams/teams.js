@@ -1,5 +1,6 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../newMatch/scoreBoard/Objects/GetRandom.js";
+import {playersInTeam} from "./playersInTeam.js";
 
 function getTeams(games) {
     let teams = []
@@ -29,9 +30,11 @@ function editName(t) {
 function deleteTeam(t, games) {
     games.forEach(g=>{
         if(g.innings[0].battingTeam === t){
+            console.log('hello')
             g.innings[0].battingTeam = null
         }
         else if( g.innings[0].bowlingTeam === t){
+            console.log('hello')
             g.innings[0].bowlingTeam = null
         }
     })
@@ -56,8 +59,12 @@ function getSection(t, games) {
     let button = document.createElement('button')
     ico.append(button)
     button.className = 'teamNameIco'
+    button.style.cursor = 'pointer'
     button.innerText = t.name[0].toUpperCase()
     button.style.backgroundColor = getRandColor()
+    button.onclick = ()=>{
+        playersInTeam(t)
+    }
 
     let name = createElem('td', row0)
     name.colSpan = '6'
