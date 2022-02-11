@@ -1,5 +1,5 @@
 import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
-import {Player} from "./scoreBoard/Objects/Player.js";
+import {Player} from "../Objects/Player.js";
 
 
 function getSection(name, id) {

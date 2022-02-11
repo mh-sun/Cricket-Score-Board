@@ -1,5 +1,5 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
-import {getRandColor} from "../newMatch/scoreBoard/Objects/GetRandom.js";
+import {getRandColor} from "../Objects/GetRandom.js";
 import {playersInTeam} from "./playersInTeam.js";
 
 function getTeams(games) {
@@ -170,7 +170,7 @@ function getValue() {
     menuContent.innerHTML = ''
     let games = JSON.parse(localStorage.getItem('games'))
 
-    if(games == null){
+    if(games == null|| games.length === 0){
         menuContent.append(EmptyTeam())
     }
     else {

@@ -1,6 +1,6 @@
 import { getValue as playerInfo } from './playerInfo.js'
-import {Team} from "./scoreBoard/Objects/Team.js";
-import {Game, GameLS} from "./scoreBoard/Objects/Game.js";
+import {Team} from "../Objects/Team.js";
+import {Game, GameLS} from "../Objects/Game.js";
 // import {InitHTML} from "../main.js";
 
 function getValue() {

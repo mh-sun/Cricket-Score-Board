@@ -1,8 +1,68 @@
-import {bowler, game, nonStrike, onStrike, run} from "./Calc.js";
-import {createElem, createElemText, updateScoreBoard} from "./scoreBoard.js";
+import {battingTeam, bowler, bowlingTeam, game, nonStrike, onStrike, run} from "./Calc.js";
+import {createElem, updateScoreBoard} from "./scoreBoard.js";
+import * as cal from "./Calc.js";
+import {savetoLS} from "./checkBoxManager.js";
 
 export function undo() {
+    let state = game.innings[game.ci].states.pop()
+    console.log(state)
 
+    function getPlayerByName(name, team) {
+        for(let i = 0; i<team.players.length; i++){
+            if(team.players[i].name == name){
+                return team.players[i]
+            }
+        }
+        return null
+    }
+
+    cal.setPlayer(
+        getPlayerByName(state.striker, battingTeam),
+        getPlayerByName(state.nonStriker, battingTeam)
+    )
+    cal.setBowler(getPlayerByName(state.bowler, bowlingTeam))
+    let t = game.innings[game.ci].partnerships
+    let partnership = t[t.length-1]
+
+    let x = state.run * -1
+    let s = '-' + state.extras[0]
+
+    if(s === '-W'){
+        cal.onStrike.battingRole.updateInfo(0,-1)
+        cal.bowler.bowlingRole.updateInfo(x,-1, s)
+    }
+    if(s === '-NB'){
+        cal.onStrike.battingRole.updateInfo(x, -1)
+        cal.bowler.bowlingRole.updateInfo((x-1), 0, s)
+        partnership.updatePInfo(x, 0, s, cal.onStrike)
+
+        game.innings[game.ci].extra.noBall--
+    }
+    else if(s === '-WD'){
+        console.log(cal.bowler.bowlingRole)
+        cal.bowler.bowlingRole.updateInfo((x-1),0, s)
+        partnership.updatePInfo(x, 0, s, cal.onStrike)
+        game.innings[game.ci].extra.wide += (x-1)
+    }
+    if(s === '-B'){
+        cal.onStrike.battingRole.updateInfo(0, -1)
+        cal.bowler.bowlingRole.updateInfo(0, -1, s)
+        partnership.updatePInfo(x, -1, s, cal.onStrike)
+        game.innings[game.ci].extra.bye--
+    }
+    else if(s === '-LB'){
+        cal.onStrike.battingRole.updateInfo(0, -1)
+        cal.bowler.bowlingRole.updateInfo(0, -1, s)
+        partnership.updatePInfo(x, -1, s, cal.onStrike)
+        game.innings[game.ci].extra.legBye--
+    }
+    if(s === '-N'){
+        cal.onStrike.battingRole.updateInfo(x, -1)
+        cal.bowler.bowlingRole.updateInfo(x, -1, s)
+        partnership.updatePInfo(x, -1, s, cal.onStrike)
+    }
+    savetoLS()
+    updateScoreBoard()
 }
 
 function updateProgressBar(run, partnership, i) {
@@ -44,6 +104,7 @@ function updatePartnership() {
         div.append(getEachPartnership(partnership))
         // updateProgressBar(partnership.playerOneRun, partnership.runs, 1)
         div.classList.add('element-center')
+        div.style.flexDirection = 'column'
     })
 }
 

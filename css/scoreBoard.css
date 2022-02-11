@@ -1,136 +1,136 @@
-.temp{
-    border-radius: 5px;
-}
-.pad-20{
-    padding: 20px;
-}
-.color-orange{
-    background-color: orange;
-    color: white;
-}
-.color-red{
-    background-color: red;
-    color: white;
-}
-.color-green{
-    background-color: green;
-    color: white;
-}
-.color-light-green{
-    background-color: darkgreen;
-    color: white;
-}
-.row-gap{
-    display: flex;
-    column-gap: 10px;
-}
-.text-color-green{
-    color: forestgreen;
-}
-.text-color-black{
-    color: black;
-}
-.font-40{
-    font-size: 40px;
-}
-.font-20{
-    font-size: 20px;
-}
-.font-10{
-    font-size: 10px;
-}
-.col-gap{
-    display: inline-flex;
-    column-gap: 5px;
-}
-.span-far-right{
-    font-size: 20px;
-    right: 0;
-    position: absolute;
-    padding-right: 30px
-}
-.side-pad{
-    padding-left: 10px;
-    padding-right: 10px;
-}
-.tb-pad{
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-.tableName{
-    width: 50%;
-    text-align: left;
-}
-th {
-    border-bottom: 1px solid;
-    padding-top: 15px;
-    padding-bottom: 10px;
-}
+/*.temp{*/
+/*    border-radius: 5px;*/
+/*}*/
+/*.pad-20{*/
+/*    padding: 20px;*/
+/*}*/
+/*.color-orange{*/
+/*    background-color: orange;*/
+/*    color: white;*/
+/*}*/
+/*.color-red{*/
+/*    background-color: red;*/
+/*    color: white;*/
+/*}*/
+/*.color-green{*/
+/*    background-color: green;*/
+/*    color: white;*/
+/*}*/
+/*.color-light-green{*/
+/*    background-color: darkgreen;*/
+/*    color: white;*/
+/*}*/
+/*.row-gap{*/
+/*    display: flex;*/
+/*    column-gap: 10px;*/
+/*}*/
+/*.text-color-green{*/
+/*    color: forestgreen;*/
+/*}*/
+/*.text-color-black{*/
+/*    color: black;*/
+/*}*/
+/*.font-40{*/
+/*    font-size: 40px;*/
+/*}*/
+/*.font-20{*/
+/*    font-size: 20px;*/
+/*}*/
+/*.font-10{*/
+/*    font-size: 10px;*/
+/*}*/
+/*.col-gap{*/
+/*    display: inline-flex;*/
+/*    column-gap: 5px;*/
+/*}*/
+/*.span-far-right{*/
+/*    font-size: 20px;*/
+/*    right: 0;*/
+/*    position: absolute;*/
+/*    padding-right: 30px*/
+/*}*/
+/*.side-pad{*/
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*}*/
+/*.tb-pad{*/
+/*    padding-top: 10px;*/
+/*    padding-bottom: 10px;*/
+/*}*/
+/*.tableName{*/
+/*    width: 50%;*/
+/*    text-align: left;*/
+/*}*/
+/*th {*/
+/*    border-bottom: 1px solid;*/
+/*    padding-top: 15px;*/
+/*    padding-bottom: 10px;*/
+/*}*/
 
-td{
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
+/*td{*/
+/*    padding-bottom: 10px;*/
+/*    padding-top: 10px;*/
+/*}*/
 
-table{
-    width: 100%;
-    text-align: left;
-}
-.make-round{
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-}
-.btn{
-    background-color: forestgreen;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-}
-.content-center{
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    column-gap: 5%;
-}
-.row-content{
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-}
-.left-div{
-    position: absolute;
-    left: 0;
-}
+/*table{*/
+/*    width: 100%;*/
+/*    text-align: left;*/
+/*}*/
+/*.make-round{*/
+/*    border-radius: 50%;*/
+/*    height: 40px;*/
+/*    width: 40px;*/
+/*}*/
+/*.btn{*/
+/*    background-color: forestgreen;*/
+/*    color: white;*/
+/*    padding: 10px;*/
+/*    border-radius: 5px;*/
+/*}*/
+/*.content-center{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-content: center;*/
+/*    column-gap: 5%;*/
+/*}*/
+/*.row-content{*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    row-gap: 20px;*/
+/*}*/
+/*.left-div{*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*}*/
 
-.right-div{
-    position: absolute;
-    text-align: right;
-    right: 0;
-}
+/*.right-div{*/
+/*    position: absolute;*/
+/*    text-align: right;*/
+/*    right: 0;*/
+/*}*/
 
-.center-div{
-    position: absolute;
-    text-align: center;
-    right: auto;
-    left: auto;
-    top: auto;
-    bottom: auto;
-}
-#myProgress {
-    width: 100%;
-    height: 20px;
-    background-color: #c4c4c4;
-    padding: 0%;
-}
+/*.center-div{*/
+/*    position: absolute;*/
+/*    text-align: center;*/
+/*    right: auto;*/
+/*    left: auto;*/
+/*    top: auto;*/
+/*    bottom: auto;*/
+/*}*/
+/*#myProgress {*/
+/*    width: 100%;*/
+/*    height: 20px;*/
+/*    background-color: #c4c4c4;*/
+/*    padding: 0%;*/
+/*}*/
 
-#myBar {
-    background-color: green;
-    /*padding: 0%;*/
-}
-.bowlerAdd{
-    background-color: #04AA6D;
-    font-size: 25px;
-    color: white;
-    text-align: center;
-}
+/*#myBar {*/
+/*    background-color: green;*/
+/*    !*padding: 0%;*!*/
+/*}*/
+/*.bowlerAdd{*/
+/*    background-color: #04AA6D;*/
+/*    font-size: 25px;*/
+/*    color: white;*/
+/*    text-align: center;*/
+/*}*/

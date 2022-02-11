@@ -1,8 +1,8 @@
 import {extras} from "./scoreBoard.js";
 import * as cal from "./Calc.js"
 import {bowler, game} from "./Calc.js";
-import {State} from "./Objects/state.js";
-import {getRandState} from "./Objects/GetRandom.js";
+import {State} from "../../Objects/state.js";
+import {getRandState} from "../../Objects/GetRandom.js";
 import {addNewBowler} from "./newBowler.js";
 
 export let wide, noBall, byes, legByes, wicket
@@ -51,7 +51,7 @@ export function update(x) {
         flag = false
         checkboxes.push('WD')
         cal.bowler.bowlingRole.updateInfo(x+1,0, 'WD')
-        partnership.updatePInfo(x, 0, 'W', cal.onStrike)
+        partnership.updatePInfo(x, 0, 'WD', cal.onStrike)
         game.innings[game.ci].extra.wide += x+1
     }
     if(byes.checked ){

@@ -1,19 +1,12 @@
 import {createElem, createElemText} from "../newMatch/scoreBoard/scoreBoard.js";
-import {getRandColor} from "../newMatch/scoreBoard/Objects/GetRandom.js";
+import {getRandColor} from "../Objects/GetRandom.js";
 import {getValue as scboard} from "../newMatch/scoreBoard/scoreBoard.js";
-import {GameLS} from "../newMatch/scoreBoard/Objects/Game.js";
+import {GameLS} from "../Objects/Game.js";
+import {setMenuSC} from "./fullScoreboard.js";
 
-function deleteGame(t, games) {
-    games.forEach(g=>{
-        if(g.innings[0].battingTeam === t){
-            g.innings[0].battingTeam = null
-        }
-        else if( g.innings[0].bowlingTeam === t){
-            g.innings[0].bowlingTeam = null
-        }
-    })
+function deleteGame(g, games) {
     for(let i = 0; i< games.length; i++){
-        if(games[i].innings[0].battingTeam === null && games[i].innings[0].bowlingTeam === null){
+        if(games[i].id === g.id){
             games.splice(i,1)
         }
     }
@@ -89,12 +82,16 @@ function getSection(game, games) {
     resume.innerText = 'Resume'
     resume.onclick = ()=>{
         scboard(game)
+
     }
 
     let scoreboard = createElem('td', row, 'button')
     scoreboard.style.textAlign = 'center'
     scoreboard.style.width = '30%'
     scoreboard.innerText = 'Scoreboard'
+    scoreboard.onclick = ()=>{
+        setMenuSC(game)
+    }
 
     let archive = createElem('td', row)
     let btn = createElem('i',archive, 'fas fa-archive')
@@ -125,7 +122,7 @@ function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     let games = JSON.parse(localStorage.getItem('games'))
-    if(games == null){
+    if(games == null || games.length === 0){
         menuContent.append(EmptyGeam())
     }else {
         games.forEach(g=>{

@@ -20,6 +20,8 @@ export function Player(name = '') {
             this.balls += ball
             if(run === 4) this.fours++
             else if(run === 6) this.sixes++
+            else if(run === -4) this.fours--
+            else if(run === -6) this.sixes--
         },
     }
     this.bowlingRole = {
@@ -32,7 +34,7 @@ export function Player(name = '') {
 
         getEconomy : function (){
             let ans = (this.runs/this.balls*6).toPrecision(3)
-            return isNaN(ans)? 0 : ans
+            return (!isNaN(ans) && isFinite(ans))? ans : 0
         },
 
         getOver : function () {
@@ -54,7 +56,9 @@ export function Player(name = '') {
             let r = [run, s]
             if (s !== 'N') {
                 this.extra++
+                if(s === '-N') this.extra--
                 if (s === 'W') this.wickets++
+                else if (s === '-W') this.wickets--
             }
 
             this.runs += run
@@ -68,11 +72,31 @@ export function Player(name = '') {
                 return sum
             }
 
-            if (isOverCompleted(this) < 6) this.overs_details.push(r)
-            else this.overs_details = [r]
+            if (isOverCompleted(this) < 6 && !s.includes('-')) this.overs_details.push(r)
+            else if (!s.includes('-'))this.overs_details = [r]
+            else if(s.includes('-')) this.overs_details.pop()
 
-            if (this.isMaiden(this)) this.maidens++
+            if (this.isMaiden(this) && isOverCompleted(this) === 6) this.maidens++
+            else if(isOverCompleted(this) === 5
+            && s.includes('-')
+            && run === 0) this.maidens--
         }
+    }
+
+    this.isBatsman = function (innings){
+        let flag = false
+        innings.states.forEach(s=>{
+            if(s.striker === this.name) flag = true
+            else if(s.nonStriker === this.name) flag = true
+        })
+        return flag
+    }
+    this.isBowler = function (innings){
+        let flag = false
+        innings.states.forEach(s=>{
+            if(s.bowler === this.name) flag = true
+        })
+        return flag
     }
 }
 
@@ -96,6 +120,8 @@ export function PlayerLS(player) {
             this.balls += ball
             if(run === 4) this.fours++
             else if(run === 6) this.sixes++
+            else if(run === -4) this.fours--
+            else if(run === -6) this.sixes--
         },
     }
 
@@ -115,7 +141,7 @@ export function PlayerLS(player) {
 
         getEconomy : function (){
             let ans = (this.runs/this.balls*6).toPrecision(3)
-            return isNaN(ans)? 0 : ans
+            return (!isNaN(ans) && isFinite(ans))? ans : 0
         },
 
         getOver : function () {
@@ -137,7 +163,9 @@ export function PlayerLS(player) {
             let r = [run, s]
             if (s !== 'N') {
                 this.extra++
+                if(s === '-N') this.extra--
                 if (s === 'W') this.wickets++
+                else if (s === '-W') this.wickets--
             }
 
             this.runs += run
@@ -150,11 +178,31 @@ export function PlayerLS(player) {
                 })
                 return sum
             }
+            console.log(isOverCompleted(this) < 6 && !s.includes('-'))
+            if (isOverCompleted(this) < 6 && !s.includes('-')) this.overs_details.push(r)
+            else if (!s.includes('-'))this.overs_details = [r]
+            else if(s.includes('-')) this.overs_details.pop()
 
-            if (isOverCompleted(this) < 6) this.overs_details.push(r)
-            else this.overs_details = [r]
-
-            if (this.isMaiden(this)) this.maidens++
+            if (this.isMaiden(this) && isOverCompleted(this) === 6) this.maidens++
+            else if(isOverCompleted(this) === 5
+                && s.includes('-')
+                && run === 0) this.maidens--
         }
+    }
+
+    this.isBatsman = function (innings){
+        let flag = false
+        innings.states.forEach(s=>{
+            if(s.striker === this.name) flag = true
+            else if(s.nonStriker === this.name) flag = true
+        })
+        return flag
+    }
+    this.isBowler = function (innings){
+        let flag = false
+        innings.states.forEach(s=>{
+            if(s.bowler === this.name) flag = true
+        })
+        return flag
     }
 }

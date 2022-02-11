@@ -1,8 +1,9 @@
 import {getDivField} from "../newMatch.js";
-import {onStrike, nonStrike, battingTeam, setPlayer} from "./Calc.js";
+import {onStrike, nonStrike, battingTeam, setPlayer, game} from "./Calc.js";
 import {createElemText, updateScoreBoard} from "./scoreBoard.js";
-import {Player} from "./Objects/Player.js";
-import {getRandPlayer} from "./Objects/GetRandom.js";
+import {Player} from "../../Objects/Player.js";
+import {getRandPlayer} from "../../Objects/GetRandom.js";
+import {savetoLS} from "./checkBoxManager.js";
 
 function setBatsman(div) {
     let d = document.createElement('div')
@@ -42,14 +43,15 @@ function submit(div) {
             let p1 = new Player(pName)
             battingTeam.players.push(p1)
             if(chosen === 'onstrike'){
-                onStrike.name += '(r)'
                 setPlayer(p1, nonStrike)
+                game.innings[game.ci].setPartnerShip(p1, nonStrike)
             }
             else if (chosen === 'nonstrike'){
-                nonStrike.name += '(r)'
                 setPlayer(onStrike, p1)
+                game.innings[game.ci].setPartnerShip(onStrike, p1)
             }
         }
+        savetoLS()
         updateScoreBoard()
     }
 

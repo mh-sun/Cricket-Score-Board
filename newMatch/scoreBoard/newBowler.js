@@ -1,6 +1,6 @@
 import {updateScoreBoard} from "./scoreBoard.js";
 import {bowlingTeam, game, setBowler} from "./Calc.js";
-import {Player} from "./Objects/Player.js";
+import {Player} from "../../Objects/Player.js";
 import {savetoLS} from "./checkBoxManager.js";
 
 function submit() {

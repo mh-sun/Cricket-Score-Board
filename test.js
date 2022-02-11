@@ -1,17 +1,2 @@
-function test(n) {
-    this.test = {
-        name: 'mehedi sun',
-        age:24,
-        setName: function (){
-            console.log(this)
-            set(n)
-        }
-    }
-    this.set = function (name) {
-        this.test.name = name
-    }
-}
-let t = new test('Mehedi Hasan Sun')
-console.log(t.test.name)
-t.test.setName()
-console.log(t.test.name)
+let test = [1,2,3,4,5]
+console.log(test.pop())

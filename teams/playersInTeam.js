@@ -1,5 +1,5 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
-import {getRandColor} from "../newMatch/scoreBoard/Objects/GetRandom.js";
+import {getRandColor} from "../Objects/GetRandom.js";
 import {getValue} from "./teams.js";
 
 function chnageName(g, id, name, i) {
