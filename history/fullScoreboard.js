@@ -175,7 +175,6 @@ function playerDetails(innings, name) {
             }
         })
     }
-    // div.append(tab)
 
     return div
 }
@@ -183,7 +182,7 @@ function playerDetails(innings, name) {
 function fullScoreboard(game) {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
-    menuContent.appendChild(preMatch(game))
+    menuContent.append(preMatch(game), document.createElement('br'))
 
     let IOne = shortView(game.innings[0])
     menuContent.append(IOne)
@@ -203,6 +202,124 @@ function fullScoreboard(game) {
 
 }
 
-function fullOvers(game) {
+function getName(wholeOver) {
+    let bowler
+    let batsmans = []
 
+    wholeOver.forEach(s=>{
+        bowler = s.bowler
+        if(batsmans.indexOf(s.striker) === -1) batsmans.push(s.striker)
+    })
+
+    let str = bowler + ' to '
+    for(let i =0; i< batsmans.length; i++){
+        str += batsmans[i]
+        if(i !== batsmans.length-1) str += ' & '
+    }
+    return str
+}
+
+function getTotalRuns(wholeOver) {
+    let runs = 0
+    wholeOver.forEach(s=>{
+        if(s.extras[0] === 'NB' || s.extras[0] === 'WD') runs += (s.run + 1)
+        else runs += s.run
+    })
+    return runs
+}
+
+function getRunInfo(state) {
+    let span = document.createElement('span')
+    span.style.display = 'flex'
+    span.style.flexDirection = 'column'
+    span.style.fontSize = '10px'
+    span.style.textAlign = 'center'
+
+    let btn = document.createElement('button')
+    span.append(btn)
+    btn.classList.add('make-round')
+    btn.innerText = state.run
+
+    let s = document.createElement('span')
+    span.append(s)
+    if(state.extras[0] === 'WD' ||state.extras[0] === 'NB' ||state.extras[0] === 'B' ||state.extras[0] === 'LB'){
+        btn.className += ' color-orange'
+        s.innerText += state.extras[0]
+    }
+    else if(state.extras[0] === 'W'){
+        btn.className += ' color-red'
+        s.innerText = "OUT"
+    }
+    else if(state.run === 4){
+        btn.className += ' color-green'
+    }
+    else if(state.run === 6){
+        btn.className += ' color-light-green'
+    }
+    return span
+}
+
+function getEachOver(wholeOver, over) {
+    let tab = document.createElement('table')
+    tab.classList.add('table-100')
+    let row1 = document.createElement('tr')
+    tab.append(row1)
+
+    let overNo = document.createElement('td')
+    row1.append(overNo)
+    overNo.innerText = 'Ov ' + over
+
+    let bowlerToBatsman = document.createElement('td')
+    row1.append(bowlerToBatsman)
+    bowlerToBatsman.style.width = '80%'
+    bowlerToBatsman.innerText = getName(wholeOver)
+
+    let row2 = document.createElement('tr')
+    tab.append(row2)
+
+    let totalRun = document.createElement('td')
+    row2.append(totalRun)
+    totalRun.innerText = getTotalRuns(wholeOver) + ' Runs'
+
+    let overDetails = document.createElement('td')
+    overDetails.style.display = 'flex'
+    overDetails.style.flexDirection = 'row'
+    row2.append(overDetails)
+    wholeOver.forEach(s=>{
+        overDetails.append(getRunInfo(s))
+    })
+
+    return tab
+}
+
+function getInninsOver(innings) {
+    let divO = document.createElement('div')
+    let over = 1
+    let c = 0
+    let wholeOver = []
+    for(let i = 0; i< innings.states.length; i++){
+        if (innings.states[i].extras[0] === 'N') c++
+        wholeOver.push(innings.states[i])
+        if (c >= 6){
+            divO.append(getEachOver(wholeOver, over))
+            over++
+            c = 0
+            wholeOver = []
+        }
+        if(i===innings.states.length-1 && wholeOver.length !== 0){
+            divO.append(getEachOver(wholeOver, over))
+            over++
+            c = 0
+            wholeOver = []
+        }
+    }
+    return divO
+}
+
+function fullOvers(game) {
+    let menuContent = document.getElementById('menu-content')
+    menuContent.innerHTML = ''
+    game.innings.forEach(inn=>{
+        menuContent.append(getInninsOver(inn))
+    })
 }

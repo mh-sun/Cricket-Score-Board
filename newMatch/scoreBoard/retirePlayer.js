@@ -44,11 +44,11 @@ function submit(div) {
             battingTeam.players.push(p1)
             if(chosen === 'onstrike'){
                 setPlayer(p1, nonStrike)
-                game.innings[game.ci].setPartnerShip(p1, nonStrike)
+                game.innings[game.ci].setPartnerShip(p1.name, nonStrike.name)
             }
             else if (chosen === 'nonstrike'){
                 setPlayer(onStrike, p1)
-                game.innings[game.ci].setPartnerShip(onStrike, p1)
+                game.innings[game.ci].setPartnerShip(onStrike.name, p1.name)
             }
         }
         savetoLS()

@@ -1,7 +1,7 @@
 import {createElem, createElemText} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
 import {getValue as scboard} from "../newMatch/scoreBoard/scoreBoard.js";
-import {GameLS} from "../Objects/Game.js";
+import {Game} from "../Objects/Game.js";
 import {setMenuSC} from "./fullScoreboard.js";
 
 function deleteGame(g, games) {
@@ -31,6 +31,9 @@ function getRow(game, tBat, tBowl, tab, index) {
 
     let score = createElem('td', row0)
     let run = createElem('span', score)
+
+    console.log(game.innings[index])
+
     run.innerText = tBat.getTotalRunsByBatsman() + game.innings[index].getExtras()
     createElemText('/', score)
     let wic = createElem('span', score)
@@ -127,7 +130,8 @@ function getValue() {
     }else {
         games.forEach(g=>{
             if(g != null){
-                let tempG = new GameLS(g)
+                let tempG = new Game().initLS(g)
+                console.log(tempG)
                 menuContent.append(getSection(tempG, games), document.createElement('br'))
             }
 

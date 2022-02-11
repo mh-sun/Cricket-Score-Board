@@ -14,7 +14,7 @@ function getTeams(games) {
 function getMatches(t, games) {
     let sum = 0
     games.forEach(g=>{
-        if(g.innings[0].battingTeam === t || g.innings[0].bowlingTeam === t)
+        if(g.innings[0].battingTeam.name === t.name || g.innings[0].bowlingTeam.name === t.name)
             sum++
     })
     return sum
@@ -29,11 +29,11 @@ function editName(t) {
 
 function deleteTeam(t, games) {
     games.forEach(g=>{
-        if(g.innings[0].battingTeam === t){
+        if(g.innings[0].battingTeam.name === t.name){
             console.log('hello')
             g.innings[0].battingTeam = null
         }
-        else if( g.innings[0].bowlingTeam === t){
+        else if( g.innings[0].bowlingTeam.name === t.name){
             console.log('hello')
             g.innings[0].bowlingTeam = null
         }

@@ -34,32 +34,32 @@ export function undo() {
     if(s === '-NB'){
         cal.onStrike.battingRole.updateInfo(x, -1)
         cal.bowler.bowlingRole.updateInfo((x-1), 0, s)
-        partnership.updatePInfo(x, 0, s, cal.onStrike)
+        partnership.updatePInfo(x, 0, s, cal.onStrike.name)
 
         game.innings[game.ci].extra.noBall--
     }
     else if(s === '-WD'){
         console.log(cal.bowler.bowlingRole)
         cal.bowler.bowlingRole.updateInfo((x-1),0, s)
-        partnership.updatePInfo(x, 0, s, cal.onStrike)
+        partnership.updatePInfo(x, 0, s, cal.onStrike.name)
         game.innings[game.ci].extra.wide += (x-1)
     }
     if(s === '-B'){
         cal.onStrike.battingRole.updateInfo(0, -1)
         cal.bowler.bowlingRole.updateInfo(0, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike)
+        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
         game.innings[game.ci].extra.bye--
     }
     else if(s === '-LB'){
         cal.onStrike.battingRole.updateInfo(0, -1)
         cal.bowler.bowlingRole.updateInfo(0, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike)
+        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
         game.innings[game.ci].extra.legBye--
     }
     if(s === '-N'){
         cal.onStrike.battingRole.updateInfo(x, -1)
         cal.bowler.bowlingRole.updateInfo(x, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike)
+        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
     }
     savetoLS()
     updateScoreBoard()
@@ -82,7 +82,7 @@ function updatePartnership() {
             let div = document.createElement('div')
             let div_i = createElem('div', div)
 
-            createElem('span', div_i, 'font-20').innerText = partnership.playerOne.name
+            createElem('span', div_i, 'font-20').innerText = partnership.playerOne
             createElem('span', div_i, 'font-20').innerText = partnership.playerOneRun
 
             createElem('span', div_i, 'font-10').innerText = ("Extras:" + partnership.extras)
@@ -94,7 +94,7 @@ function updatePartnership() {
             div_i.classList.add('center-div')
 
             div_i = createElem('div', div)
-            createElem('span', div_i, 'font-20').innerText = partnership.playerTwo.name
+            createElem('span', div_i, 'font-20').innerText = partnership.playerTwo
             createElem('span', div_i, 'font-20').innerText = partnership.playerTwoRun
             div_i.classList.add('right-div')
 

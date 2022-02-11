@@ -1,7 +1,6 @@
 import { getValue as playerInfo } from './playerInfo.js'
 import {Team} from "../Objects/Team.js";
-import {Game, GameLS} from "../Objects/Game.js";
-// import {InitHTML} from "../main.js";
+import {Game} from "../Objects/Game.js";
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')

@@ -49,9 +49,9 @@ function func1(Game) {
     let b = new Player(bowler)
 
     batTeam.players.push(s, ns)
-    console.log(Game.innings[Game.ci])
-    Game.innings[Game.ci].setPartnerShip(s, ns)
-    Game.innings[Game.ci].setCurrPlayer(s, ns, b)
+    // console.log(Game.innings[Game.ci])
+    Game.innings[Game.ci].setPartnerShip(s.name, ns.name)
+    Game.innings[Game.ci].setCurrPlayer(s.name, ns.name, b.name)
 
     bowlTeam.players.push(b)
     let games = JSON.parse(localStorage.getItem('games'))

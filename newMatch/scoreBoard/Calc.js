@@ -11,31 +11,31 @@ export function initScoreBoard(g) {
     battingTeam = game.innings[game.ci].battingTeam
     bowlingTeam = game.innings[game.ci].bowlingTeam
 
-    function getPlayer(id) {
+    function getPlayer(name) {
         let p
         game.innings[game.ci].battingTeam.players.forEach(e=>{
-            if(e.id === id) p=e
+            if(e.name === name) p=e
         })
         game.innings[game.ci].bowlingTeam.players.forEach(e=>{
-            if(e.id === id) p=e
+            if(e.name === name) p=e
         })
         return p
     }
 
-    onStrike = getPlayer(game.innings[game.ci].onStrike.id)
-    nonStrike = getPlayer(game.innings[game.ci].nonStrike.id)
-    bowler = getPlayer(game.innings[game.ci].bowler.id)
+    onStrike = getPlayer(game.innings[game.ci].onStrike)
+    nonStrike = getPlayer(game.innings[game.ci].nonStrike)
+    bowler = getPlayer(game.innings[game.ci].bowler)
 }
 
 export function setBowler(b){
     bowler = b
-    game.innings[game.ci].setCurrPlayer(onStrike, nonStrike, b)
+    game.innings[game.ci].setCurrPlayer(onStrike.name, nonStrike.name, b.name)
 }
 
 export function setPlayer(onS, nonS){
     onStrike = onS
     nonStrike = nonS
-    game.innings[game.ci].setCurrPlayer(onS, nonS, bowler)
+    game.innings[game.ci].setCurrPlayer(onS.name, nonS.name, bowler.name)
 }
 
 function newBowlerAdd() {

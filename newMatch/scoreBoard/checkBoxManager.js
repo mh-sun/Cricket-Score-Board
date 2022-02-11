@@ -43,7 +43,7 @@ export function update(x) {
         checkboxes.push('NB')
         cal.onStrike.battingRole.updateInfo(x, 1)
         cal.bowler.bowlingRole.updateInfo(x+1, 0, 'NB')
-        partnership.updatePInfo(x, 0, 'NB', cal.onStrike)
+        partnership.updatePInfo(x, 0, 'NB', cal.onStrike.name)
 
         game.innings[game.ci].extra.noBall ++
     }
@@ -51,7 +51,7 @@ export function update(x) {
         flag = false
         checkboxes.push('WD')
         cal.bowler.bowlingRole.updateInfo(x+1,0, 'WD')
-        partnership.updatePInfo(x, 0, 'WD', cal.onStrike)
+        partnership.updatePInfo(x, 0, 'WD', cal.onStrike.name)
         game.innings[game.ci].extra.wide += x+1
     }
     if(byes.checked ){
@@ -59,7 +59,7 @@ export function update(x) {
         checkboxes.push('B')
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
-        partnership.updatePInfo(x, 1, 'B', cal.onStrike)
+        partnership.updatePInfo(x, 1, 'B', cal.onStrike.name)
         game.innings[game.ci].extra.bye ++
     }
     else if(legByes.checked){
@@ -67,7 +67,7 @@ export function update(x) {
         checkboxes.push('LB')
         cal.onStrike.battingRole.updateInfo(0, 1)
         cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
-        partnership.updatePInfo(x, 1, 'LB', cal.onStrike)
+        partnership.updatePInfo(x, 1, 'LB', cal.onStrike.name)
         game.innings[game.ci].extra.legBye ++
     }
 
@@ -75,7 +75,7 @@ export function update(x) {
         checkboxes.push('N')
         cal.onStrike.battingRole.updateInfo(x,1)
         cal.bowler.bowlingRole.updateInfo(x,1, 'N')
-        partnership.updatePInfo(x, 1, 'N', cal.onStrike)
+        partnership.updatePInfo(x, 1, 'N', cal.onStrike.name)
     }
     function getState() {
         return new State(getRandState(),  cal.onStrike.name, cal.nonStrike.name, cal.bowler.name, x, checkboxes)
