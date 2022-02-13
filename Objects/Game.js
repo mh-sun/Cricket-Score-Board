@@ -31,7 +31,7 @@ export function Game (bat, bowl, tossWon, opt, over){
         this.tossWon = game.tossWon
         this.opt = game.opt
         this.innings = [new Innings().initLS(game.innings[0]), new Innings().initLS(game.innings[1])]
-        this.ci = 0
+        this.ci = game.ci
         this.time = game.time
         this.result = {
             isEnd: game.result.isEnd,

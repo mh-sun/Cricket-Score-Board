@@ -18,6 +18,15 @@ function getSection(name, id) {
     return [h3, div]
 }
 
+function playerInTeam(player, team) {
+    let pl
+    team.players.forEach(p=>{
+        if(p.name === player) pl = p
+    })
+    if(pl === undefined) return null
+    else return pl
+}
+
 function func1(Game) {
     let striker = document.getElementById('striker').value
     let non_striker = document.getElementById('non_striker').value
@@ -37,19 +46,17 @@ function func1(Game) {
     let batTeam = Game.innings[Game.ci].battingTeam
     let bowlTeam = Game.innings[Game.ci].bowlingTeam
 
-    console.log(batTeam, bowlTeam)
+    let s, ns, b
+    let p = playerInTeam(striker,batTeam)
+    s = p === null ? new Player(striker) : p
 
-    // if(batTeam.players.length !== 0 || bowlTeam.players.length !== 0){
-    //     scoreBoard(Game)
-    //     return
-    // }
+    p = playerInTeam(non_striker,batTeam)
+    ns = p === null ? new Player(non_striker) : p
 
-    let s = new Player(striker)
-    let ns = new Player(non_striker)
-    let b = new Player(bowler)
+    p = playerInTeam(bowler,bowlTeam)
+    b = p === null ? new Player(bowler) : p
 
     batTeam.players.push(s, ns)
-    // console.log(Game.innings[Game.ci])
     Game.innings[Game.ci].setPartnerShip(s.name, ns.name)
     Game.innings[Game.ci].setCurrPlayer(s.name, ns.name, b.name)
 

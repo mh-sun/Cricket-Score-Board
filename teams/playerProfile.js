@@ -344,6 +344,7 @@ function setTop(team) {
     div1.className = 'player-prof-top'
     if(playerGlobal.image === '') {
         let i = document.createElement('i')
+        i.style.fontSize = '100px'
         i.className = 'fas fa-user'
         div1.append(i)
     }

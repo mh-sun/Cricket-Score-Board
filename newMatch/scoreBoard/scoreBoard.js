@@ -2,6 +2,7 @@ import * as cals from './Calc.js'
 import {retirePlayer} from "./retirePlayer.js";
 import {getExtraRun, getModal, getPartnership, undo} from "./addManagement.js";
 import {setMenu} from "../../main.js";
+import {game} from "./Calc.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
@@ -213,10 +214,20 @@ function getExtras() {
     div_i = createElem('div', div, 'content-center')
     let retire = createElem('button',div_i, 'btn')
     retire.innerText = 'Retire'
-    retire.onclick = retirePlayer
+    if(game.result.isEnd){
+        retire.style.backgroundColor = 'grey'
+        retire.style.border = '0px'
+    }
+    else retire.onclick = retirePlayer
+
     let swapBatsman = createElem('button',div_i, 'btn')
     swapBatsman.innerText = 'Swap Batsman'
-    swapBatsman.onclick = cals.swapBatsman
+    if(game.result.isEnd){
+        swapBatsman.style.backgroundColor = 'grey'
+        swapBatsman.style.border = '0px'
+    }
+    else swapBatsman.onclick = cals.swapBatsman
+
     return div
 }
 
@@ -306,6 +317,6 @@ export function updateScoreBoard() {
 
 export function getValue(g) {
     newGame = g
-    cals.initScoreBoard(newGame)
+    cals.initScoreBoard(g)
     updateScoreBoard()
 }

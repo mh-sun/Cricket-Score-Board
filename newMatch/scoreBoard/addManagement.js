@@ -4,6 +4,10 @@ import * as cal from "./Calc.js";
 import {savetoLS} from "./checkBoxManager.js";
 
 export function undo() {
+    if(game.innings[game.ci].states.length === 0) {
+        updateScoreBoard()
+        return
+    }
     let state = game.innings[game.ci].states.pop()
     console.log(state)
 
@@ -32,7 +36,7 @@ export function undo() {
         cal.bowler.bowlingRole.updateInfo(x,-1, s)
     }
     if(s === '-NB'){
-        cal.onStrike.battingRole.updateInfo(x, -1)
+        cal.onStrike.battingRole.updateInfo(x, 0)
         cal.bowler.bowlingRole.updateInfo((x-1), 0, s)
         partnership.updatePInfo(x, 0, s, cal.onStrike.name)
 

@@ -32,8 +32,6 @@ function getRow(game, tBat, tBowl, tab, index) {
     let score = createElem('td', row0)
     let run = createElem('span', score)
 
-    // console.log(game.innings[index])
-
     run.innerText = tBat.getTotalRunsByBatsman() + game.innings[index].getExtras()
     createElemText('/', score)
     let wic = createElem('span', score)
@@ -68,10 +66,63 @@ function getSection(game, games) {
 
     let preMatch = createElem('div', div)
     preMatch.style.paddingLeft = '5%'
-    createElem('span', preMatch).innerText = game.tossWon
-    createElemText(' Won the toss and opted to ', preMatch)
-    createElem('span', preMatch).innerText = game.opt
-    createElemText(' first', preMatch)
+
+    if(game.ci === 0){
+        createElem('span', preMatch).innerText = game.tossWon
+        createElemText(' Won the toss and opted to ', preMatch)
+        createElem('span', preMatch).innerText = game.opt
+        createElemText(' first', preMatch)
+    }
+    else if(game.ci === 1 && !game.result.isEnd){
+        let p = document.createElement('p')
+        let span = document.createElement('span')
+        span.innerText = game.innings[0].bowlingTeam.name
+        p.append(span)
+
+        p.append(document.createTextNode(' need  '))
+
+        span = document.createElement('span')
+        let run = game.innings[0].battingTeam.getTotalRunsByBatsman() + game.innings[0].getExtras() + 1
+        span.innerText = run
+        p.append(span)
+
+        p.append(document.createTextNode(' runs to win.'))
+
+        preMatch.append(p)
+    }
+    else if(game.result.isEnd && !game.result.isDraw){
+        let teamOneRun = Number.parseInt(game.innings[0].battingTeam.getTotalRunsByBatsman() + game.innings[0].getExtras())
+        let teamTwoRun = Number.parseInt(game.innings[1].battingTeam.getTotalRunsByBatsman() + game.innings[1].getExtras())
+        let teamTwoW = Number.parseInt(game.innings[1].bowlingTeam.getWickets())
+        let p = document.createElement('p')
+        let span = document.createElement('span')
+        span.innerText = game.result.winner
+        p.append(span)
+
+        span = document.createElement('span')
+        span.innerText = ' won by '
+        p.append(span)
+
+        span = document.createElement('span')
+        let i
+        if(teamOneRun > teamTwoRun)
+            i = 0
+        else if (teamTwoRun > teamOneRun)
+            i = 1
+        else i = -1
+        span.innerText = i === 0 ?
+            (teamOneRun-teamTwoRun) + ' runs.':
+            (10 - teamTwoW) + ' wickets.'
+        p.append(span)
+        preMatch.append(p, document.createElement('br'))
+    }
+    else if(game.result.isDraw){
+        let p = document.createElement('p')
+        let span = document.createElement('span')
+        span.innerText = 'Match is tie'
+        p.append(span)
+        preMatch.append(p)
+    }
 
     createElem('br',div)
 
@@ -80,13 +131,15 @@ function getSection(game, games) {
     tab.classList.add('table-100')
     let row = createElem('tr', tab)
 
-    let resume = createElem('td', row, 'button')
-    resume.style.textAlign = 'center'
-    resume.style.width = '30%'
-    resume.innerText = 'Resume'
-    resume.onclick = ()=>{
-        scboard(game)
-
+    if(!game.result.isEnd){
+        let resume = createElem('td', row, 'button')
+        resume.style.textAlign = 'center'
+        resume.style.width = '30%'
+        resume.innerText = 'Resume'
+        resume.id = 'resume'
+        resume.onclick = ()=>{
+            scboard(game)
+        }
     }
 
     let scoreboard = createElem('td', row, 'button')
@@ -129,17 +182,17 @@ function getValue() {
     if(games == null || games.length === 0){
         menuContent.append(EmptyGeam())
     }else {
-        games.forEach(g=>{
+        for(let i = games.length-1; i>=0 ; i--){
+            let g = games[i]
             if(g != null){
                 let tempG = new Game().initLS(g)
-                // console.log(tempG)
                 menuContent.append(getSection(tempG, games), document.createElement('br'))
+                // if(tempG.result.isEnd) document.getElementById('resume').remove()
+                // console.log(tempG.result)
+                // console.log(document.getElementById('resume'))
             }
-
-        })
+        }
     }
-
-    // menuContent.appendChild(getModal(games))
 }
 
 export {getValue}

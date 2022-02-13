@@ -3,7 +3,7 @@ import * as exManager from "./checkBoxManager.js"
 import {addNewBowler} from "./newBowler.js";
 import {getValue} from "../playerInfo.js";
 import {updateScoreBoard} from "./scoreBoard.js";
-import {wicket, wicketPage} from "./checkBoxManager.js";
+import {savetoLS, wicket, wicketPage} from "./checkBoxManager.js";
 
 export let battingTeam, bowlingTeam, onStrike, nonStrike, bowler, game
 
@@ -11,6 +11,8 @@ export function initScoreBoard(g) {
     game = g
     battingTeam = game.innings[game.ci].battingTeam
     bowlingTeam = game.innings[game.ci].bowlingTeam
+
+    console.log(g)
 
     function getPlayer(name) {
         let p
@@ -48,36 +50,51 @@ function currentOver() {
     bowler.bowlingRole.overs_details.forEach(c=>{
         if(c[1] === 'N') s++
     })
-    console.log(s)
     return s
 }
 
 function endGame() {
     updateScoreBoard()
+
+    game.result.isEnd = true
+
     let divMbg = document.createElement('div')
     divMbg.classList.add('modal-bg')
-
 
     let div = document.createElement('div')
     div.classList.add('modal')
 
     divMbg.appendChild(div)
-    // let div = document.getElementsByClassName('modal')[0]
     div.innerHTML = ''
     div.style.flexDirection = 'column'
 
     let br = document.createElement('br')
     let h1 = document.createElement('h3')
+    h1.style.fontSize = '24px'
     h1.innerText = 'CONGRATULATIONS'
     h1.style.textAlign = 'center'
     div.append(h1, br)
 
+    let span = document.createElement('span')
+    span.className = 'teamNameIco'
+    span.style.width = '150px'
+    span.style.height = '150px'
+    span.style.backgroundColor = 'green'
+    span.style.display = 'flex'
+    span.style.justifyContent = 'center'
+    span.style.alignItems = 'center'
+    let trophy = document.createElement('i')
+    span.append(trophy)
+    trophy.className = "fas fa-trophy"
+    trophy.style.fontSize = '100px'
+    trophy.style.color = 'white'
+    div.append(span, br)
+
+
     let teamOneRun = Number.parseInt(game.innings[0].battingTeam.getTotalRunsByBatsman() + game.innings[0].getExtras())
     let teamTwoRun = Number.parseInt(game.innings[1].battingTeam.getTotalRunsByBatsman() + game.innings[1].getExtras())
-    // let teamOneW = Number.parseInt(game.innings[0].bowlingTeam.getWickets())
     let teamTwoW = Number.parseInt(game.innings[1].bowlingTeam.getWickets())
 
-    console.log(teamOneRun, teamTwoRun)
 
     let winner, loser, i
     if(teamOneRun > teamTwoRun)
@@ -88,7 +105,9 @@ function endGame() {
 
     if(i !== -1){
         winner = game.innings[i].battingTeam
+        game.result.winner = winner.name
         loser = game.innings[i].bowlingTeam
+        game.result.loser = loser.name
 
         h1 = document.createElement('h2')
         h1.innerText = winner.name
@@ -111,6 +130,16 @@ function endGame() {
         p.append(span)
         div.append(p, br)
     }
+    else {
+        game.result.isDraw = true
+        let p = document.createElement('p')
+        p.style.textAlign = 'center'
+        p.style.fontSize = '20px'
+        let span = document.createElement('span')
+        span.innerText = 'Match is tie'
+        p.append(span)
+        div.append(p)
+    }
 
     let btn = document.createElement('button')
     btn.innerText = 'OK'
@@ -122,6 +151,8 @@ function endGame() {
     div.append(btn, br)
     document.getElementById('menu-content').append(divMbg)
     divMbg.classList.add('bg-active')
+
+    savetoLS()
 }
 
 function secondInnings() {
@@ -188,11 +219,11 @@ function secondInnings() {
 
 function inningsOver(){
     let o = Number.parseFloat(battingTeam.getOvers())
-    console.log(o)
     if(o >= game.over){
         if(game.ci === 0){
             secondInnings()
             game.ci = 1
+            savetoLS()
             return true
         }
         else if(game.ci === 1){
@@ -204,14 +235,31 @@ function inningsOver(){
     else return false
 }
 
+function runAchieved() {
+    let teamOneRun = Number.parseInt(game.innings[0].battingTeam.getTotalRunsByBatsman() + game.innings[0].getExtras())
+    let teamTwoRun = Number.parseInt(game.innings[1].battingTeam.getTotalRunsByBatsman() + game.innings[1].getExtras())
+
+    console.log(teamOneRun, teamTwoRun)
+
+    return teamTwoRun > teamOneRun
+}
+
 function setValues(x) {
     if(inningsOver()) return
+    console.log(game.ci, runAchieved())
+    if(game.ci === 1 && runAchieved()) {
+        endGame()
+        return
+    }
     exManager.init()
     exManager.update(x)
     if(x%2 !== 0) swapBatsman()
     if(inningsOver()) return
+    if(game.ci === 1 && runAchieved()) {
+        endGame()
+        return
+    }
     if(currentOver() >= 6){
-        console.log(battingTeam)
         swapBatsman()
         newBowlerAdd()
     }

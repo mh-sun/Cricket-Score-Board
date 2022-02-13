@@ -2,6 +2,7 @@ import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
 import {getValue} from "./teams.js";
 import {playerProfile} from "./playerProfile.js";
+import {setMenu} from "../main.js";
 
 function chnageName(g, id, name, i) {
     g.innings[i].battingTeam.players.forEach(p=>{
@@ -126,7 +127,30 @@ function getSection(player, team) {
     return div
 }
 
+function setMenuPT(team) {
+    let menu = document.getElementById('menu')
+    menu.innerHTML = ''
+
+    let btn = createElem('i',menu, 'fas fa-arrow-left', 'button', 'far-left')
+    btn.style.color = 'white'
+    btn.style.top = '10px'
+    btn.onclick = ()=>{
+        setMenu()
+        getValue()
+    }
+
+    let span = createElem('span', menu)
+    span.innerText = team.name
+    span.style.fontSize = '20px'
+    span.style.padding = '5px'
+    span.style.color = 'white'
+
+    menu.className = 'topnav content-center'
+}
+
 export function playersInTeam(team){
+    setMenuPT(team)
+
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     let games = JSON.parse(localStorage.getItem('games'))

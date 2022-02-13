@@ -4,10 +4,24 @@ import {playersInTeam} from "./playersInTeam.js";
 
 function getTeams(games) {
     let teams = []
-    games.forEach(g=>{
-        teams.push(g.innings[g.ci].battingTeam)
-        teams.push(g.innings[g.ci].bowlingTeam)
-    })
+    for(let i = 0; i< games.length; i++){
+        let g = games[i]
+        let flag = false
+        for(let j = 0; j<teams.length;j++){
+            if(g.innings[g.ci].battingTeam.name === teams[j].name)
+                flag = true
+        }
+        if(!flag)
+            teams.push(g.innings[g.ci].battingTeam)
+
+        flag = false
+        for(let j = 0; j<teams.length;j++){
+            if(g.innings[g.ci].bowlingTeam.name === teams[j].name)
+                flag = true
+        }
+        if(!flag)
+            teams.push(g.innings[g.ci].bowlingTeam)
+    }
     return teams
 }
 
@@ -45,6 +59,22 @@ function deleteTeam(t, games) {
     }
     localStorage.setItem('games', JSON.stringify(games))
     getValue()
+}
+
+function getWin(team, games) {
+    let sum = 0
+    games.forEach(g=>{
+        if(g.result.winner === team.name) sum++
+    })
+    return sum
+}
+
+function getLose(team, games) {
+    let sum = 0
+    games.forEach(g=>{
+        if(g.result.loser === team.name) sum++
+    })
+    return sum
 }
 
 function getSection(t, games) {
@@ -96,11 +126,11 @@ function getSection(t, games) {
     let wName = createElem('td', row1)
     wName.innerText = 'Won: '
     let wVal = createElem('td', row1)
-    wVal.innerText = 0
+    wVal.innerText = getWin(t, games)
     let lName = createElem('td', row1)
     lName.innerText = 'Lost: '
     let lVal = createElem('td', row1)
-    lVal.innerText = 0
+    lVal.innerText = getLose(t, games)
 
     createElem('br',div)
     return div
