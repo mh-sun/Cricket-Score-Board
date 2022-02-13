@@ -3,6 +3,7 @@ import * as exManager from "./checkBoxManager.js"
 import {addNewBowler} from "./newBowler.js";
 import {getValue} from "../playerInfo.js";
 import {updateScoreBoard} from "./scoreBoard.js";
+import {wicket, wicketPage} from "./checkBoxManager.js";
 
 export let battingTeam, bowlingTeam, onStrike, nonStrike, bowler, game
 
@@ -215,6 +216,7 @@ function setValues(x) {
         newBowlerAdd()
     }
     else scoreBoard.updateScoreBoard()
+    if(wicket.checked) wicketPage()
 }
 
 export function swapBatsman() {

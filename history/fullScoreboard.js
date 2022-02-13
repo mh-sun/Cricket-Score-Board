@@ -1,6 +1,6 @@
 import {createElem, createElemText} from "../newMatch/scoreBoard/scoreBoard.js";
 import {setMenu} from "../main.js";
-import {getValue} from "../newMatch/newMatch.js";
+import {getValue} from "./history.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
@@ -262,6 +262,8 @@ function getRunInfo(state) {
 function getEachOver(wholeOver, over) {
     let tab = document.createElement('table')
     tab.classList.add('table-100')
+    tab.style.paddingLeft = '1%'
+    tab.id = 'overTab'
     let row1 = document.createElement('tr')
     tab.append(row1)
 

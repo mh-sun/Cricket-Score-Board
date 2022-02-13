@@ -1,19 +1,23 @@
 import * as cons from './constants.js'
 import {createElem} from "./newMatch/scoreBoard/scoreBoard.js";
+import {getValue} from "./newMatch/newMatch.js";
 
-function setTitle() {
+export function setTitle() {
     let title = document.getElementById('title')
     title.textContent = cons.title
     title.className = 'topnav title element-center'
 }
-function setCSS(){
+export function setCSS(){
     let head = document.getElementsByTagName('head')[0]
 
     let css = document.createElement('link')
     css.rel = 'stylesheet'
     css.type = 'text/css'
-    css.href = '../css/main.css'
+    css.href = './main.css'
     head.appendChild(css)
+
+    let body = document.getElementById('menu-content')
+    body.className = 'div-default'
 }
 
 function createElement(name, textContent,  ...classNames) {
@@ -46,3 +50,4 @@ setCSS()
 setTitle()
 setMenu()
 addFontAwesome()
+getValue()

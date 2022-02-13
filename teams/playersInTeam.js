@@ -1,6 +1,7 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
 import {getValue} from "./teams.js";
+import {playerProfile} from "./playerProfile.js";
 
 function chnageName(g, id, name, i) {
     g.innings[i].battingTeam.players.forEach(p=>{
@@ -76,11 +77,12 @@ function EmptyTeam() {
     return p
 }
 
-function getSection(player, games) {
+function getSection(player, team) {
     let div = document.createElement('div')
     createElem('br',div)
     let tab = createElem('table', div)
     tab.classList.add('table-100')
+    tab.id = 'playerTab'
 
     let row0 = createElem('tr', tab)
     let ico = createElem('td', row0)
@@ -91,7 +93,7 @@ function getSection(player, games) {
     button.innerText = player.name[0].toUpperCase()
     button.style.backgroundColor = getRandColor()
     button.onclick = ()=>{
-        console.log(player)
+        playerProfile(player, team)
     }
 
     let name = createElem('td', row0)
@@ -135,7 +137,7 @@ export function playersInTeam(team){
     else {
         team.players.forEach(p=>{
             if(p != null)
-                menuContent.append(getSection(p,games), document.createElement('br'))
+                menuContent.append(getSection(p,team), document.createElement('br'))
         })
         menuContent.appendChild(getModal(games))
     }

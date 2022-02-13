@@ -12,12 +12,13 @@ export function Player(name = '') {
         outInfo : {
             isOut: false,
             bowler : '',
-            type : ''
+            type : '',
+            helped : ''
         },
 
         getStrikeRate : function (){
             let ans = (this.runs/this.balls*100).toPrecision(3)
-            return isNaN(ans)? 0 : ans
+            return (!isNaN(ans) && isFinite(ans))? ans : 0
         },
 
         updateInfo : function (run, ball){
@@ -106,16 +107,15 @@ export function Player(name = '') {
 
     this.isBatsman = function (innings){
         let flag = false
-        innings.states.forEach(s=>{
-            if(s.striker === this.name) flag = true
-            else if(s.nonStriker === this.name) flag = true
+        innings.battingTeam.players.forEach(p=>{
+            if(p.name === this.name) flag = true
         })
         return flag
     }
     this.isBowler = function (innings){
         let flag = false
-        innings.states.forEach(s=>{
-            if(s.bowler === this.name) flag = true
+        innings.bowlingTeam.players.forEach(p=>{
+            if(p.name === this.name) flag = true
         })
         return flag
     }

@@ -32,7 +32,7 @@ function getRow(game, tBat, tBowl, tab, index) {
     let score = createElem('td', row0)
     let run = createElem('span', score)
 
-    console.log(game.innings[index])
+    // console.log(game.innings[index])
 
     run.innerText = tBat.getTotalRunsByBatsman() + game.innings[index].getExtras()
     createElemText('/', score)
@@ -58,6 +58,7 @@ function getSection(game, games) {
     createElem('br',div)
 
     let tab = createElem('table', div)
+    tab.id = 'gameTab'
     tab.classList.add('table-100')
 
     tab.appendChild(getRow(game, game.innings[0].battingTeam, game.innings[0].bowlingTeam, tab, 0))
@@ -131,7 +132,7 @@ function getValue() {
         games.forEach(g=>{
             if(g != null){
                 let tempG = new Game().initLS(g)
-                console.log(tempG)
+                // console.log(tempG)
                 menuContent.append(getSection(tempG, games), document.createElement('br'))
             }
 

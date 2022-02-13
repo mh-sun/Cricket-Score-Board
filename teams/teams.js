@@ -51,6 +51,7 @@ function getSection(t, games) {
     let div = document.createElement('div')
     createElem('br',div)
     let tab = createElem('table', div)
+    tab.id = 'teamTab'
     tab.classList.add('table-100')
     
     let row0 = createElem('tr', tab)

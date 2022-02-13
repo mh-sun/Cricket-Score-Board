@@ -10,16 +10,6 @@ let runs = ['0','1', '2', '3', '4', '5', '6', '...']
 
 let newGame
 
-function setCSS() {
-    let head = document.getElementsByTagName('head')[0]
-
-    let css = document.createElement('link')
-    css.rel = 'stylesheet'
-    css.type = 'text/css'
-    css.href = '../../../css/scoreBoard.css'
-    head.appendChild(css)
-}
-
 function createSpanById(id, par) {
     let t  = document.createElement('span')
     t.id = id
@@ -164,11 +154,22 @@ function getBRElem() {
 
 function getOverDetails() {
     let div = document.createElement('div')
-    div.className += ' tb-pad'
-    let span = createSpanByClass('left-pad', div)
-    span.innerText = 'This Over : '
-    span = createSpanByClass(' col-gap', div)
-    span.className += ' tb-pad side-pad'
+    let tab = createElem('table',div)
+    let row = createElem('tr', tab)
+
+    let td1 = createElem('td',row)
+    td1.style.fontSize = '14px'
+    td1.innerText = 'This Over:'
+    td1.style.width = '10%'
+    td1.style.textAlign = 'center'
+
+    td1 = createElem('td',row)
+    let span = createSpanByClass(' col-gap', td1)
+    span.className += ' tb-pad'
+    span.style.display = 'flex'
+    span.style.flexWrap = 'wrap'
+    span.style.rowGap = '5px'
+
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
         let btn = createElem('button', span, 'make-round')
         btn.textContent = eachBall[0]+'\n'
@@ -204,6 +205,9 @@ function getExtras() {
         let label = createElem('label', div_nestedI)
         label.innerText = extra
     })
+    //['Wide', 'No-Ball', 'Byes', 'Leg-Byes', 'Wicket']
+
+
     createElem('br',div)
     createElem('br',div)
     div_i = createElem('div', div, 'content-center')
@@ -253,6 +257,36 @@ function getAdditionals() {
     return div
 }
 
+function extraManagement() {
+    let wide = document.getElementById('Wide')
+    let noBall = document.getElementById('No-Ball')
+    let byes = document.getElementById('Byes')
+    let legByes = document.getElementById('Leg-Byes')
+
+    wide.onclick = function () {
+        if(wide.checked) {
+            noBall.checked = false
+            byes.checked = false
+            legByes.checked = false
+        }
+    }
+    noBall.onclick = function () {
+        if(noBall.checked) wide.checked = false
+    }
+    byes.onclick = function () {
+        if(byes.checked) {
+            wide.checked = false
+            legByes.checked = false
+        }
+    }
+    legByes.onclick = function () {
+        if(legByes.checked) {
+            wide.checked = false
+            byes.checked = false
+        }
+    }
+}
+
 export function updateScoreBoard() {
     setMenu()
     const body = document.getElementById('menu-content')
@@ -261,14 +295,16 @@ export function updateScoreBoard() {
     body.append(getShortMatchView(), getBRElem())
     body.append(getScoreOverView(), getBRElem())
     body.append(getOverDetails(), getBRElem())
+
     body.append(getExtras(), getBRElem())
+    extraManagement()
+
     body.append(getAdditionals())
     body.append(getButtons(), getBRElem())
     body.append(getModal())
 }
 
 export function getValue(g) {
-    setCSS()
     newGame = g
     cals.initScoreBoard(newGame)
     updateScoreBoard()

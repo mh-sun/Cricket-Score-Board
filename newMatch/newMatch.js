@@ -1,6 +1,8 @@
 import { getValue as playerInfo } from './playerInfo.js'
 import {Team} from "../Objects/Team.js";
 import {Game} from "../Objects/Game.js";
+import {wicketPage} from "./scoreBoard/checkBoxManager.js";
+import {playerProfile} from "../teams/playerProfile.js";
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -186,12 +188,4 @@ function func1(){
     playerInfo(newGame)
 }
 
-(function () {
-    // let games = JSON.parse(localStorage.getItem('games'))
-    // if(games != null){
-    //     let game = new GameLS(games[games.length-1])
-    //     playerInfo(game)
-    // }
-    getValue();
-})();
 export {getValue}
