@@ -1,6 +1,7 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
 import {playersInTeam} from "./playersInTeam.js";
+import {Team} from "../Objects/Team.js";
 
 function getTeams(games) {
     let teams = []
@@ -196,6 +197,58 @@ function EmptyTeam() {
     return p
 }
 
+export function getFloatingButton() {
+    let button = document.createElement("Button");
+    let i = document.createElement('i')
+    i.className = 'fas fa-plus'
+    i.style = 'color:white;font-size:20px'
+    button.appendChild(i)
+    button.style = "bottom:3%;right:3%;position:fixed;border-radius: 100%;background-color: green;display:flex;justify-content: center;align-items: center;height:50px;width:50px;border:0"
+    return button
+}
+
+function createTeam(name) {
+    let teams = JSON.parse(localStorage.getItem('teams'))
+    if(teams === null) teams = []
+    teams.forEach(t=>{
+        if(t.name === name) return false
+    })
+    teams.push(new Team(name))
+    localStorage.setItem('teams', JSON.stringify(teams))
+    return true
+}
+
+function addTeam() {
+    let div = document.getElementsByClassName('modal-bg')[0]
+    div.classList.add('bg-active')
+    let div_i = document.getElementsByClassName('modal')[0]
+    div_i.innerHTML = ''
+
+    let h4 = document.createElement('h4')
+    h4.innerText = 'Create Team'
+    div_i.appendChild(h4)
+
+    let input = document.createElement('input')
+    input.type = 'text'
+    input.id = 'name'
+    input.placeholder = 'Enter Team Name'
+    input.className += ' input element-center'
+    div_i.appendChild(input)
+
+    let submit = document.createElement('input')
+    submit.type = 'button'
+    submit.value = 'OK'
+    submit.className += ' element-center submit-form'
+    div_i.appendChild(submit)
+    div_i.appendChild(document.createElement('br'))
+    submit.addEventListener('click',function () {
+        createTeam(input.value)
+        div.classList.remove('bg-active')
+        getValue()
+    })
+
+}
+
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
@@ -211,6 +264,12 @@ function getValue() {
                 menuContent.append(getSection(t,games), document.createElement('br'))
         })
         menuContent.appendChild(getModal(games))
+    }
+
+    let addButton = getFloatingButton()
+    menuContent.appendChild(addButton)
+    addButton.onclick = function () {
+        addTeam()
     }
 }
 

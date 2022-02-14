@@ -121,7 +121,6 @@ export function getPartnership() {
 export function getModal() {
     let div = document.createElement('div')
     div.classList.add('modal-bg')
-    // div.classList.add('bg-active')
 
     let div_i = document.createElement('div')
     div_i.classList.add('modal')
@@ -141,7 +140,6 @@ export function getModal() {
     })
 
     return div
-
 }
 
 export function getExtraRun() {

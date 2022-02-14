@@ -1,8 +1,9 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
-import {getValue} from "./teams.js";
+import {getFloatingButton, getValue} from "./teams.js";
 import {playerProfile} from "./playerProfile.js";
 import {setMenu} from "../main.js";
+import {Team} from "../Objects/Team";
 
 function chnageName(g, id, name, i) {
     g.innings[i].battingTeam.players.forEach(p=>{
@@ -148,6 +149,20 @@ function setMenuPT(team) {
     menu.className = 'topnav content-center'
 }
 
+function createTeam(name) {
+    let teams = JSON.parse(localStorage.getItem('teams'))
+    if(teams === null) teams = []
+    teams.forEach(t=>{
+        if(t.name === name) return false
+    })
+    teams.push(new Team(name))
+    localStorage.setItem('teams', JSON.stringify(teams))
+    return true
+}
+function addPlayer(team) {
+    let menu = document.getElementById('menu')
+    menu.innerHTML = ''
+}
 export function playersInTeam(team){
     setMenuPT(team)
 
@@ -164,5 +179,10 @@ export function playersInTeam(team){
                 menuContent.append(getSection(p,team), document.createElement('br'))
         })
         menuContent.appendChild(getModal(games))
+    }
+    let addButton = getFloatingButton()
+    menuContent.appendChild(addButton)
+    addButton.onclick = function () {
+        addPlayer(team)
     }
 }
