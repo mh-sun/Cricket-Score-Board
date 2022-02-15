@@ -83,6 +83,7 @@ function getSection(game, games) {
 
         span = document.createElement('span')
         let run = game.innings[0].battingTeam.getTotalRunsByBatsman() + game.innings[0].getExtras() + 1
+            - game.innings[1].battingTeam.getTotalRunsByBatsman() + game.innings[1].getExtras();
         span.innerText = run
         p.append(span)
 
