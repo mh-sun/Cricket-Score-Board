@@ -1,6 +1,7 @@
 import {playersInTeam} from "./playersInTeam.js";
 import {setTitle, setMenu as setMenuBar} from "../main.js";
 import {Player} from "../Objects/Player.js";
+import {getGames} from "../Objects/LSUtils.js";
 
 let playerGlobal
 let battingValues = {
@@ -43,7 +44,7 @@ let fieldingValues = {
 }
 
 function getBatValue() {
-    let games = JSON.parse(localStorage.getItem('games'))
+    let games = getGames()
     let m = 0, i = 0, r = 0, no = 0, bs = 0, sr, a, fo = 0, s = 0, t = 0, fi = 0, h = 0, d = 0
     let b = 0
     games.forEach(g=>{
@@ -112,16 +113,11 @@ function getBatValue() {
 }
 
 function getBowlValue() {
-    let games = JSON.parse(localStorage.getItem('games'))
+    let games = getGames()
     let match = 0, innings = 0, overs = 0, maidens = 0, wickets = 0, runs = 0, b_bowling = 0, eco_rate = 0, strike_rate = 0, average = 0, wides = 0, no_balls = 0, dot_balls = 0, fo_wic = 0, fi_wic = 0
     let balls = 0
     games.forEach(g=>{
         let mflag = false
-        // g.innings[0].battingTeam.players.forEach(p=>{
-        //     if(p.name === playerGlobal.name) {
-        //         mflag = true
-        //     }
-        // })
 
         g.innings[0].bowlingTeam.players.forEach(p=>{
             if(p.name === playerGlobal.name) {
@@ -140,12 +136,6 @@ function getBowlValue() {
 
         if(mflag) innings++
         mflag = false
-
-        // g.innings[1].battingTeam.players.forEach(p=>{
-        //     if(p.name === playerGlobal.name) {
-        //         mflag = true
-        //     }
-        // })
 
         g.innings[1].bowlingTeam.players.forEach(p=>{
             if(p.name === playerGlobal.name) {
@@ -198,9 +188,8 @@ function getBowlValue() {
     }
 }
 
-
 function getFieldValue() {
-    let games = JSON.parse(localStorage.getItem('games'))
+    let games = getGames()
     let match = 0, catches = 0, stumps = 0, run_outs = 0
     games.forEach(g=>{
         let mflag = false
@@ -232,9 +221,6 @@ function getFieldValue() {
         'Run Outs': run_outs,
     }
 }
-
-
-
 
 function createCard(v, obj) {
     let div = document.createElement('div')

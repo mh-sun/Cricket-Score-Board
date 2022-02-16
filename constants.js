@@ -13,3 +13,9 @@ let menu_f = {
 }
 export let batTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 export {title, menu, menu_f}
+export function createElement(child, parent, ...classNames) {
+    let c = document.createElement(child)
+    parent.appendChild(c)
+    classNames.forEach(classes=>c.classList.add(classes))
+    return c
+}

@@ -1,10 +1,15 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
-import {getValue} from "./teams.js";
+import {getFloatingButton, getValue} from "./teams.js";
 import {playerProfile} from "./playerProfile.js";
 import {setMenu} from "../main.js";
+import {getGames, setTeamToLS} from "../Objects/LSUtils.js";
+import {createElement} from "../constants.js";
+import {Player} from "../Objects/Player.js";
 
-function chnageName(g, id, name, i) {
+let Team
+
+function changeName(g, id, name, i) {
     g.innings[i].battingTeam.players.forEach(p=>{
         if(p.id === id) p.name = name
     })
@@ -44,8 +49,8 @@ function getModal(games) {
     function updateTeam(id, name) {
         games.forEach(g=>{
             console.log(id)
-            chnageName(g, id, name, 0)
-            chnageName(g, id, name, 1)
+            changeName(g, id, name, 0)
+            changeName(g, id, name, 1)
         })
         localStorage.setItem('games', JSON.stringify(games))
     }
@@ -78,7 +83,7 @@ function EmptyTeam() {
     return p
 }
 
-function getSection(player, team) {
+function getSection(player) {
     let div = document.createElement('div')
     createElem('br',div)
     let tab = createElem('table', div)
@@ -94,9 +99,8 @@ function getSection(player, team) {
     button.innerText = player.name[0].toUpperCase()
     button.style.backgroundColor = getRandColor()
     button.onclick = ()=>{
-        playerProfile(player, team)
+        playerProfile(player, Team)
     }
-
     let name = createElem('td', row0)
     name.innerText = player.name
     name.style.fontsize = '20px'
@@ -127,7 +131,7 @@ function getSection(player, team) {
     return div
 }
 
-function setMenuPT(team) {
+function setMenuPT() {
     let menu = document.getElementById('menu')
     menu.innerHTML = ''
 
@@ -140,7 +144,7 @@ function setMenuPT(team) {
     }
 
     let span = createElem('span', menu)
-    span.innerText = team.name
+    span.innerText = Team.name
     span.style.fontSize = '20px'
     span.style.padding = '5px'
     span.style.color = 'white'
@@ -148,21 +152,95 @@ function setMenuPT(team) {
     menu.className = 'topnav content-center'
 }
 
+function createPlayer(name) {
+    let flag = false
+
+    Team.players.forEach(p=>{
+        if(p === name) flag = true
+    })
+    if(!flag) Team.players.push(new Player(name))
+    setTeamToLS(Team)
+}
+
+function setTop() {
+    let menu = document.getElementById('menu')
+    menu.innerHTML = ''
+
+    let btn = createElem('i',menu, 'fas fa-times', 'button', 'far-left')
+    btn.style.color = 'white'
+    btn.style.top = '12px'
+    btn.onclick = ()=>{
+        setMenuPT(Team)
+        playersInTeam(Team)
+    }
+
+    let span = createElem('span', menu)
+    span.innerText = 'Add Player'
+    span.style.fontSize = '20px'
+    span.style.padding = '10px'
+    span.style.color = 'white'
+
+    span = createElem('span', menu, 'far-right')
+    span.innerText = 'Save'
+    span.style.fontSize = '17px'
+    span.style.padding = '10px'
+    span.style.color = 'white'
+    span.style.cursor = 'pointer'
+    span.onclick = function () {
+        let input = document.getElementById('newPlayer')
+        let name = input.value
+        if(name !== '') createPlayer(name)
+        setMenuPT(Team)
+        playersInTeam(Team)
+    }
+
+    menu.className = 'topnav content-center'
+}
+
+function setBody() {
+    let menuContent = document.getElementById('menu-content')
+    menuContent.innerHTML = ''
+    let div = createElement('div', menuContent, 'content-center', 'row-content')
+    div.style.padding = '5%'
+    let button = createElement('button', div, 'image-add')
+    let i = createElement('i', button)
+    i.className = 'fas fa-camera'
+
+    createElement('br', div)
+    createElement('br', div)
+
+    let input = createElement('input', div, 'input', 'element-center')
+    input.type = 'text'
+    input.id = 'newPlayer'
+    input.placeholder = 'Enter Player Name'
+}
+
+function addPlayer() {
+    setTop()
+    setBody()
+}
+
 export function playersInTeam(team){
-    setMenuPT(team)
+    Team = team
+    setMenuPT()
 
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
-    let games = JSON.parse(localStorage.getItem('games'))
 
-    if(games == null){
+    if(Team.players.length === 0){
         menuContent.append(EmptyTeam())
     }
     else {
-        team.players.forEach(p=>{
-            if(p != null)
-                menuContent.append(getSection(p,team), document.createElement('br'))
+        Team.players.forEach(p=>{
+            menuContent.append(getSection(p), document.createElement('br'))
         })
+        let games = getGames()
         menuContent.appendChild(getModal(games))
+    }
+
+    let add = getFloatingButton('fas fa-user-plus')
+    menuContent.appendChild(add)
+    add.onclick = function () {
+        addPlayer()
     }
 }

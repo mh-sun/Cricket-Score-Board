@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<input type="text" name="name" id="pName" style="width: 300px">
+<div style="display: flex;flex-direction: column;width: 308px" id="options">
+  <button>Amra</button>
+  <button>Komolakhabo</button>
+  <button>jamra</button>
+  <button>kAmra</button>
+</div>
+<script>
+  let opts = document.getElementById('options').getElementsByTagName('button')
+  let inp = document.getElementById('pName')
+  inp.onclick = function () {
+    document.getElementById('options').hidden = false
+  }
+  inp.onkeyup = ftest
+  document.body.onclick = function () {
+    document.getElementById('options').hidden = true
+  }
+  function ftest() {
+    document.getElementById('options').hidden = false
+    for(let i = 0;i< opts.length; i++){
+      if(opts[i].innerText.indexOf(inp.value) === -1) opts[i].hidden = true
+      else opts[i].hidden = false
+    }
+  }
+
+</script>
+</body>
+</html>

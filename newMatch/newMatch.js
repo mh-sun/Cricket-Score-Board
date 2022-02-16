@@ -3,6 +3,7 @@ import {Team} from "../Objects/Team.js";
 import {Game} from "../Objects/Game.js";
 import {wicketPage} from "./scoreBoard/checkBoxManager.js";
 import {playerProfile} from "../teams/playerProfile.js";
+import {getGames, getTeam, setGamesToLS, setTeamToLS} from "../Objects/LSUtils.js";
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
@@ -126,6 +127,7 @@ function getSubmit(){
     submit.onclick = func1
     return submit
 }
+
 function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over) {
     let tBat, tBowl;
     if( team_won === host_team_name){
@@ -149,20 +151,21 @@ function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over
         }
     }
 
-    tBat = new Team(tBat, [])
-    tBowl = new Team(tBowl, [])
+    let temp = getTeam(tBat)
+    let newTemp = new Team(tBat, [])
+    tBat =  temp === null ? newTemp : temp
+    if(temp === null) setTeamToLS(newTemp)
+
+    temp = getTeam(tBowl)
+    newTemp = new Team(tBowl, [])
+    tBowl = temp === null ? newTemp : temp
+    if(temp === null) setTeamToLS(newTemp)
 
     let newGame = new Game(tBat, tBowl,team_won, opt_to, over)
 
-    let games = JSON.parse(localStorage.getItem('games'))
-
-    if(games == null) {
-        games = []
-        games.push(newGame)
-    }
-    else games.push(newGame)
-
-    localStorage.setItem('games', JSON.stringify(games))
+    let games = getGames()
+    games.push(newGame)
+    setGamesToLS(games)
     return newGame
 }
 function func1(){
@@ -185,6 +188,7 @@ function func1(){
     }
 
     let newGame = SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over)
+    if(!newGame) return
     playerInfo(newGame)
 }
 

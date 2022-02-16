@@ -297,7 +297,7 @@ table{
 .content-center{
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     column-gap: 5%;
 }
 .row-content{
@@ -309,7 +309,19 @@ table{
     position: absolute;
     left: 0;
 }
-
+.image-add{
+    color: white;
+    border: 5px solid darkgrey;
+    border-radius: 50%;
+    background-color: forestgreen;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    font-size: 25px;
+}
 .right-div{
     position: absolute;
     text-align: right;

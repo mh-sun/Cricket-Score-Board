@@ -1,29 +1,9 @@
 import {createElem} from "../newMatch/scoreBoard/scoreBoard.js";
 import {getRandColor} from "../Objects/GetRandom.js";
 import {playersInTeam} from "./playersInTeam.js";
-
-function getTeams(games) {
-    let teams = []
-    for(let i = 0; i< games.length; i++){
-        let g = games[i]
-        let flag = false
-        for(let j = 0; j<teams.length;j++){
-            if(g.innings[g.ci].battingTeam.name === teams[j].name)
-                flag = true
-        }
-        if(!flag)
-            teams.push(g.innings[g.ci].battingTeam)
-
-        flag = false
-        for(let j = 0; j<teams.length;j++){
-            if(g.innings[g.ci].bowlingTeam.name === teams[j].name)
-                flag = true
-        }
-        if(!flag)
-            teams.push(g.innings[g.ci].bowlingTeam)
-    }
-    return teams
-}
+import {Team} from "../Objects/Team.js";
+import {getGames, getTeamsFromLS, setGamesToLS, setTeamsToLS} from "../Objects/LSUtils.js";
+import {createElement} from "../constants.js";
 
 function getMatches(t, games) {
     let sum = 0
@@ -38,17 +18,16 @@ function editName(t) {
     document.getElementsByClassName('modal-bg')[0].classList.add('bg-active')
     let input = document.getElementById('newName')
     input.value = t.name
-    input.tID = t.id
+    input.oldName = t.name
 }
 
-function deleteTeam(t, games) {
+function deleteTeam(t) {
+    let games = getGames()
     games.forEach(g=>{
         if(g.innings[0].battingTeam.name === t.name){
-            console.log('hello')
             g.innings[0].battingTeam = null
         }
         else if( g.innings[0].bowlingTeam.name === t.name){
-            console.log('hello')
             g.innings[0].bowlingTeam = null
         }
     })
@@ -57,7 +36,11 @@ function deleteTeam(t, games) {
             games.splice(i,1)
         }
     }
-    localStorage.setItem('games', JSON.stringify(games))
+    setGamesToLS(games)
+
+    let teams = getTeamsFromLS()
+    teams = teams.map(team=>team.name === t.name? t : team)
+    setTeamsToLS(teams)
     getValue()
 }
 
@@ -77,7 +60,7 @@ function getLose(team, games) {
     return sum
 }
 
-function getSection(t, games) {
+function getSection(t) {
     let div = document.createElement('div')
     createElem('br',div)
     let tab = createElem('table', div)
@@ -115,9 +98,10 @@ function getSection(t, games) {
     btn = createElem('i',del)
     btn.className = 'fas fa-trash'
     btn.onclick = ()=>{
-        deleteTeam(t, games)
+        deleteTeam(t)
     }
 
+    let games = getGames()
     let row1 = createElem('tr', tab)
     let mName = createElem('td', row1)
     mName.innerText = 'Matches: '
@@ -136,10 +120,9 @@ function getSection(t, games) {
     return div
 }
 
-function getModal(games) {
+function getModal() {
     let div = document.createElement('div')
     div.classList.add('modal-bg')
-
 
     let div_i = document.createElement('div')
     div_i.classList.add('modal')
@@ -151,8 +134,6 @@ function getModal(games) {
     div_i.appendChild(h4)
     h4.innerText = 'Update Team Name'
 
-    // let div = document.getElementsByClassName('modal')[0]
-    // div.className += ' container element-center content-center'
     let input = document.createElement('input')
     input.type = 'text'
     input.id = 'newName'
@@ -164,24 +145,31 @@ function getModal(games) {
     div_i.appendChild(ok)
     div_i.appendChild(document.createElement('br'))
 
-    function updateTeam(id, name) {
+    function updateTeam(oName, name) {
+        let games = getGames()
         games.forEach(g=>{
-            console.log(id)
-            if(g.innings[0].battingTeam.id === id) g.innings[0].battingTeam.name = name
-            if(g.innings[0].bowlingTeam.id === id) g.innings[0].bowlingTeam.name = name
-            if(g.innings[1].battingTeam.id === id) g.innings[1].battingTeam.name = name
-            if(g.innings[1].bowlingTeam.id === id) g.innings[1].bowlingTeam.name = name
+            if(g.innings[0].battingTeam.name === oName) g.innings[0].battingTeam.name = name
+            if(g.innings[0].bowlingTeam.name === oName) g.innings[0].bowlingTeam.name = name
+            if(g.innings[1].battingTeam.name === oName) g.innings[1].battingTeam.name = name
+            if(g.innings[1].bowlingTeam.name === oName) g.innings[1].bowlingTeam.name = name
         })
-        localStorage.setItem('games', JSON.stringify(games))
+        setGamesToLS(games)
+
+        let teams = getTeamsFromLS()
+        teams = teams.map(team=>{
+            if(team.name === oName) team.name = name
+            return team
+        })
+        setTeamsToLS(teams)
     }
 
     ok.addEventListener('click',function () {
         let input = document.getElementById('newName')
-        // console.log(input)
-        let id = input.tID
+        let oldName = input.oldName
         let name = input.value
-        updateTeam(id, name)
-        input.remove()
+        if(name !== oldName && name !== '')
+            updateTeam(oldName, name)
+        // input.remove()
         div.classList.remove('bg-active')
         getValue()
     })
@@ -196,21 +184,75 @@ function EmptyTeam() {
     return p
 }
 
+export function getFloatingButton(className) {
+    let button = document.createElement("Button");
+    let i = createElement('i', button)
+    i.className = className
+    i.style = 'color:white;font-size:20px'
+    button.style = "bottom:3%;right:3%;position:fixed;border-radius: 100%;background-color: green;display:flex;justify-content: center;align-items: center;height:50px;width:50px;border:0"
+    return button
+}
+
+function createTeam(name) {
+    let teams = getTeamsFromLS(), flag = false
+    teams.forEach(t=>{
+        if(t.name === name) flag = true
+    })
+    if (!flag) teams.push(new Team(name))
+    setTeamsToLS(teams)
+    return true
+}
+
+function addTeam() {
+    let div = document.getElementsByClassName('modal-bg')[0]
+    div.classList.add('bg-active')
+    let div_i = document.getElementsByClassName('modal')[0]
+    div_i.innerHTML = ''
+
+    let h4 = document.createElement('h4')
+    h4.innerText = 'Create Team'
+    div_i.appendChild(h4)
+
+    let input = document.createElement('input')
+    input.type = 'text'
+    input.id = 'name'
+    input.placeholder = 'Enter Team Name'
+    input.className += ' input element-center'
+    div_i.appendChild(input)
+
+    let submit = document.createElement('input')
+    submit.type = 'button'
+    submit.value = 'OK'
+    submit.className += ' element-center submit-form'
+    div_i.appendChild(submit)
+    div_i.appendChild(document.createElement('br'))
+    submit.addEventListener('click',function () {
+        if(input.value !== '')
+            createTeam(input.value)
+        div.classList.remove('bg-active')
+        getValue()
+    })
+
+}
+
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
-    let games = JSON.parse(localStorage.getItem('games'))
-
-    if(games == null|| games.length === 0){
+    let teams = getTeamsFromLS()
+    if(teams.length === 0){
         menuContent.append(EmptyTeam())
     }
     else {
-        let teams = getTeams(games)
         teams.forEach(t=>{
-            if(t != null)
-                menuContent.append(getSection(t,games), document.createElement('br'))
+            menuContent.append(getSection(t), document.createElement('br'))
         })
-        menuContent.appendChild(getModal(games))
+    }
+    menuContent.appendChild(getModal())
+
+    let addButton = getFloatingButton('fas fa-plus')
+    menuContent.appendChild(addButton)
+    addButton.onclick = function () {
+        addTeam()
     }
 }
 

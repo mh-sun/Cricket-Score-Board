@@ -1,5 +1,6 @@
 import { getValue as scoreBoard } from './scoreBoard/scoreBoard.js'
 import {Player} from "../Objects/Player.js";
+import {getGames, getTeamsFromLS, setGamesToLS, setTeamToLS} from "../Objects/LSUtils.js";
 
 
 function getSection(name, id) {
@@ -19,7 +20,7 @@ function getSection(name, id) {
 }
 
 function playerInTeam(player, team) {
-    let pl
+    let pl, teams = getTeamsFromLS()
     team.players.forEach(p=>{
         if(p.name === player) pl = p
     })
@@ -61,23 +62,20 @@ function func1(Game) {
     Game.innings[Game.ci].setCurrPlayer(s.name, ns.name, b.name)
 
     bowlTeam.players.push(b)
-    let games = JSON.parse(localStorage.getItem('games'))
-    if(games == null){
-        games = []
-        games.push(Game)
-    }else {
-        let flag = true
-        for(let i = 0; i< games.length; i++){
-            if(games[i].id === Game.id){
-                games[i] = Game
-                flag = false
-            }
-        }
-        if(flag){
-            games.push(Game)
+    let games = getGames()
+    let flag = true
+    for(let i = 0; i< games.length; i++){
+        if(games[i].id === Game.id){
+            games[i] = Game
+            flag = false
         }
     }
-    localStorage.setItem('games', JSON.stringify(games))
+    if(flag){
+        games.push(Game)
+    }
+    setGamesToLS(games)
+    setTeamToLS(batTeam)
+    setTeamToLS(bowlTeam)
     scoreBoard(Game)
 }
 
