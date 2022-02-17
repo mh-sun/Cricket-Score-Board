@@ -39,7 +39,7 @@ function getRow(game, tBat, tBowl, tab, index) {
 
     let over = createElem('td', row0)
     createElemText('(', over)
-    createElem('span', over).innerText = tBat.getOvers()
+    createElem('span', over).innerText = tBowl.getOvers()
     createElemText(')', over)
 
     return row0

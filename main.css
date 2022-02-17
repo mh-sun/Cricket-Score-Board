@@ -293,11 +293,13 @@ table{
     color: white;
     padding: 10px;
     border-radius: 5px;
+
 }
 .content-center{
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: normal;
+    align-content: center;
     column-gap: 5%;
 }
 .row-content{
@@ -426,4 +428,15 @@ table{
     column-gap: 20px;
     justify-content: center;
     padding: 30px 10px;
+}
+.scoreBoard-history{
+    border-collapse: collapse;
+}
+.scoreBoard-history th{
+    background-color: #5af3a5;
+    padding: 10px;
+    color: #534e4d;
+}
+.scoreBoard-history td{
+    padding: 10px;
 }

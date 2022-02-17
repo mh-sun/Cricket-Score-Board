@@ -34,8 +34,12 @@ export function Team(name, players = []){
     }
 
     this.getOvers = function() {
-        let over = this.getTotalBallBatsmanFaced()
-        return Math.floor(over/6) + '.' + over%6
+        let sum = 0;
+        for(let i =0 ; i < this.players.length; i++){
+            if(this.players[i].bowlingRole != null)
+                sum += this.players[i].bowlingRole.balls
+        }
+        return Math.floor(sum/6) + '.' + sum%6
     }
 
     this.getCRR = function(){

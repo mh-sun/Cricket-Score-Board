@@ -41,6 +41,7 @@ function submit(div) {
         if(pName != ''){
             let pId = getRandPlayer()
             let p1 = new Player(pName)
+            p1.battingRole.isPlaying = true
             battingTeam.players.push(p1)
             if(chosen === 'onstrike'){
                 setPlayer(p1, nonStrike)

@@ -1,5 +1,5 @@
 import {updateScoreBoard} from "./scoreBoard.js";
-import {bowlingTeam, game, setBowler} from "./Calc.js";
+import {bowler, bowlingTeam, game, setBowler} from "./Calc.js";
 import {Player} from "../../Objects/Player.js";
 import {savetoLS} from "./checkBoxManager.js";
 
@@ -27,7 +27,9 @@ function submit() {
         }
         else if(!z){
             let b = new Player(temp.value)
+            b.bowlingRole.isPlaying = true
             bowlingTeam.players.push(b)
+            bowler.overs_details = []
             setBowler(b)
             savetoLS()
             updateScoreBoard()
@@ -49,6 +51,7 @@ function getTop() {
     div.classList.add('tb-pad')
     let back = document.createElement('i')
     back.className = 'fas fa-arrow-left'
+    back.classList.add('far-left')
     back.onclick = function () {
         updateScoreBoard()
     }

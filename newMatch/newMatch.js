@@ -1,15 +1,25 @@
 import { getValue as playerInfo } from './playerInfo.js'
 import {Team} from "../Objects/Team.js";
 import {Game} from "../Objects/Game.js";
-import {wicketPage} from "./scoreBoard/checkBoxManager.js";
-import {playerProfile} from "../teams/playerProfile.js";
-import {getGames, getTeam, setGamesToLS, setTeamToLS} from "../Objects/LSUtils.js";
+import {getGames, getTeam, getTeamsFromLS, setGamesToLS, setTeamToLS} from "../Objects/LSUtils.js";
+
+function LabelBind() {
+    let host = document.getElementById('hostName')
+    host.onkeyup=function () {
+        document.querySelector('label[id="host_team"]').innerText = host.value
+    }
+    let visitor = document.getElementById('visitorName')
+    visitor.onkeyup=function () {
+        document.querySelector('label[id="visitor_team"]').innerText = visitor.value
+    }
+}
 
 function getValue() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     menuContent.appendChild(getTeamsName())
     menuContent.appendChild(getTossWon())
+    LabelBind()
     menuContent.appendChild(getOptedTo())
     menuContent.appendChild(getOver())
     menuContent.appendChild(document.createElement('br'))
@@ -24,7 +34,26 @@ function getInputField(id, ph) {
     input1.id = id
     input1.placeholder = ph
     input1.className = 'input'
-
+    // input1.onclick = ()=>{
+    //     document.getElementById(id+'_s').style.visibility = 'visible'
+    // }
+    // document.body.onclick = ()=>{
+    //     document.getElementById(id+'_s').style.visibility = 'hidden'
+    // }
+    // input1.onkeyup = function () {
+    //     let suggestionBar = document.getElementById(id+'_s')
+    //     suggestionBar.style.visibility = 'visible'
+    //     suggestionBar.innerHTML = ''
+    //     let teams = getTeamsFromLS()
+    //     teams.forEach(t=>{
+    //         if(t.name.indexOf(input1.value)) createElement('button', suggestionBar).innerText = t.name
+    //     })
+    // }
+    //
+    // let div = document.createElement('div')
+    // div.style = 'position:fixed;display: flex;flex-direction: column;width: 308px;visibility:hidden'
+    // div.id = id+'_s'
+    // return [input1, div]
     return input1
 }
 
@@ -36,8 +65,10 @@ function getTeamsName() {
 
     let div_in = document.createElement('div')
     let form = document.createElement('form')
-    form.appendChild(getInputField('hostName', 'Host Team'))
-    form.appendChild(getInputField('visitorName', 'Visitor Team'))
+    let temp = getInputField('hostName', 'Host Team')
+    form.append(temp)
+    temp = getInputField('visitorName', 'Visitor Team')
+    form.append(temp)
     div_in.appendChild(form)
     div_in.className += ' element-center container content-center'
     div_out.append(h3, div_in)
@@ -54,6 +85,7 @@ export function getDivField(name, value, inner) {
 
     let label = document.createElement('label')
     label.innerText = inner
+    label.id = value
 
     return [input1, label]
 }
@@ -112,7 +144,7 @@ function getOver() {
     let div_in = document.createElement('div')
     let inp = getInputField('match_over', '16')
     inp.className += ' input element-center'
-    div_in.appendChild(inp)
+    div_in.append(inp)
     div_in.className += ' element-center container content-center'
     div_out.append(h3, div_in)
 
@@ -152,14 +184,20 @@ function SaveIntoLocal(host_team_name, visitor_team_name, team_won, opt_to, over
     }
 
     let temp = getTeam(tBat)
-    let newTemp = new Team(tBat, [])
-    tBat =  temp === null ? newTemp : temp
-    if(temp === null) setTeamToLS(newTemp)
+    if(temp === null){
+        let newTemp = new Team(tBat, [])
+        tBat = newTemp
+        setTeamToLS(newTemp)
+    }
+    else tBat = temp
 
     temp = getTeam(tBowl)
-    newTemp = new Team(tBowl, [])
-    tBowl = temp === null ? newTemp : temp
-    if(temp === null) setTeamToLS(newTemp)
+    if(temp === null){
+        let newTemp = new Team(tBowl, [])
+        tBowl = newTemp
+        setTeamToLS(newTemp)
+    }
+    else tBowl = temp
 
     let newGame = new Game(tBat, tBowl,team_won, opt_to, over)
 

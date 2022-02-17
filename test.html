@@ -14,15 +14,16 @@
 <script>
   let opts = document.getElementById('options').getElementsByTagName('button')
   let inp = document.getElementById('pName')
+  document.getElementById('options').style.visibility = 'hidden'
   inp.onclick = function () {
-    document.getElementById('options').hidden = false
+    document.getElementById('options').style.visibility = 'visible'
   }
   inp.onkeyup = ftest
   document.body.onclick = function () {
-    document.getElementById('options').hidden = true
+    document.getElementById('options').style.visibility = 'hidden'
   }
   function ftest() {
-    document.getElementById('options').hidden = false
+    document.getElementById('options').style.visibility = 'visible'
     for(let i = 0;i< opts.length; i++){
       if(opts[i].innerText.indexOf(inp.value) === -1) opts[i].hidden = true
       else opts[i].hidden = false

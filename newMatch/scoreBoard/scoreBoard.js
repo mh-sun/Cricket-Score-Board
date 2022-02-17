@@ -51,7 +51,6 @@ function getShortMatchView() {
     span = createSpanByClass('font-40', div)
     span.className += ' left-pad'
     let span_i = createSpanById('total_run', span)
-    // console.log('from scoreboard')
     span_i.innerText = cals.battingTeam.getTotalRunsByBatsman() + cals.game.innings[cals.game.ci].getExtras()
     createElemText(' - ', span)
     span_i = createSpanById('total_wicket', span)
@@ -60,7 +59,7 @@ function getShortMatchView() {
     createElemText('(', span)
     span_i = createSpanById("runningOver", span)
     createElemText(')', span)
-    span_i.innerText = cals.battingTeam.getOvers()
+    span_i.innerText = cals.bowlingTeam.getOvers()
     span = createSpanByClass('span-far-right', div)
     createElemText('CRR : ', span)
     span_i = createSpanById('runrate', span)
@@ -173,19 +172,26 @@ function getOverDetails() {
 
     cals.bowler.bowlingRole.overs_details.forEach(eachBall=>{
         let btn = createElem('button', span, 'make-round')
-        btn.textContent = eachBall[0]+'\n'
-        if(eachBall[1] === 'WD' ||eachBall[1] === 'NB' ||eachBall[1] === 'B' ||eachBall[1] === 'LB'){
-            btn.className += ' color-orange'
-            btn.innerText += eachBall[1]
-        }
-        else if(eachBall[1] === 'W'){
+        btn.style = 'height:40px;width:40px;'
+        btn.textContent = eachBall.run+'\n'
+        if(eachBall.extras.includes('W')){
             btn.className += ' color-red'
             btn.innerText = "OUT"
         }
-        else if(eachBall[0] === 4){
-            btn.className += ' color-green'
+        else if(eachBall.extras.includes('WD')){
+            btn.className += ' color-orange'
+            btn.innerText += eachBall.extras.join('&')
         }
-        else if(eachBall[0] === 6){
+        else if(eachBall.extras.includes('NB')
+            ||eachBall.extras.includes('B')
+            ||eachBall.extras.includes('LB')
+        ){
+            btn.innerText += eachBall.extras.join('&')
+        }
+        else if(eachBall.run === 4){
+            btn.className += ' color-orange'
+        }
+        else if(eachBall.run === 6){
             btn.className += ' color-light-green'
         }
 

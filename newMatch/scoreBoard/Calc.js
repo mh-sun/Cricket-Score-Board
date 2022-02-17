@@ -48,7 +48,7 @@ function newBowlerAdd() {
 function currentOver() {
     let s = 0
     bowler.bowlingRole.overs_details.forEach(c=>{
-        if(c[1] === 'N') s++
+        if(!(c.extras.includes('WD') || c.extras.includes('NB'))) s++
     })
     return s
 }
@@ -218,7 +218,7 @@ function secondInnings() {
 }
 
 function inningsOver(){
-    let o = Number.parseFloat(battingTeam.getOvers())
+    let o = Number.parseFloat(bowlingTeam.getOvers())
     if(o >= game.over){
         if(game.ci === 0){
             secondInnings()
@@ -244,9 +244,9 @@ function runAchieved() {
     return teamTwoRun > teamOneRun
 }
 
+
 function setValues(x) {
     if(inningsOver()) return
-    console.log(game.ci, runAchieved())
     if(game.ci === 1 && runAchieved()) {
         endGame()
         return
@@ -262,6 +262,7 @@ function setValues(x) {
     if(currentOver() >= 6){
         swapBatsman()
         newBowlerAdd()
+        return
     }
     else scoreBoard.updateScoreBoard()
     if(wicket.checked) wicketPage()

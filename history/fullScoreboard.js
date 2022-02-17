@@ -1,6 +1,7 @@
 import {createElem, createElemText} from "../newMatch/scoreBoard/scoreBoard.js";
 import {setMenu} from "../main.js";
 import {getValue} from "./history.js";
+import {wickets} from "../newMatch/scoreBoard/checkBoxManager.js";
 
 let batsmanTable = ['Batsman', 'R', 'B', '4s', '6s', 'SR']
 let bowlerTable = ['Bowler', 'O', 'M', 'R', 'W', 'ER']
@@ -27,15 +28,10 @@ export function setMenuSC(game){
         getValue()
     }
 
-    let t = createElement('a', 'Scoreboard')
-    t.onclick = function (){
-        fullScoreboard(game)
-    }
+    let t = createElement('span', 'Scoreboard')
+    t.style = 'color:white;padding:15px'
     menu.appendChild(t)
 
-    t = createElement('a', 'Overs')
-    t.onclick = ()=>{fullOvers(game)}
-    menu.appendChild(t)
     menu.className = 'topnav content-center'
 
     fullScoreboard(game)
@@ -74,6 +70,7 @@ function shortView(innings) {
 
 function getBatTh() {
     let tr = document.createElement('tr')
+    tr.style = 'background-color: #56e399;'
     batsmanTable.forEach(elem =>{
         let th = document.createElement('th')
         th.innerText = elem
@@ -102,6 +99,27 @@ function getCol(runs, ...className) {
     td.innerText = runs
     return td
 }
+function getColName(player){
+    let td = document.createElement('td')
+    let span = document.createElement('span')
+    span.className = 'flex-row'
+    let span_i = document.createElement('span')
+    span_i.innerText = player.name
+    span.append(span_i)
+
+    span_i = document.createElement('span')
+    console.log(player.battingRole.outInfo)
+    span_i.innerText = !player.battingRole.outInfo.isOut?'Not out':
+        player.battingRole.outInfo.type === 'Bowled'? 'b '+player.battingRole.outInfo.bowler:
+        player.battingRole.outInfo.type === 'LBW'? 'LBW':
+        player.battingRole.outInfo.type === 'Hit wicket'? 'hit out':
+        player.battingRole.outInfo.type + ' (' + player.battingRole.outInfo.helped + ')'
+    span_i.style = 'font-size:14px;color: grey;'
+    span.append(span_i)
+
+    td.append(span)
+    return td
+}
 
 function getBowlerValues(player) {
     let tr = document.createElement('tr')
@@ -116,7 +134,7 @@ function getBowlerValues(player) {
 
 function getBatsmanValues(player) {
     let tr = document.createElement('tr')
-    tr.appendChild(getCol(player.name))
+    tr.appendChild(getColName(player))
     tr.appendChild(getCol(player.battingRole.runs))
     tr.appendChild(getCol(player.battingRole.balls))
     tr.appendChild(getCol(player.battingRole.fours))
@@ -128,10 +146,10 @@ function getBatsmanValues(player) {
 function playerDetails(innings, name) {
     let div = document.createElement('div')
     div.id = name
-    div.className += ' side-pad tb-pad'
+    // div.className += ' side-pad tb-pad'
     let tab = document.createElement('table')
     tab.id = 'batTable'
-
+    tab.className = 'scoreBoard-history'
 
     let temp = 0
     innings.battingTeam.players.forEach(p=>{
@@ -159,7 +177,6 @@ function playerDetails(innings, name) {
             +innings.extra.wide + ' WD, '
             +innings.extra.noBall + ' NB, '
             +innings.extra.penalty + ' P'
-        createElem('hr', div)
     }
 
     temp = 0
@@ -168,10 +185,12 @@ function playerDetails(innings, name) {
     })
     if(temp !== 0) {
         tab = createElem('table', div)
+        tab.className = 'scoreBoard-history'
         tab.appendChild(getBowlTh())
         innings.bowlingTeam.players.forEach(p=>{
             if(p.isBowler(innings)){
                 tab.append(getBowlerValues(p))
+                tab.append(overDetails(p, innings))
             }
         })
     }
@@ -261,8 +280,6 @@ function getRunInfo(state) {
 
 function getEachOver(wholeOver, over) {
     let tab = document.createElement('table')
-    tab.classList.add('table-100')
-    tab.style.paddingLeft = '1%'
     tab.id = 'overTab'
     let row1 = document.createElement('tr')
     tab.append(row1)
@@ -294,34 +311,33 @@ function getEachOver(wholeOver, over) {
     return tab
 }
 
-function getInninsOver(innings) {
-    let divO = document.createElement('div')
+function overDetails(player, innings) {
+    let tr = document.createElement('tr')
+    let td = document.createElement('td')
+    td.colSpan = '6'
     let over = 1
     let c = 0
     let wholeOver = []
-    for(let i = 0; i< innings.states.length; i++){
-        if (innings.states[i].extras[0] === 'N') c++
-        wholeOver.push(innings.states[i])
+    let overs = []
+    for(let i =  0; i< innings.states.length; i++){
+        if(innings.states[i].bowler === player.name) overs.push(innings.states[i])
+    }
+    for(let i = 0; i< overs.length; i++){
+        if (overs[i].extras.includes('N')) c++
+        wholeOver.push(overs[i])
         if (c >= 6){
-            divO.append(getEachOver(wholeOver, over))
+            td.append(getEachOver(wholeOver, over))
             over++
             c = 0
             wholeOver = []
         }
-        if(i===innings.states.length-1 && wholeOver.length !== 0){
-            divO.append(getEachOver(wholeOver, over))
+        if(i===overs.length-1 && wholeOver.length !== 0){
+            td.append(getEachOver(wholeOver, over))
             over++
             c = 0
             wholeOver = []
         }
     }
-    return divO
-}
-
-function fullOvers(game) {
-    let menuContent = document.getElementById('menu-content')
-    menuContent.innerHTML = ''
-    game.innings.forEach(inn=>{
-        menuContent.append(getInninsOver(inn))
-    })
+    tr.append(td)
+    return tr
 }

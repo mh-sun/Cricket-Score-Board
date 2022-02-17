@@ -6,7 +6,7 @@ import {getRandPlayer, getRandState} from "../../Objects/GetRandom.js";
 import {Player} from "../../Objects/Player.js";
 
 export let wide, noBall, byes, legByes, wicket
-let wickets = ['Bowled', 'Catch out', 'Run out striker', 'Run out non-striker', "Stumping", "LBW", "Hit wicket"]
+export let wickets = ['Bowled', 'Catch out', 'Run out striker', 'Run out non-striker', "Stumping", "LBW", "Hit wicket"]
 
 export function init() {
     wide = document.getElementById(extras[0])
@@ -172,6 +172,7 @@ export function wicketPage() {
             out.battingRole.outInfo.helped = helped
         }
 
+        p1.battingRole.isPlaying = true
         battingTeam.players.push(p1)
         setPlayer(p1, p2)
         game.innings[game.ci].setPartnerShip(p1.name, p2.name)
@@ -187,19 +188,24 @@ export function update(x) {
     let flag = true
     let t = game.innings[game.ci].partnerships
     let partnership = t[t.length-1]
+    let batRun, batBall, bowlRun, bowlBall
 
     let checkboxes = []
     if(wicket.checked){
         flag = false
         checkboxes.push('W')
-        cal.onStrike.battingRole.updateInfo(0,1)
-        cal.bowler.bowlingRole.updateInfo(x,1, 'W')
+        batRun = 0
+        batBall = 1
+        bowlRun = x
+        bowlBall = 1
     }
     if(noBall.checked ){
         flag = false
         checkboxes.push('NB')
-        cal.onStrike.battingRole.updateInfo(x, 0)
-        cal.bowler.bowlingRole.updateInfo(x+1, 0, 'NB')
+        batRun = x
+        batBall = 0
+        bowlRun = x+1
+        bowlBall = 0
         partnership.updatePInfo(x, 0, 'NB', cal.onStrike.name)
 
         game.innings[game.ci].extra.noBall ++
@@ -207,31 +213,55 @@ export function update(x) {
     else if(wide.checked){
         flag = false
         checkboxes.push('WD')
-        cal.bowler.bowlingRole.updateInfo(x+1,0, 'WD')
+        bowlRun = x+1
+        bowlBall = 0
         partnership.updatePInfo(x, 0, 'WD', cal.onStrike.name)
         game.innings[game.ci].extra.wide += x+1
     }
     if(byes.checked ){
         flag = false
         checkboxes.push('B')
-        cal.onStrike.battingRole.updateInfo(0, 1)
-        cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
+        if(noBall.checked){
+            batRun = 0
+            batBall = 1
+            bowlRun = x+1
+            bowlBall = 0
+        }
+        else {
+            batRun = 0
+            batBall = 1
+            bowlRun = 0
+            bowlBall = 1
+        }
         partnership.updatePInfo(x, 1, 'B', cal.onStrike.name)
         game.innings[game.ci].extra.bye ++
     }
     else if(legByes.checked){
         flag = false
         checkboxes.push('LB')
-        cal.onStrike.battingRole.updateInfo(0, 1)
-        cal.bowler.bowlingRole.updateInfo(0, 1, 'B')
+        if(noBall.checked){
+            batRun = 0
+            batBall = 1
+            bowlRun = x+1
+            bowlBall = 0
+        }
+        else {
+            batRun = 0
+            batBall = 1
+            bowlRun = 0
+            bowlBall = 1
+        }
+
         partnership.updatePInfo(x, 1, 'LB', cal.onStrike.name)
         game.innings[game.ci].extra.legBye ++
     }
 
     if(flag){
         checkboxes.push('N')
-        cal.onStrike.battingRole.updateInfo(x,1)
-        cal.bowler.bowlingRole.updateInfo(x,1, 'N')
+        batRun = x
+        batBall = 1
+        bowlRun = x
+        bowlBall = 1
         partnership.updatePInfo(x, 1, 'N', cal.onStrike.name)
     }
     function getState() {
@@ -239,6 +269,8 @@ export function update(x) {
     }
 
     let state = getState()
+    if(!wide.checked)cal.onStrike.battingRole.updateInfo(batRun, batBall)
+    cal.bowler.bowlingRole.updateInfo(bowlRun, bowlBall, state)
     cal.game.innings[cal.game.ci].setStates(state)
     savetoLS();
 }

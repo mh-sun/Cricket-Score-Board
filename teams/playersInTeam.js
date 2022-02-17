@@ -137,7 +137,7 @@ function setMenuPT() {
 
     let btn = createElem('i',menu, 'fas fa-arrow-left', 'button', 'far-left')
     btn.style.color = 'white'
-    btn.style.top = '10px'
+    btn.style.top = '15px'
     btn.onclick = ()=>{
         setMenu()
         getValue()
@@ -146,7 +146,7 @@ function setMenuPT() {
     let span = createElem('span', menu)
     span.innerText = Team.name
     span.style.fontSize = '20px'
-    span.style.padding = '5px'
+    span.style.padding = '10px'
     span.style.color = 'white'
 
     menu.className = 'topnav content-center'
@@ -201,6 +201,7 @@ function setBody() {
     let menuContent = document.getElementById('menu-content')
     menuContent.innerHTML = ''
     let div = createElement('div', menuContent, 'content-center', 'row-content')
+    div.style.alignItems = 'center'
     div.style.padding = '5%'
     let button = createElement('button', div, 'image-add')
     let i = createElement('i', button)

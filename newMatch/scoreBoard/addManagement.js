@@ -10,10 +10,9 @@ export function undo() {
     }
     let state = game.innings[game.ci].states.pop()
     console.log(state)
-
     function getPlayerByName(name, team) {
         for(let i = 0; i<team.players.length; i++){
-            if(team.players[i].name == name){
+            if(team.players[i].name === name){
                 return team.players[i]
             }
         }
@@ -29,42 +28,44 @@ export function undo() {
     let partnership = t[t.length-1]
 
     let x = state.run * -1
-    let s = '-' + state.extras[0]
+    let s = '-'+state.extras[0]
 
-    if(s === '-W'){
-        cal.onStrike.battingRole.updateInfo(0,-1)
-        cal.bowler.bowlingRole.updateInfo(x,-1, s)
+    if(s.includes('W')){
+        // cal.onStrike.battingRole.undoInfo(state)
+        // cal.bowler.bowlingRole.undoInfo(state)
     }
     if(s === '-NB'){
-        cal.onStrike.battingRole.updateInfo(x, 0)
-        cal.bowler.bowlingRole.updateInfo((x-1), 0, s)
-        partnership.updatePInfo(x, 0, s, cal.onStrike.name)
+        // cal.onStrike.battingRole.updateInfo(x, 0)
+        // cal.bowler.bowlingRole.updateInfo((x-1), 0, s)
+        // partnership.updatePInfo(x, 0, s, cal.onStrike.name)
 
         game.innings[game.ci].extra.noBall--
     }
     else if(s === '-WD'){
-        console.log(cal.bowler.bowlingRole)
-        cal.bowler.bowlingRole.updateInfo((x-1),0, s)
-        partnership.updatePInfo(x, 0, s, cal.onStrike.name)
+        // cal.bowler.bowlingRole.updateInfo((x-1),0, s)
+        // partnership.updatePInfo(x, 0, s, cal.onStrike.name)
         game.innings[game.ci].extra.wide += (x-1)
     }
     if(s === '-B'){
-        cal.onStrike.battingRole.updateInfo(0, -1)
-        cal.bowler.bowlingRole.updateInfo(0, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
+        // cal.onStrike.battingRole.updateInfo(0, -1)
+        // cal.bowler.bowlingRole.updateInfo(0, -1, s)
+        // partnership.updatePInfo(x, -1, s, cal.onStrike.name)
         game.innings[game.ci].extra.bye--
     }
     else if(s === '-LB'){
-        cal.onStrike.battingRole.updateInfo(0, -1)
-        cal.bowler.bowlingRole.updateInfo(0, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
+        // cal.onStrike.battingRole.updateInfo(0, -1)
+        // cal.bowler.bowlingRole.updateInfo(0, -1, s)
+        // partnership.updatePInfo(x, -1, s, cal.onStrike.name)
         game.innings[game.ci].extra.legBye--
     }
     if(s === '-N'){
-        cal.onStrike.battingRole.updateInfo(x, -1)
-        cal.bowler.bowlingRole.updateInfo(x, -1, s)
-        partnership.updatePInfo(x, -1, s, cal.onStrike.name)
+        // cal.onStrike.battingRole.updateInfo(x, -1)
+        // cal.bowler.bowlingRole.updateInfo(x, -1, s)
+        // partnership.updatePInfo(x, -1, s, cal.onStrike.name)
     }
+    if(!state.extras.includes('WD')) cal.onStrike.battingRole.undoInfo(state)
+    cal.bowler.bowlingRole.undoInfo(state)
+    partnership.undoInfo(state)
     savetoLS()
     updateScoreBoard()
 }

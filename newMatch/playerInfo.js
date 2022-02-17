@@ -20,9 +20,12 @@ function getSection(name, id) {
 }
 
 function playerInTeam(player, team) {
-    let pl, teams = getTeamsFromLS()
+    let pl
     team.players.forEach(p=>{
-        if(p.name === player) pl = p
+        if(p.name === player) {
+            pl = p
+            console.log('////////')
+        }
     })
     if(pl === undefined) return null
     else return pl
@@ -49,19 +52,32 @@ function func1(Game) {
 
     let s, ns, b
     let p = playerInTeam(striker,batTeam)
-    s = p === null ? new Player(striker) : p
+    if(p === null){
+        s = new Player(striker)
+        batTeam.players.push(s)
+    }
+    else s = p
+    s.battingRole.isPlaying = true
 
     p = playerInTeam(non_striker,batTeam)
-    ns = p === null ? new Player(non_striker) : p
+    if(p === null){
+        ns = new Player(non_striker)
+        batTeam.players.push(ns)
+    }
+    else ns = p
+    ns.battingRole.isPlaying = true
 
     p = playerInTeam(bowler,bowlTeam)
-    b = p === null ? new Player(bowler) : p
+    if(p === null){
+        b = new Player(bowler)
+        bowlTeam.players.push(b)
+    }
+    else b = p
+    b.bowlingRole.isPlaying = true
 
-    batTeam.players.push(s, ns)
     Game.innings[Game.ci].setPartnerShip(s.name, ns.name)
     Game.innings[Game.ci].setCurrPlayer(s.name, ns.name, b.name)
 
-    bowlTeam.players.push(b)
     let games = getGames()
     let flag = true
     for(let i = 0; i< games.length; i++){
